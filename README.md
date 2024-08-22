@@ -37,7 +37,7 @@ My first test with ModernGL following this tutorial <https://www.youtube.com/wat
 
 We create an entire 3D renderer from scratch using ModernGL and Pygame. We load in a simple textured cube and have a first person camera with movement and controls. This example also loads a model file with texture mapping.
 
-I refactor the code and and working on psychics and collision detection.
+I refactor the code and and working on physics and collision detection.
 
 To install use `pip install -r requirements.txt` to fetch the following packages:
 
