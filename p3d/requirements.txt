@@ -1,0 +1,5 @@
+panda3d==1.10.14
+types-panda3d==0.4.1
+panda3d-gltf==1.1.0
+# panda3d-complexpbr==0.5.6
+# panda3d-blend2bam==0.25.0
