@@ -6,7 +6,7 @@ All projects are working with Python 3.12.
 
 ## ./p3d - Panda3D First Person Test
 
-My first test in Panda3D following the basic tutorial for minecraft style block rendering from <https://www.youtube.com/watch?v=xV3gH1JZew4>.
+My first test in **Panda3D** following the basic tutorial for minecraft style block rendering from <https://www.youtube.com/watch?v=xV3gH1JZew4>.
 
 ![Screenshots](./screenshots/panda_1.PNG)
 
@@ -35,7 +35,7 @@ My first test with ModernGL following this tutorial <https://www.youtube.com/wat
 
 ![Screenshots](./screenshots/moderngl_1.PNG)
 
-We create an entire 3D renderer from scratch using ModernGL and Pygame. We load in a simple textured cube and have a first person camera with movement and controls. This example also loads a model file with texture mapping.
+We create an entire 3D renderer from scratch using **ModernGL** and **Pygame**. We load in a simple textured cube and have a first person camera with movement and controls. This example also loads a model file with texture mapping.
 
 I refactor the code and and working on physics and collision detection.
 
