@@ -1,0 +1,16 @@
+__pycache__
+*~
+thumbs.db
+*.zip
+
+*/cache
+*/file_cache
+*/download_cache
+*/screen
+*/dockets
+*/scan_out
+
+/output
+/ignore
+
+*.log
