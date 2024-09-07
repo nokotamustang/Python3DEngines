@@ -27,6 +27,8 @@ uniform Material material;
 uniform sampler2D u_texture_0;
 
 const float PI = 3.14159265359;
+const vec3 gamma = vec3(2.2);
+const vec3 i_gamma = vec3(1 / 2.2);
 float DistributionGGX(vec3 N, vec3 H, float roughness);
 float GeometrySchlickGGX(float NdotV, float roughness);
 float GeometrySmith(vec3 N, vec3 V, vec3 L, float roughness);
@@ -97,7 +99,7 @@ vec3 getLight(vec3 tex_color) {
 
   vec3 light_color = ambient + Lo;
   light_color = light_color / (light_color + vec3(1.0));
-  light_color = pow(light_color, vec3(1.0/2.2));  
+  // light_color = pow(light_color, vec3(1.0/2.2));
   
   // return mix(tex_color, tex_color * light_color, 0.5);
   // return mix(tex_color, light_color, 0.5);
@@ -105,7 +107,8 @@ vec3 getLight(vec3 tex_color) {
 }
 
 void main() {
-  vec3 color = texture(u_texture_0, uv_0).rgb;
+  vec3 color = pow(texture(u_texture_0, uv_0).rgb, gamma);
   color = getLight(color);
+  color = pow(color, i_gamma);
   fragColor = vec4(color, 1.0);
 }

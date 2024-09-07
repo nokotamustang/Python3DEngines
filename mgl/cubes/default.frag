@@ -26,6 +26,9 @@ uniform Light light4;
 uniform Material material;
 uniform sampler2D u_texture_0;
 
+const vec3 gamma = vec3(2.2);
+const vec3 i_gamma = vec3(1 / 2.2);
+
 vec3 calculateLight(vec3 N, Light light) {
   // Radience
   float distance = length(light.position - fragPos);
@@ -63,13 +66,14 @@ vec3 getLight(vec3 tex_color) {
 
   vec3 light_color = mix(ambient, Lo, 0.5);
   light_color = light_color / (light_color + vec3(1.0));
-  light_color = pow(light_color, vec3(1.0/2.2));  
+  // light_color = pow(light_color, vec3(1.0/2.2));  
   
   return tex_color * light_color;
 }
 
 void main() {
-  vec3 color = texture(u_texture_0, uv_0).rgb;
+  vec3 color = pow(texture(u_texture_0, uv_0).rgb, gamma);
   color = getLight(color);
+  color = pow(color, i_gamma);
   fragColor = vec4(color, 1.0);
 }
