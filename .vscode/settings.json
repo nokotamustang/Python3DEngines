@@ -43,10 +43,10 @@
         "CMDER_ROOT": "C:\\cmder"
       },
       "args": ["/K", "%CMDER_ROOT%\\vendor\\bin\\vscode_init.cmd"],
-      "icon": "cmder"
+      "icon": "terminal-ubuntu"
     }
   },
-  "terminal.integrated.automationProfile.windows": {},
+  "terminal.integrated.automationProfile.windows": null,
   "terminal.integrated.enableMultiLinePasteWarning": "never",
 
   "workbench.activityBar.location": "hidden",
@@ -130,12 +130,20 @@
   "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-
+  "[frag]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[vert]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[glsl]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "github.copilot.enable": {
     "*": true,
-    "plaintext": "true",
-    "markdown": "true",
+    "plaintext": true,
+    "markdown": true,
     "yaml": true,
-    "py": "true"
+    "py": true
   }
 }

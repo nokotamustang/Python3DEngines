@@ -1,10 +1,71 @@
 # Python 3D Engines
 
-An exploration of 3D engines and rendering in Python.
+An exploration of 3D engines and rendering in Python by `Nokota Mustang`.
 
 All projects are working with Python 3.12.
 
-## ./p3d - Panda3D First Person Test
+## ./mgl - ModernGL and Pygame
+
+To install use `pip install -r requirements.txt` to fetch the following packages:
+
+- moderngl==5.11.1
+- pygame==2.6.0
+- PyGLM==2.7.1
+- numba==0.60.0
+- numpy==1.26.3
+- opensimplex==0.4.5.1
+- pywavefront==1.3.3
+
+To run the example use `python main.py` from any of the project directories.
+
+The basic example use ModernGL following this tutorial <https://www.youtube.com/watch?app=desktop&v=eJDIsFJN4OQ>. I've expanded on this adding more features, see below for the examples.
+
+### ./mgl/cube/ - Cube with Lambert Diffusion & Blinn-Phong Specular Lighting
+
+![Screenshots](./screenshots/moderngl_0.PNG)
+
+We create a 3D cube from vertices, indices, and normals, and apply a simple lighting shader to it. We also have a first person camera with movement and controls using `WASD` and mouse for looking around.
+
+### ./mgl/cubes/ - Cubes + Textures
+
+![Screenshots](./screenshots/moderngl_3.PNG)
+
+Adding more cubes to the scene with texture mapping and multiple light sources.
+
+### ./mgl/pbr/ - Physically Based Rendering
+
+![Screenshots](./screenshots/moderngl_1.PNG)
+
+Using a PBR shader to render cubes with different materials and multiple light sources.
+
+### ./mgl/grass/ - Grass rendering
+
+Working on this example...
+
+### ./mgl/water/ - Water rendering
+
+Working on this example...
+
+### ./mgl/physics - Physics and Collision Detection
+
+Working on this example...
+
+### ./mgl/complex_scene/ - Combining all current features
+
+![Screenshots](./screenshots/moderngl_2.PNG)
+
+Textured cubes, shader programs, skybox, lighting and shadows. This is the same as the original example from the tutorial, but refactored and object culling added.
+
+### More Features
+
+To do list, includes:
+
+- Global and local illumination (strength, falloff, shapes)
+- Loading more model types (blender, gltf, etc)
+- Skeletal animation
+- Draw text to the screen
+
+## ./p3d - Panda3D
 
 My first test in **Panda3D** following the basic tutorial for minecraft style block rendering from <https://www.youtube.com/watch?v=xV3gH1JZew4>.
 
@@ -22,40 +83,9 @@ To install use `pip install -r requirements.txt` to fetch the following packages
 
 To run the example use `python main.py` from any of the project directories.
 
-Need to add:
+Need to add the follow, but I have halted for now to work on ModernGL instead:
 
 - More efficient collision objects traversal, by deactivating the ones that are far away. This seems to be the main bottleneck in the game loop in Panda3D.
 - In fact just chuck out the collision system and use a better one that isn't so convoluted. See `coll_panda.py` for a simple example with a physics pusher and see how complicated this is.
 - Figure out why Panda3D dt is so bad at staying smooth, it doesn't seem correct to me.
-- Needs shadows, pbr lighting.
-
-## ./mgl - ModernGL and Pygame First Person Test
-
-My first test with ModernGL following this tutorial <https://www.youtube.com/watch?app=desktop&v=eJDIsFJN4OQ>.
-
-![Screenshots](./screenshots/moderngl_1.PNG)
-
-We create an entire 3D renderer from scratch using **ModernGL** and **Pygame**. We load in a simple textured cube and have a first person camera with movement and controls. This example also loads a model file with texture mapping.
-
-I refactor the code and and working on physics and collision detection.
-
-To install use `pip install -r requirements.txt` to fetch the following packages:
-
-- moderngl==5.11.1
-- pygame==2.6.0
-- PyGLM==2.7.1
-- numba==0.60.0
-- numpy==1.26.3
-- opensimplex==0.4.5.1
-- pywavefront==1.3.3
-
-To run the example use `python main.py` from any of the project directories.
-
-Need to add:
-
-- Collision detection and Physics.
-- Skeletal animation.
-- Correct the PBR model to have values per material, not per light.
-- Other light sources.
-- Need to figure out how to draw text to the screen or if it is possible to render on the PyGame layer while using ModernGL.
-- Loading more model types (blender, gltf, etc).
+- Needs shadows and lighting.

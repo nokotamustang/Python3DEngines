@@ -1,0 +1,75 @@
+#version 460 core
+
+layout(location = 0) out vec4 fragColor;
+
+in vec2 uv_0;
+in vec3 normal;
+in vec3 fragPos;
+
+struct Light {
+  vec3 position;
+  vec3 color;
+};
+
+struct Material {
+  vec3 Ka;
+  vec3 Kd;
+  vec3 Ks;
+  float Kao;
+};
+
+// uniform vec3 camPos;
+uniform Light light;
+uniform Light light2;
+uniform Light light3;
+uniform Light light4;
+uniform Material material;
+uniform sampler2D u_texture_0;
+
+vec3 calculateLight(vec3 N, Light light) {
+  // Radience
+  float distance = length(light.position - fragPos);
+  float attenuation = 1.0; // / (distance * distance);
+  vec3 radiance = light.color * attenuation;
+
+  // Ambient
+  vec3 ambient = material.Ka;
+
+  // Diffuse
+  vec3 lightDir = normalize(light.position - fragPos);
+  float diff = max(dot(N, lightDir), 0.0);
+  vec3 diffuse = material.Kd * diff;
+
+  // Specular
+  vec3 viewDir = normalize(-fragPos);
+  vec3 reflectDir = reflect(-lightDir, N);
+  float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+  vec3 specular = material.Ks * spec;
+  return (ambient + diffuse + specular) * radiance;
+}
+
+vec3 getLight(vec3 tex_color) {
+  vec3 N = normalize(normal);
+  // vec3 V = normalize(camPos - fragPos);
+  vec3 ambient = vec3(0.03) * material.Ka * material.Kao;
+  
+  vec3 Lo = vec3(0.0);
+  //// PER LIGHT ////
+  Lo += calculateLight(N, light);
+  Lo += calculateLight(N, light2);
+  Lo += calculateLight(N, light3);
+  Lo += calculateLight(N, light4);
+  //// LOOP END ////
+
+  vec3 light_color = mix(ambient, Lo, 0.5);
+  light_color = light_color / (light_color + vec3(1.0));
+  light_color = pow(light_color, vec3(1.0/2.2));  
+  
+  return tex_color * light_color;
+}
+
+void main() {
+  vec3 color = texture(u_texture_0, uv_0).rgb;
+  color = getLight(color);
+  fragColor = vec4(color, 1.0);
+}
