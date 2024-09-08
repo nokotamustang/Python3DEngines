@@ -48,13 +48,13 @@ class GraphicsEngine:
         # Camera
         self.camera = Camera(self, position=(0, 0, 5))
         # Light
-        self.light = Light(position=(-6, 2, 6), color=(1.0, 1.0, 1.0))
+        self.light = Light(position=(-6, 2, 6), color=(1.0, 0.0, 1.0), strength=1.0)
         # Light 2
-        self.light2 = Light(position=(6, 2, 6), color=(0.2, 0.2, 1.0))
+        self.light2 = Light(position=(6, 2, 6), color=(0.0, 0.0, 1.0), strength=1.0)
         # Light 3
-        self.light3 = Light(position=(-6, 2, -6), color=(1.0, 0.2, 0.2))
+        self.light3 = Light(position=(-6, 2, -6), color=(1.0, 0.0, 0.0), strength=3.0)
         # Light 4
-        self.light4 = Light(position=(6, 2, -6), color=(0.2, 1.0, 0.2))
+        self.light4 = Light(position=(6, 2, -6), color=(0.0, 1.0, 0.0), strength=1.0)
         # Texture
         self.texture = Texture(self)
         # Scene

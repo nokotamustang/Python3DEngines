@@ -88,10 +88,11 @@ class Camera:
 
 
 class Light:
-    def __init__(self, position=(10, 10, -10), color=(1, 1, 1)):
+    def __init__(self, position=(10, 10, -10), color=(1, 1, 1), strength=1.0):
         self.position = glm.vec3(position)
         self.color = glm.vec3(color)
         self.direction = glm.vec3(0, 0, 0)
+        self.strength = strength
         # View matrix
         self.m_view_light = self.get_view_matrix()
 

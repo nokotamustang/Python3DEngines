@@ -9,6 +9,7 @@ in vec3 fragPos;
 struct Light {
   vec3 position;
   vec3 color;
+  float strength;
 };
 
 struct Material {
@@ -40,18 +41,15 @@ float DistributionGGX(vec3 N, vec3 H, float roughness) {
     float a = roughness*roughness;
     float a2 = a*a;
     float NdotH = max(dot(N, H), 0.0);
-    float NdotH2 = NdotH*NdotH;
-    float num = a2;
-    float denom = (NdotH2 * (a2 - 1.0) + 1.0);
+    float denom = (NdotH*NdotH * (a2 - 1.0) + 1.0);
     denom = PI * denom * denom;
-    return num / denom;
+    return a2 / denom;
 }
 float GeometrySchlickGGX(float NdotV, float roughness) {
     float r = (roughness + 1.0);
     float k = (r*r) / 8.0;
-    float num = NdotV;
     float denom = NdotV * (1.0 - k) + k;
-    return num / denom;
+    return NdotV / denom;
 }
 float GeometrySmith(vec3 N, vec3 V, vec3 L, float roughness) {
     float NdotV = max(dot(N, V), 0.0);
@@ -66,24 +64,30 @@ vec3 calculateLight(vec3 N, vec3 V, Light light, vec3 F0) {
   vec3 L = normalize(light.position - fragPos);
   vec3 H = normalize(V + L);
   float distance = length(light.position - fragPos);
-  float attenuation = 1.0; // / (distance * distance);
+  float attenuation = 1.0;
+  // float attenuation = 1.0 / (distance * distance);
   vec3 radiance = light.color * attenuation;
-  // Cook-torrance brdf
+  // Calculate normal distribution for specular BRDF.
   float NDF = DistributionGGX(N, H, material.Kr);
+  // Calculate geometric attenuation for specular BRDF.
   float G = GeometrySmith(N, V, L, material.Kr);
+  // Calculate Fresnel term for direct lighting. 
   vec3 F = fresnelSchlick(max(dot(H, V), 0.0), F0);
+  // Diffuse scattering
   vec3 kD = vec3(1.0) - F;
   kD *= 1.0 - material.Km;
   vec3 numerator = NDF * G * F;
+  // Cook-torrance brdf
   float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.0001;
   vec3 specular = numerator / denominator;
   float NdotL = max(dot(N, L), 0.0);
   vec3 Lo = (kD * material.Ka / PI + specular) * radiance * NdotL;
-  return Lo;
+  return Lo * light.strength;
 }
 
 vec3 getLight(vec3 tex_color) {
   vec3 N = normalize(normal);
+	// Outgoing light direction V (vector from world-space fragment position to the "eye")
   vec3 V = normalize(camPos - fragPos);
   vec3 F0 = vec3(0.04); 
   F0 = mix(F0, material.Ka, material.Km);
@@ -99,15 +103,14 @@ vec3 getLight(vec3 tex_color) {
 
   vec3 light_color = ambient + Lo;
   light_color = light_color / (light_color + vec3(1.0));
-  // light_color = pow(light_color, vec3(1.0/2.2));
   
-  // return mix(tex_color, tex_color * light_color, 0.5);
-  // return mix(tex_color, light_color, 0.5);
-  return tex_color * light_color;
+  // return tex_color * light_color;
+  return mix(tex_color, tex_color * light_color, 0.5);
 }
 
 void main() {
-  vec3 color = pow(texture(u_texture_0, uv_0).rgb, gamma);
+  vec3 color = texture(u_texture_0, uv_0).rgb;
+  color = pow(color, gamma);
   color = getLight(color);
   color = pow(color, i_gamma);
   fragColor = vec4(color, 1.0);

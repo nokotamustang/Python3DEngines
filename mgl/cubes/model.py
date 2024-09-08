@@ -26,15 +26,19 @@ class Cube:
         # Light
         self.shader_program['light.position'].value = self.app.light.position
         self.shader_program['light.color'].value = self.app.light.color
+        self.shader_program['light.strength'].value = self.app.light.strength
         # Second light
         self.shader_program['light2.position'].value = self.app.light2.position
         self.shader_program['light2.color'].value = self.app.light2.color
+        self.shader_program['light2.strength'].value = self.app.light2.strength
         # Third light
         self.shader_program['light3.position'].value = self.app.light3.position
         self.shader_program['light3.color'].value = self.app.light3.color
+        self.shader_program['light3.strength'].value = self.app.light3.strength
         # Fourth light
         self.shader_program['light4.position'].value = self.app.light4.position
         self.shader_program['light4.color'].value = self.app.light4.color
+        self.shader_program['light4.strength'].value = self.app.light4.strength
         # Position
         self.shader_program['m_proj'].write(self.app.camera.m_proj)
         self.shader_program['m_view'].write(self.app.camera.m_view)

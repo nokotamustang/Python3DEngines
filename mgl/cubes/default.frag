@@ -9,6 +9,7 @@ in vec3 fragPos;
 struct Light {
   vec3 position;
   vec3 color;
+  float strength;
 };
 
 struct Material {
@@ -32,7 +33,8 @@ const vec3 i_gamma = vec3(1 / 2.2);
 vec3 calculateLight(vec3 N, Light light) {
   // Radience
   float distance = length(light.position - fragPos);
-  float attenuation = 1.0; // / (distance * distance);
+  float attenuation = 1.0;
+  // float attenuation = 1.0 / (distance * distance);
   vec3 radiance = light.color * attenuation;
 
   // Ambient
@@ -48,7 +50,7 @@ vec3 calculateLight(vec3 N, Light light) {
   vec3 reflectDir = reflect(-lightDir, N);
   float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
   vec3 specular = material.Ks * spec;
-  return (ambient + diffuse + specular) * radiance;
+  return (ambient + diffuse + specular) * radiance * light.strength;
 }
 
 vec3 getLight(vec3 tex_color) {
@@ -66,13 +68,14 @@ vec3 getLight(vec3 tex_color) {
 
   vec3 light_color = mix(ambient, Lo, 0.5);
   light_color = light_color / (light_color + vec3(1.0));
-  // light_color = pow(light_color, vec3(1.0/2.2));  
   
-  return tex_color * light_color;
+  // return tex_color * light_color;
+  return mix(tex_color, tex_color * light_color, 0.5);
 }
 
 void main() {
-  vec3 color = pow(texture(u_texture_0, uv_0).rgb, gamma);
+  vec3 color = texture(u_texture_0, uv_0).rgb;
+  color = pow(color, gamma);
   color = getLight(color);
   color = pow(color, i_gamma);
   fragColor = vec4(color, 1.0);
