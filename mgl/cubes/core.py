@@ -21,7 +21,7 @@ class Camera:
     def __init__(self, app, position=(0, 0, 0), yaw=yaw, pitch=pitch,
                  fov=fov, near=near, far=far, sensitivity=sensitivity):
         self.app = app
-        self.aspect_ratio = app.WIN_SIZE[0] / app.WIN_SIZE[1]
+        self.aspect_ratio = app.win_size[0] / app.win_size[1]
         self.position = glm.vec3(position)
         self.yaw = yaw
         self.pitch = pitch
@@ -123,6 +123,10 @@ class Texture:
                                    data=pygame.image.tostring(texture, 'RGB'))
         # Mipmaps
         texture.filter = (moderngl.LINEAR_MIPMAP_LINEAR, moderngl.LINEAR)
+        # texture.filter = (moderngl.LINEAR_MIPMAP_NEAREST, moderngl.NEAREST)
+        # texture.filter = (moderngl.NEAREST, moderngl.NEAREST)
+        # texture.min_lod = -1000
+        # texture.max_lod = 1000
         texture.build_mipmaps()
         # AF
         texture.anisotropy = 32.0

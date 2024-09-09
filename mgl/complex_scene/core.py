@@ -207,7 +207,7 @@ class Texture:
         self.textures['depth_texture'] = self.get_depth_texture()
 
     def get_depth_texture(self):
-        depth_texture = self.ctx.depth_texture(self.app.WIN_SIZE)
+        depth_texture = self.ctx.depth_texture(self.app.win_size)
         depth_texture.repeat_x = False
         depth_texture.repeat_y = False
         return depth_texture
@@ -328,7 +328,7 @@ class ExtendedBaseModel(BaseModel):
     def on_init(self):
         self.program['m_view_light'].write(self.app.light.m_view_light)
         # Resolution
-        self.program['u_resolution'].write(glm.vec2(self.app.WIN_SIZE))
+        self.program['u_resolution'].write(glm.vec2(self.app.win_size))
         # Depth texture
         self.depth_texture = self.app.mesh.texture.textures['depth_texture']
         self.program['shadowMap'] = 1
@@ -430,7 +430,7 @@ class Camera:
     def __init__(self, app, position=position, yaw=yaw, pitch=pitch,
                  fov=fov, near=near, far=far, sensitivity=sensitivity):
         self.app = app
-        self.aspect_ratio = app.WIN_SIZE[0] / app.WIN_SIZE[1]
+        self.aspect_ratio = app.win_size[0] / app.win_size[1]
         self.position = glm.vec3(position)
         self.yaw = yaw
         self.pitch = pitch

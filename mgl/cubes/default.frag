@@ -20,10 +20,8 @@ struct Material {
 };
 
 // uniform vec3 camPos;
-uniform Light light;
-uniform Light light2;
-uniform Light light3;
-uniform Light light4;
+uniform Light lights[99];
+uniform float num_lights;
 uniform Material material;
 uniform sampler2D u_texture_0;
 
@@ -59,12 +57,9 @@ vec3 getLight(vec3 tex_color) {
   vec3 ambient = vec3(0.03) * material.Ka * material.Kao;
   
   vec3 Lo = vec3(0.0);
-  //// PER LIGHT ////
-  Lo += calculateLight(N, light);
-  Lo += calculateLight(N, light2);
-  Lo += calculateLight(N, light3);
-  Lo += calculateLight(N, light4);
-  //// LOOP END ////
+  for (int i = 0; i < num_lights; i++) {
+    Lo += calculateLight(N, lights[i]);
+  }
 
   vec3 light_color = mix(ambient, Lo, 0.5);
   light_color = light_color / (light_color + vec3(1.0));

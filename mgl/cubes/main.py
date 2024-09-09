@@ -25,15 +25,15 @@ class GraphicsEngine:
         pygame.mixer.pre_init(44100, 16, 2, 4096)
         pygame.init()
         # Window size
-        self.WIN_SIZE = win_size
+        self.win_size = win_size
         # set OpenGL attributes
         pygame.display.gl_set_attribute(pygame.GL_CONTEXT_MAJOR_VERSION, 3)
         pygame.display.gl_set_attribute(pygame.GL_CONTEXT_MINOR_VERSION, 3)
         pygame.display.gl_set_attribute(pygame.GL_CONTEXT_PROFILE_MASK, pygame.GL_CONTEXT_PROFILE_CORE)
         pygame.display.gl_set_attribute(pygame.GL_SWAP_CONTROL, self.vertical_sync)
         # Create OpenGL context for 3D rendering
-        pygame.display.set_mode(self.WIN_SIZE, flags=pygame.OPENGL | pygame.DOUBLEBUF,
-                                display=self.target_display, vsync=self.vertical_sync)
+        self.game_screen = pygame.display.set_mode(self.win_size, flags=pygame.OPENGL | pygame.DOUBLEBUF,
+                                                   display=self.target_display, vsync=self.vertical_sync)
         # pygame.FULLSCREEN
         # Mouse settings
         pygame.event.set_grab(True)
@@ -55,6 +55,8 @@ class GraphicsEngine:
         self.light3 = Light(position=(-6, 2, -6), color=(1.0, 0.0, 0.0), strength=3.0)
         # Light 4
         self.light4 = Light(position=(6, 2, -6), color=(0.0, 1.0, 0.0), strength=1.0)
+        # Lights
+        self.lights = [self.light, self.light2, self.light3, self.light4]
         # Texture
         self.texture = Texture(self)
         # Scene
@@ -75,7 +77,7 @@ class GraphicsEngine:
                     obj.destroy()
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_F1:
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_F1:
                 self.paused = not self.paused
 
     def update(self):

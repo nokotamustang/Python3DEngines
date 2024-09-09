@@ -21,7 +21,7 @@ class Camera:
     def __init__(self, app, position=position, yaw=yaw, pitch=pitch,
                  fov=fov, near=near, far=far, sensitivity=sensitivity):
         self.app = app
-        self.aspect_ratio = app.WIN_SIZE[0] / app.WIN_SIZE[1]
+        self.aspect_ratio = app.win_size[0] / app.win_size[1]
         self.position = glm.vec3(position)
         self.yaw = yaw
         self.pitch = pitch
