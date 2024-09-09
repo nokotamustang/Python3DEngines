@@ -3,7 +3,7 @@ import moderngl
 import sys
 
 from model import Grass
-from core import Camera, Light
+from core import Camera, Light, Texture
 
 
 class GraphicsEngine:
@@ -18,21 +18,21 @@ class GraphicsEngine:
     time = 0
     delta_time = 0
     # State
-    paused = True
+    paused = False
 
     def __init__(self, win_size=(1600, 900)):
         # Initialize pygame modules
         pygame.mixer.pre_init(44100, 16, 2, 4096)
         pygame.init()
         # Window size
-        self.WIN_SIZE = win_size
+        self.win_size = win_size
         # set OpenGL attributes
         pygame.display.gl_set_attribute(pygame.GL_CONTEXT_MAJOR_VERSION, 3)
         pygame.display.gl_set_attribute(pygame.GL_CONTEXT_MINOR_VERSION, 3)
         pygame.display.gl_set_attribute(pygame.GL_CONTEXT_PROFILE_MASK, pygame.GL_CONTEXT_PROFILE_CORE)
         pygame.display.gl_set_attribute(pygame.GL_SWAP_CONTROL, self.vertical_sync)
         # Create OpenGL context for 3D rendering
-        pygame.display.set_mode(self.WIN_SIZE, flags=pygame.OPENGL | pygame.DOUBLEBUF,
+        pygame.display.set_mode(self.win_size, flags=pygame.OPENGL | pygame.DOUBLEBUF,
                                 display=self.target_display, vsync=self.vertical_sync)
         # pygame.FULLSCREEN
         # Mouse settings
@@ -46,9 +46,11 @@ class GraphicsEngine:
         # Set fps to 120
         pygame.time.set_timer(pygame.USEREVENT, 1000 // self.target_fps)
         # Light
-        self.light = Light()
+        self.light = Light(color=(1.0, 1.0, 1.0))
+        # Texture
+        self.texture = Texture(self)
         # Camera
-        self.camera = Camera(self)
+        self.camera = Camera(self, position=(0, 1, 5))
         # Triangle
         self.scene = Grass(self)
         # Font
@@ -84,7 +86,7 @@ class GraphicsEngine:
             self.render()
             self.delta_time = self.clock.tick(self.target_fps)
             self.fps = self.clock.get_fps()
-            print(f'fps: {self.fps:.2f}')
+            print(f'fps: {self.fps:.2f}, time: {self.time:.2f}')
 
 
 if __name__ == '__main__':

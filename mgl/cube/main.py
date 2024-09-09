@@ -48,7 +48,7 @@ class GraphicsEngine:
         # Light
         self.light = Light()
         # Camera
-        self.camera = Camera(self)
+        self.camera = Camera(self, position=(0, 0, 5))
         # Scene
         self.scene = Cube(self, color=(0.1, 0.9, 0.1))
         # Font

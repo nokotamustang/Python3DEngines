@@ -1,4 +1,4 @@
-
+import moderngl
 import glm
 import pygame
 
@@ -13,12 +13,12 @@ class Camera:
     sensitivity = 0.1
     speed = 0.005
 
-    position = glm.vec3(0, 0, 4)
+    position = None
     up = glm.vec3(0, 1, 0)
     right = glm.vec3(1, 0, 0)
     forward = glm.vec3(0, 0, -1)
 
-    def __init__(self, app, position=position, yaw=yaw, pitch=pitch,
+    def __init__(self, app, position=(0, 0, 0), yaw=yaw, pitch=pitch,
                  fov=fov, near=near, far=far, sensitivity=sensitivity):
         self.app = app
         self.aspect_ratio = app.win_size[0] / app.win_size[1]
@@ -88,16 +88,79 @@ class Camera:
 
 
 class Light:
-    def __init__(self, position=(50, 50, -10), color=(1, 1, 1)):
+    def __init__(self, position=(10, 10, -10), color=(1, 1, 1), strength=1.0):
         self.position = glm.vec3(position)
         self.color = glm.vec3(color)
         self.direction = glm.vec3(0, 0, 0)
-        # Intensities
-        self.Ia = 0.06 * self.color  # Ambient (Albedo)
-        self.Id = 0.8 * self.color  # Diffuse (Lambert)
-        self.Is = 1.0 * self.color  # Specular (Blinn-Phong)
+        self.strength = strength
         # View matrix
         self.m_view_light = self.get_view_matrix()
 
     def get_view_matrix(self):
         return glm.lookAt(self.position, self.direction, glm.vec3(0, 1, 0))
+
+
+class Texture:
+    def __init__(self, app):
+        self.app = app
+        self.ctx = app.ctx
+        self.textures = []
+        self.texture_count = -1
+        self.texture_map = {}
+
+    def get_texture(self, path):
+        if path in self.texture_map:
+            return self.texture_map[path]
+        texture = pygame.image.load(path).convert()
+        texture = pygame.transform.flip(texture, flip_x=False, flip_y=True)  # Flip Pygame -> OpenGL
+        texture = self.ctx.texture(size=texture.get_size(), components=3,
+                                   data=pygame.image.tostring(texture, 'RGB'))
+        # Mipmaps
+        texture.filter = (moderngl.LINEAR_MIPMAP_LINEAR, moderngl.LINEAR)
+        # texture.filter = (moderngl.LINEAR_MIPMAP_NEAREST, moderngl.NEAREST)
+        # texture.filter = (moderngl.NEAREST, moderngl.NEAREST)
+        # texture.min_lod = -1000
+        # texture.max_lod = 1000
+        texture.build_mipmaps()
+        # AF
+        texture.anisotropy = 32.0
+        # Add to list
+        self.texture_count += 1
+        self.texture_map[path] = self.texture_count
+        self.textures.append(texture)
+        return self.texture_count
+
+    def get_alpha_texture(self, path):
+        if path in self.texture_map:
+            return self.texture_map[path]
+        texture = pygame.image.load(path).convert_alpha()
+        texture = pygame.transform.flip(texture, flip_x=False, flip_y=True)  # Flip Pygame -> OpenGL
+        texture = self.ctx.texture(size=texture.get_size(), components=4,
+                                   data=pygame.image.tostring(texture, 'RGBA'))
+        # Mipmaps
+        # texture.filter = (moderngl.LINEAR_MIPMAP_LINEAR, moderngl.LINEAR)
+        # texture.filter = (moderngl.LINEAR_MIPMAP_NEAREST, moderngl.NEAREST)
+        # texture.filter = (moderngl.NEAREST, moderngl.NEAREST)
+        # texture.min_lod = -1000
+        # texture.max_lod = 1000
+        # texture.build_mipmaps()
+        # AF
+        # texture.anisotropy = 32.0
+        # Add to list
+        self.texture_count += 1
+        self.texture_map[path] = self.texture_count
+        self.textures.append(texture)
+        return self.texture_count
+
+    def get_basic_texture(self, path):
+        if path in self.texture_map:
+            return self.texture_map[path]
+        texture = pygame.image.load(path).convert()
+        texture = pygame.transform.flip(texture, flip_x=False, flip_y=True)  # Flip Pygame -> OpenGL
+        texture = self.ctx.texture(size=texture.get_size(), components=3,
+                                   data=pygame.image.tostring(texture, 'RGB'))
+        # Add to list
+        self.texture_count += 1
+        self.texture_map[path] = self.texture_count
+        self.textures.append(texture)
+        return self.texture_count

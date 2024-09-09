@@ -108,12 +108,6 @@ class Texture:
         self.texture_count = -1
         self.texture_map = {}
 
-    def use(self):
-        self.texture.use()
-
-    def release(self):
-        self.texture.release()
-
     def get_texture(self, path):
         if path in self.texture_map:
             return self.texture_map[path]

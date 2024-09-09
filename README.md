@@ -40,7 +40,9 @@ Using a PBR shader to render cubes with different materials and multiple light s
 
 ### ./mgl/grass/ - Grass rendering
 
-Working on this example...
+Grass rendering using Geometry Shaders and bill boarding.
+
+![Screenshots](./screenshots/moderngl_4.PNG)
 
 ### ./mgl/water/ - Water rendering
 

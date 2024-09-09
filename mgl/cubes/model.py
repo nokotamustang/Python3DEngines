@@ -22,7 +22,6 @@ class Cube:
     def on_init(self):
         # Texture
         self.shader_program['u_texture_0'] = self.tex_id
-        self.app.texture.textures[self.tex_id].use()
         # n lights
         self.shader_program['num_lights'].value = 4
         # Send lights into uniform array of Light struct
@@ -49,6 +48,7 @@ class Cube:
         # self.shader_program['camPos'].write = self.app.camera.position
 
     def render(self):
+        self.app.texture.textures[self.tex_id].use(location=0)
         self.vao.render()
 
     def destroy(self):
