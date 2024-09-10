@@ -13,7 +13,7 @@ class Grass:
         self.shader_program = self.get_shader_program()
         self.vao = self.get_vao()
         self.tex_id = app.texture.get_alpha_texture(path=f'textures/{texture}.png')
-        self.tex_id_wind = app.texture.get_basic_texture(path=f'textures/flowmap.png')
+        self.tex_id_wind = app.texture.get_basic_texture(path=f'textures/flow_map.png')
         self.on_init()
 
     def on_init(self):

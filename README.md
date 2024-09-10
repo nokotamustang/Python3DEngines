@@ -40,11 +40,13 @@ Using a PBR shader to render cubes with different materials and multiple light s
 
 ### ./mgl/grass/ - Grass rendering
 
-Grass rendering using Geometry Shaders and bill boarding.
+Grass rendering using Geometry Shaders and bill boarding; and modelling wind movement using a flow map.
 
 ![Screenshots](./screenshots/moderngl_4.PNG)
 
 Starting from the tutorial: <https://vulpinii.github.io/tutorials/grass-modelisation/en/>.
+
+Flow maps: <https://github.com/JaccomoLorenz/godot-flow-map-shader>
 
 ### ./mgl/water/ - Water rendering
 
@@ -60,14 +62,16 @@ Working on this example...
 
 Textured cubes, shader programs, skybox, lighting and shadows. This is the same as the original example from the tutorial, but refactored and object culling added.
 
-### More Features
+### More Features To Add
 
-To do list, includes:
+Wish list includes:
 
 - Global and local illumination (strength, falloff, shapes)
 - Loading more model types (blender, gltf, etc)
 - Skeletal animation
 - Draw text to the screen
+- Reflections and refractions
+- Post Processing
 
 ## ./p3d - Panda3D
 
@@ -87,9 +91,4 @@ To install use `pip install -r requirements.txt` to fetch the following packages
 
 To run the example use `python main.py` from any of the project directories.
 
-Need to add the follow, but I have halted for now to work on ModernGL instead:
-
-- More efficient collision objects traversal, by deactivating the ones that are far away. This seems to be the main bottleneck in the game loop in Panda3D.
-- In fact just chuck out the collision system and use a better one that isn't so convoluted. See `coll_panda.py` for a simple example with a physics pusher and see how complicated this is.
-- Figure out why Panda3D dt is so bad at staying smooth, it doesn't seem correct to me.
-- Needs shadows and lighting.
+I have halted for now to work on ModernGL instead.
