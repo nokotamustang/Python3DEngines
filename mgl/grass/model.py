@@ -55,13 +55,22 @@ class Grass:
         ])
         return vao
 
-    def get_vertex_data(self):
+    def get_vertex_data(self, mode=1):
         vertices = []
         n_wide = 40
         step = 0.1
-        for x in numpy.arange(-n_wide, n_wide, step):
-            for z in numpy.arange(-n_wide, n_wide, step):
-                vertices.append((x, 0, z))
+        curve = 0.5
+        if mode == 0:
+            for x in numpy.arange(-n_wide, n_wide, step):
+                for z in numpy.arange(-n_wide, n_wide, step):
+                    vertices.append((x, 0, z))
+        elif mode == 1:
+            # Add a curve along the y-axis to make a valley like a sine wave
+            for x in numpy.arange(-n_wide, n_wide, step):
+                for z in numpy.arange(-n_wide, n_wide, step):
+                    y = 0.5 * numpy.sin(curve * x) + 0.5 * numpy.sin(curve * z)
+                    vertices.append((x, y, z))
+
         return numpy.array(vertices, dtype='f4')
 
     def get_vbo(self):

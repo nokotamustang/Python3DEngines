@@ -34,7 +34,7 @@ Adding more cubes to the scene with texture mapping and multiple light sources.
 
 ### ./mgl/pbr/ - Physically Based Rendering
 
-![Screenshots](./screenshots/moderngl_1.PNG)
+![Screenshots](./screenshots/mgl_pbr.gif)
 
 Using a PBR shader to render cubes with different materials and multiple light sources.
 
@@ -42,7 +42,7 @@ Using a PBR shader to render cubes with different materials and multiple light s
 
 Grass rendering using Geometry Shaders and bill boarding; and modelling wind movement using a flow map.
 
-![Screenshots](./screenshots/moderngl_4.PNG)
+![Screenshots](./screenshots/mgl_grass.gif)
 
 Starting from the tutorial: <https://vulpinii.github.io/tutorials/grass-modelisation/en/>.
 
@@ -58,7 +58,7 @@ Working on this example...
 
 ### ./mgl/complex_scene/ - Combining all current features
 
-![Screenshots](./screenshots/moderngl_2.PNG)
+![Screenshots](./screenshots/mgl_scene.PNG)
 
 Textured cubes, shader programs, skybox, lighting and shadows. This is the same as the original example from the tutorial, but refactored and object culling added.
 
