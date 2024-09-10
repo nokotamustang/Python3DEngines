@@ -138,14 +138,14 @@ class Texture:
         texture = self.ctx.texture(size=texture.get_size(), components=4,
                                    data=pygame.image.tostring(texture, 'RGBA'))
         # Mipmaps
-        # texture.filter = (moderngl.LINEAR_MIPMAP_LINEAR, moderngl.LINEAR)
+        texture.filter = (moderngl.LINEAR_MIPMAP_LINEAR, moderngl.LINEAR)
         # texture.filter = (moderngl.LINEAR_MIPMAP_NEAREST, moderngl.NEAREST)
         # texture.filter = (moderngl.NEAREST, moderngl.NEAREST)
         # texture.min_lod = -1000
         # texture.max_lod = 1000
-        # texture.build_mipmaps()
+        texture.build_mipmaps()
         # AF
-        # texture.anisotropy = 32.0
+        texture.anisotropy = 32.0
         # Add to list
         self.texture_count += 1
         self.texture_map[path] = self.texture_count
