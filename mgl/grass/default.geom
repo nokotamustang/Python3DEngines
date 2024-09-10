@@ -140,17 +140,7 @@ void main() {
         t *= 1.5f;
     }
 	dist_length += (random(gl_in[0].gl_Position.xz)*t - t/2.0f);
-
-    // Calculate the rotation matrix to make the grass face the camera
-    // vec3 pos = gl_in[0].gl_Position.xyz;
-    // vec3 dir = normalize(camPos - pos);
-    // vec3 up = vec3(0.0, 1.0, 0.0);
-    // vec3 right = cross(dir, up);
-    // up = cross(right, dir);
-    // mat4 crossmodel = mat4(vec4(right, 0.0), vec4(up, 0.0), vec4(dir, 0.0), vec4(0.0, 0.0, 0.0, 1.0));
-
-    // mat4 crossmodel = mat4(1.0f);
-
+    
 	// Change number of quad function of distance
 	int detail_level = 4;
 	if (dist_length > LOD1) detail_level = 3;
