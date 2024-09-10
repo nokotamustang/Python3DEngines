@@ -34,7 +34,7 @@ Adding more cubes to the scene with texture mapping and multiple light sources.
 
 ### ./mgl/pbr/ - Physically Based Rendering
 
-![Screenshots](./screenshots/mgl_pbr.gif)
+![Screenshots](./screenshots/mgl_pbr.PNG)
 
 Using a PBR shader to render cubes with different materials and multiple light sources.
 
@@ -42,7 +42,7 @@ Using a PBR shader to render cubes with different materials and multiple light s
 
 Grass rendering using Geometry Shaders and bill boarding; and modelling wind movement using a flow map.
 
-![Screenshots](./screenshots/mgl_grass.gif)
+![Screenshots](./screenshots/mgl_grass.PNG)
 
 Starting from the tutorial: <https://vulpinii.github.io/tutorials/grass-modelisation/en/>.
 
