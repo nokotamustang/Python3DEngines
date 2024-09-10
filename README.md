@@ -42,7 +42,7 @@ Using a PBR shader to render cubes with different materials and multiple light s
 
 Grass rendering using Geometry Shaders and bill boarding; and modelling wind movement using a flow map.
 
-![Screenshots](./screenshots/mgl_grass.PNG)
+![Screenshots](./screenshots/mgl_grass1.PNG)
 
 Starting from the tutorial: <https://vulpinii.github.io/tutorials/grass-modelisation/en/>.
 
