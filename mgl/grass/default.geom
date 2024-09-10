@@ -31,20 +31,37 @@ float noise(in vec2 st);
 float fbm(in vec2 _st);
 
 // vec4 vertexPosition[4];
-// vertexPosition[0] = vec4(-0.25, 0.0, 0.0, 0.0); 	// down left
-// vertexPosition[1] = vec4( 0.25, 0.0, 0.0, 0.0);		// down right
-// vertexPosition[2] = vec4(-0.25, 0.5, 0.0, 0.0);		// up left
-// vertexPosition[3] = vec4( 0.25, 0.5, 0.0, 0.0);		// up right
-const vec4 vertexPosition[4] = vec4[4](vec4(-0.25, 0.0, 0.0, 0.0), vec4( 0.25, 0.0, 0.0, 0.0), vec4(-0.25, 0.5, 0.0, 0.0), vec4( 0.25, 0.5, 0.0, 0.0));
+// vertexPosition[0] = vec4(-0.25, 0.0, 0.0, 0.0); // down left
+// vertexPosition[1] = vec4( 0.25, 0.0, 0.0, 0.0); // down right
+// vertexPosition[2] = vec4(-0.25, 0.5, 0.0, 0.0); // up left
+// vertexPosition[3] = vec4( 0.25, 0.5, 0.0, 0.0); // up right
+// const vec4 vertexPosition[4] = vec4[4](vec4(-0.25, 0.0, 0.0, 0.0), vec4( 0.25, 0.0, 0.0, 0.0), vec4(-0.25, 0.5, 0.0, 0.0), vec4( 0.25, 0.5, 0.0, 0.0));
+const vec4 v_pos_1 = vec4(-0.25, 0.0, 0.0, 0.0);
+const vec4 v_pos_2 = vec4( 0.25, 0.0, 0.0, 0.0);
+const vec4 v_pos_3 = vec4(-0.25, 0.5, 0.0, 0.0);
+const vec4 v_pos_4 = vec4( 0.25, 0.5, 0.0, 0.0);
 
 // vec2 textCoords[4];
-// textCoords[0] = vec2(0.0, 0.0);						// down left
-// textCoords[1] = vec2(1.0, 0.0);						// down right
-// textCoords[2] = vec2(0.0, 1.0);						// up left
-// textCoords[3] = vec2(1.0, 1.0);						// up right
-const vec2 textCoords[4] = vec2[4](vec2(0.0, 0.0), vec2(1.0, 0.0), vec2(0.0, 1.0), vec2(1.0, 1.0));
+// textCoords[0] = vec2(0.0, 0.0); // down left
+// textCoords[1] = vec2(1.0, 0.0); // down right
+// textCoords[2] = vec2(0.0, 1.0); // up left
+// textCoords[3] = vec2(1.0, 1.0); // up right
+// const vec2 textCoords[4] = vec2[4](vec2(0.0, 0.0), vec2(1.0, 0.0), vec2(0.0, 1.0), vec2(1.0, 1.0));
+const vec2 t_coord_1 = vec2(0.0, 0.0);
+const vec2 t_coord_2 = vec2(1.0, 0.0);
+const vec2 t_coord_3 = vec2(0.0, 1.0);
+const vec2 t_coord_4 = vec2(1.0, 1.0);
+
+void emitGrassVertex(vec4 in_pos, mat4 modelWind, mat4 modelRandY, mat4 crossmodel, vec4 vertexPosition, vec2 textCoords) {
+    gl_Position = m_proj * m_view * m_model * (in_pos + modelWind * modelRandY * crossmodel * (vertexPosition * grass_size));
+    gs_out.textCoord = textCoords;
+    gs_out.colorVariation = fbm(in_pos.xz);
+    EmitVertex();
+}
 
 void createQuad(vec3 base_position, mat4 crossmodel) {
+	vec4 in_pos = gl_in[0].gl_Position;
+
 	// Wind
 	vec2 windDirection = vec2(1.0, 1.0);
     float windStrength = 0.15f;
@@ -59,14 +76,15 @@ void createQuad(vec3 base_position, mat4 crossmodel) {
 	mat4 modelRandY = rotationY(random(base_position.zx)*PI);
 
 	// Billboard creation
-	for (int i = 0; i < 4; ++i) {
-		if (i == 2 ) modelWindApply = modelWind;
-	    gl_Position = m_proj * m_view * m_model *
-            (gl_in[0].gl_Position + modelWind*modelRandY*crossmodel*(vertexPosition[i]*grass_size));
-	    gs_out.textCoord = textCoords[i];
-		gs_out.colorVariation = fbm(gl_in[0].gl_Position.xz);
-	    EmitVertex();
-    }
+	// for (int i = 0; i < 4; ++i) {
+	// 	if (i == 2 ) modelWindApply = modelWind;
+    //     emitGrassVertex(in_pos, modelWindApply, modelRandY, crossmodel, vertexPosition[i], textCoords[i]);
+    // }
+    // Unrolled loop, which is faster in GLSL
+    emitGrassVertex(in_pos, modelWindApply, modelRandY, crossmodel, v_pos_1, t_coord_1);
+    emitGrassVertex(in_pos, modelWindApply, modelRandY, crossmodel, v_pos_2, t_coord_2);
+    emitGrassVertex(in_pos, modelWind, modelRandY, crossmodel, v_pos_3, t_coord_3);
+    emitGrassVertex(in_pos, modelWindApply, modelRandY, crossmodel, v_pos_4, t_coord_4);
     EndPrimitive();
 }
 
@@ -91,7 +109,7 @@ void createGrass(int numberQuads) {
 
 void main() {
 	float dist_length = length(gl_in[0].gl_Position.xyz - camPos); // Distance of position to camera
-    grass_size = random(gl_in[0].gl_Position.xz) * (1.0f - c_min_size) + c_min_size;
+  grass_size = random(gl_in[0].gl_Position.xz) * (1.0f - c_min_size) + c_min_size;
 
 	// Distance of position to camera
 	float t = 6.0f; if (dist_length > LOD2) t *= 1.5f;
@@ -118,8 +136,7 @@ mat4 rotationX( in float angle ) {
                 0, 0, 0, 1);
 }
 
-mat4 rotationY( in float angle )
-{
+mat4 rotationY( in float angle ) {
 	return mat4(cos(angle), 0, sin(angle), 0,
 			 	0, 1.0, 0, 0,
 				-sin(angle),	0, cos(angle), 0,
