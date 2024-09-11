@@ -110,6 +110,7 @@ class Texture:
 
     def get_texture(self, path):
         if path in self.texture_map:
+            print(f"Texture already loaded: {path} at index: {self.texture_map[path]}")
             return self.texture_map[path]
         texture = pygame.image.load(path).convert()
         texture = pygame.transform.flip(texture, flip_x=False, flip_y=True)  # Flip Pygame -> OpenGL
@@ -117,15 +118,15 @@ class Texture:
                                    data=pygame.image.tostring(texture, 'RGB'))
         # Mipmaps
         texture.filter = (moderngl.LINEAR_MIPMAP_LINEAR, moderngl.LINEAR)
-        # texture.filter = (moderngl.LINEAR_MIPMAP_NEAREST, moderngl.NEAREST)
-        # texture.filter = (moderngl.NEAREST, moderngl.NEAREST)
-        # texture.min_lod = -1000
-        # texture.max_lod = 1000
-        texture.build_mipmaps()
+        texture.min_lod = -1000
+        texture.max_lod = 1000
+        # Set levels of mipmaps
+        texture.build_mipmaps(base=0, max_level=1000)
         # AF
         texture.anisotropy = 32.0
         # Add to list
         self.texture_count += 1
         self.texture_map[path] = self.texture_count
         self.textures.append(texture)
+        print(f"Loaded texture: {path} at index: {self.texture_count}")
         return self.texture_count

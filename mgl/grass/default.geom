@@ -140,15 +140,11 @@ void main() {
         t *= 1.5f;
     }
 	dist_length += (random(gl_in[0].gl_Position.xz)*t - t/2.0f);
-    
-	// Change number of quad function of distance
 	int detail_level = 4;
 	if (dist_length > LOD1) detail_level = 3;
 	if (dist_length > LOD2) detail_level = 2;
 	if (dist_length > LOD3) detail_level = 1;
 	if (dist_length > LOD4) detail_level = 0;
-
-	// Create grass
 	if (detail_level != 1
 		|| (detail_level == 1 && (int(gl_in[0].gl_Position.x * 10) % 1) == 0 || (int(gl_in[0].gl_Position.z * 10) % 1) == 0)
 		|| (detail_level == 2 && (int(gl_in[0].gl_Position.x * 5) % 1) == 0 || (int(gl_in[0].gl_Position.z * 5) % 1) == 0)

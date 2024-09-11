@@ -1,7 +1,7 @@
 {
   "editor.formatOnSave": true,
   "editor.formatOnPaste": false,
-  "editor.tabSize": 2,
+  "editor.tabSize": 4,
   "editor.multiCursorModifier": "ctrlCmd",
   "editor.fontSize": 16,
   "editor.minimap.enabled": false,

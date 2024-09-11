@@ -5,7 +5,7 @@ import numpy
 class Cube:
     def __init__(self, app, albedo=(0.9, 0.1, 0.1), diffuse=0.8, specular=1.0,
                  ao: float = 1.0, position=(0, 0, 0),
-                 texture: str = 'img'):
+                 texture: str = 'crate_0'):
         self.app = app
         self.ctx = app.ctx
         self.position = glm.mat4(glm.translate(glm.mat4(1), glm.vec3(position)))
@@ -48,7 +48,7 @@ class Cube:
         # self.shader_program['camPos'].write = self.app.camera.position
 
     def render(self):
-        self.app.texture.textures[self.tex_id].use(location=0)
+        self.app.texture.textures[self.tex_id].use(location=self.tex_id)
         self.vao.render()
 
     def destroy(self):

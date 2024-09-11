@@ -61,13 +61,12 @@ class GraphicsEngine:
         self.texture = Texture(self)
         # Scene
         cube_space = 1.5
-        self.cube = Cube(self,  albedo=(1.0, 1.0, 1.0), metallic=0.0, roughness=0.0, position=(-cube_space*2, 0, 0))
-        self.cube2 = Cube(self, albedo=(1.0, 1.0, 1.0), metallic=0.0, roughness=0.5, position=(-cube_space, 0, 0))
-        self.cube3 = Cube(self, albedo=(1.0, 1.0, 1.0), metallic=0.0, roughness=0.9, position=(0, 0, 0))
-        self.cube4 = Cube(self, albedo=(1.0, 1.0, 1.0), metallic=0.7, roughness=0.4, position=(cube_space, 0, 0))
-        self.cube5 = Cube(self, albedo=(1.0, 1.0, 1.0), metallic=0.9, roughness=0.1, position=(cube_space*2, 0, 0))
-        self.cube6 = Cube(self, albedo=(1.0, 1.0, 1.0), metallic=0.9, roughness=0.4, position=(cube_space*3, 0, 0))
-        self.scene = [self.cube, self.cube2, self.cube3, self.cube4, self.cube5, self.cube6]
+        self.cube = Cube(self,  albedo=(1.0, 1.0, 1.0), metallic=0.0, roughness=0.0, position=(-cube_space*2, 0, 0), texture="crate_0")
+        self.cube2 = Cube(self, albedo=(1.0, 1.0, 1.0), metallic=0.0, roughness=0.5, position=(-cube_space, 0, 0), texture="crate_1")
+        self.cube3 = Cube(self, albedo=(1.0, 1.0, 1.0), metallic=0.0, roughness=0.9, position=(0, 0, 0), texture="crate_2")
+        self.cube4 = Cube(self, albedo=(1.0, 1.0, 1.0), metallic=0.7, roughness=0.4, position=(cube_space, 0, 0), texture="crate_3")
+        self.cube5 = Cube(self, albedo=(1.0, 1.0, 1.0), metallic=0.9, roughness=0.1, position=(cube_space*2, 0, 0), texture="crate_4")
+        self.scene = [self.cube, self.cube2, self.cube3, self.cube4, self.cube5]
         # Font
         self.font = pygame.font.SysFont('arial', 64)
 

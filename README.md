@@ -44,9 +44,9 @@ Grass rendering using Geometry Shaders and bill boarding; and modelling wind mov
 
 ![Screenshots](./screenshots/mgl_grass1.PNG)
 
-Starting from the tutorial: <https://vulpinii.github.io/tutorials/grass-modelisation/en/>.
+Starting from the tutorial: <https://vulpinii.github.io/tutorials/grass-modelisation/en/> and <https://developer.nvidia.com/gpugems/gpugems/part-i-natural-effects/chapter-7-rendering-countless-blades-waving-grass>.
 
-Flow maps: <https://github.com/JaccomoLorenz/godot-flow-map-shader>
+Flow maps information and tools: <https://github.com/JaccomoLorenz/godot-flow-map-shader>
 
 ### ./mgl/water/ - Water rendering
 

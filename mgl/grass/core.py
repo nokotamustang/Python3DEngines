@@ -117,11 +117,9 @@ class Texture:
                                    data=pygame.image.tostring(texture, 'RGB'))
         # Mipmaps
         texture.filter = (moderngl.LINEAR_MIPMAP_LINEAR, moderngl.LINEAR)
-        # texture.filter = (moderngl.LINEAR_MIPMAP_NEAREST, moderngl.NEAREST)
-        # texture.filter = (moderngl.NEAREST, moderngl.NEAREST)
-        # texture.min_lod = -1000
-        # texture.max_lod = 1000
-        texture.build_mipmaps()
+        texture.min_lod = -1000
+        texture.max_lod = 1000
+        texture.build_mipmaps(base=0, max_level=1000)
         # AF
         texture.anisotropy = 32.0
         # Add to list
@@ -139,11 +137,9 @@ class Texture:
                                    data=pygame.image.tostring(texture, 'RGBA'))
         # Mipmaps
         texture.filter = (moderngl.LINEAR_MIPMAP_LINEAR, moderngl.LINEAR)
-        # texture.filter = (moderngl.LINEAR_MIPMAP_NEAREST, moderngl.NEAREST)
-        # texture.filter = (moderngl.NEAREST, moderngl.NEAREST)
-        # texture.min_lod = -1000
-        # texture.max_lod = 1000
-        texture.build_mipmaps()
+        texture.min_lod = -1000
+        texture.max_lod = 1000
+        texture.build_mipmaps(base=0, max_level=1000)
         # AF
         texture.anisotropy = 32.0
         # Add to list
