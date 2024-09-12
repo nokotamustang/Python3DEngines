@@ -1,4 +1,4 @@
-# Python 3D Engines
+# Python 3D Rendering Engines
 
 An exploration of 3D engines and rendering in Python by `Nokota Mustang`.
 
@@ -8,13 +8,13 @@ All projects are working with Python 3.12.
 
 To install use `pip install -r requirements.txt` to fetch the following packages:
 
-- moderngl==5.11.1
-- pygame==2.6.0
-- PyGLM==2.7.1
-- numba==0.60.0
-- numpy==1.26.3
-- opensimplex==0.4.5.1
-- pywavefront==1.3.3
+-   moderngl==5.11.1
+-   pygame==2.6.0
+-   PyGLM==2.7.1
+-   numba==0.60.0
+-   numpy==1.26.3
+-   opensimplex==0.4.5.1
+-   pywavefront==1.3.3
 
 To run the example use `python main.py` from any of the project directories.
 
@@ -66,12 +66,13 @@ Textured cubes, shader programs, skybox, lighting and shadows. This is the same 
 
 Wish list includes:
 
-- Global and local illumination (strength, falloff, shapes)
-- Loading more model types (blender, gltf, etc)
-- Skeletal animation
-- Draw text to the screen
-- Reflections and refractions
-- Post Processing
+-   Global and local illumination shapes
+-   More model types (blender, gltf, etc)
+-   Skeletal animation
+-   Draw text to the screen
+-   Reflections and refractions
+-   Post Processing
+-   Anti-aliasing
 
 ## ./p3d - Panda3D
 
@@ -85,9 +86,9 @@ I added better camera controls and some collision detection for the 'camera' pla
 
 To install use `pip install -r requirements.txt` to fetch the following packages:
 
-- panda3d==1.10.14
-- types-panda3d==0.4.1
-- panda3d-gltf==1.1.0
+-   panda3d==1.10.14
+-   types-panda3d==0.4.1
+-   panda3d-gltf==1.1.0
 
 To run the example use `python main.py` from any of the project directories.
 

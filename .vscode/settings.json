@@ -1,149 +1,145 @@
 {
-  "editor.formatOnSave": true,
-  "editor.formatOnPaste": false,
-  "editor.tabSize": 4,
-  "editor.multiCursorModifier": "ctrlCmd",
-  "editor.fontSize": 16,
-  "editor.minimap.enabled": false,
-  "editor.rulers": [120],
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.unicodeHighlight.invisibleCharacters": false,
-  "editor.unicodeHighlight.ambiguousCharacters": false,
-
-  "git.confirmSync": false,
-  "git.autofetch": true,
-  "git.openRepositoryInParentFolders": "never",
-
-  "debug.console.fontFamily": "ProximaNova",
-  "debug.console.fontSize": 16,
-
-  "terminal.integrated.defaultProfile.windows": "Cmder",
-  "terminal.integrated.cursorStyle": "line",
-  "terminal.integrated.tabs.enableAnimation": true,
-  "terminal.integrated.tabs.enabled": false,
-  "terminal.integrated.fontFamily": "Ubuntu Mono derivative Powerline",
-  "terminal.integrated.fontSize": 12,
-  "terminal.integrated.fontWeight": "normal",
-  "terminal.integrated.profiles.windows": {
-    "PowerShell": {
-      "source": "PowerShell",
-      "icon": "terminal-powershell"
-    },
-    "Command Prompt": {
-      "path": ["${env:windir}\\Sysnative\\cmd.exe", "${env:windir}\\System32\\cmd.exe"],
-      "args": [],
-      "icon": "terminal-cmd"
-    },
-    "Git Bash": {
-      "source": "Git Bash"
-    },
-    "Cmder": {
-      "path": ["${env:windir}\\Sysnative\\cmd.exe", "${env:windir}\\System32\\cmd.exe"],
-      "env": {
-        "CMDER_ROOT": "C:\\cmder"
-      },
-      "args": ["/K", "%CMDER_ROOT%\\vendor\\bin\\vscode_init.cmd"],
-      "icon": "terminal-ubuntu"
-    }
-  },
-  "terminal.integrated.automationProfile.windows": null,
-  "terminal.integrated.enableMultiLinePasteWarning": "never",
-
-  "workbench.activityBar.location": "hidden",
-  "workbench.preferredLightColorTheme": "Atom One Dark",
-  "workbench.preferredDarkColorTheme": "Atom One Dark",
-  "workbench.preferredHighContrastLightColorTheme": "Atom One Dark",
-  "workbench.tree.indent": 12,
-  "workbench.editor.wrapTabs": true,
-  "workbench.layoutControl.enabled": false,
-  "workbench.startupEditor": "none",
-  "workbench.colorTheme": "Atom One Dark",
-  "workbench.colorCustomizations": {
-    "tree.indentGuidesStroke": "#009991",
-    "activityBar.activeBackground": "#424242",
-    "activityBar.background": "#424242",
-    "activityBar.foreground": "#e7e7e7",
-    "activityBar.inactiveForeground": "#e7e7e799",
-    "activityBarBadge.background": "#105a85",
-    "activityBarBadge.foreground": "#15202b",
-    "commandCenter.border": "#e7e7e799",
-    "sash.hoverBorder": "#424242",
-    "statusBar.background": "#105a85",
-    "statusBar.foreground": "#e7e7e7",
-    "statusBarItem.hoverBackground": "#424242",
-    "statusBarItem.remoteBackground": "#105a85",
-    "statusBarItem.remoteForeground": "#e7e7e7",
-    "titleBar.activeBackground": "#105a85",
-    "titleBar.activeForeground": "#e7e7e7",
-    "titleBar.inactiveBackground": "#10435a",
-    "titleBar.inactiveForeground": "#e7e7e799"
-  },
-
-  "editor.inlineSuggest.enabled": true,
-
-  "files.autoSave": "onFocusChange",
-
-  "colorHelper.disableGpu": 1,
-  "diffEditor.maxComputationTime": 0,
-
-  "explorer.confirmDelete": false,
-  "explorer.confirmDragAndDrop": false,
-  "explorer.sortOrder": "type",
-
-  "typescript.preferences.importModuleSpecifier": "relative",
-  "javascript.updateImportsOnFileMove.enabled": "always",
-
-  "window.newWindowDimensions": "inherit",
-  "window.openFoldersInNewWindow": "on",
-
-  "autopep8.args": ["--max-line-length", "220", "--experimental"],
-
-  "[python]": {
-    "editor.tabSize": 4,
-    "editor.insertSpaces": true,
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "ms-python.autopep8"
-  },
-  "[md]": {
+    "editor.formatOnPaste": false,
     "editor.tabSize": 4,
-    "editor.insertSpaces": true,
-    "editor.formatOnSave": true
-  },
-  "[dockerfile]": {
-    "editor.defaultFormatter": "ms-python.autopep8"
-  },
-  "[markdown]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[frag]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[vert]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[glsl]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "github.copilot.enable": {
-    "*": true,
-    "plaintext": true,
-    "markdown": true,
-    "yaml": true,
-    "py": true
-  }
+    "editor.multiCursorModifier": "ctrlCmd",
+    "editor.fontSize": 16,
+    "editor.minimap.enabled": false,
+    "editor.rulers": [120],
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.unicodeHighlight.invisibleCharacters": false,
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+
+    "git.confirmSync": false,
+    "git.autofetch": true,
+    "git.openRepositoryInParentFolders": "never",
+
+    "debug.console.fontFamily": "ProximaNova",
+    "debug.console.fontSize": 16,
+
+    "terminal.integrated.defaultProfile.windows": "Cmder",
+    "terminal.integrated.cursorStyle": "line",
+    "terminal.integrated.tabs.enableAnimation": true,
+    "terminal.integrated.tabs.enabled": false,
+    "terminal.integrated.fontFamily": "Ubuntu Mono derivative Powerline",
+    "terminal.integrated.fontSize": 12,
+    "terminal.integrated.fontWeight": "normal",
+    "terminal.integrated.profiles.windows": {
+        "PowerShell": {
+            "source": "PowerShell",
+            "icon": "terminal-powershell"
+        },
+        "Command Prompt": {
+            "path": ["${env:windir}\\Sysnative\\cmd.exe", "${env:windir}\\System32\\cmd.exe"],
+            "args": [],
+            "icon": "terminal-cmd"
+        },
+        "Git Bash": {
+            "source": "Git Bash"
+        },
+        "Cmder": {
+            "path": ["${env:windir}\\Sysnative\\cmd.exe", "${env:windir}\\System32\\cmd.exe"],
+            "env": {
+                "CMDER_ROOT": "C:\\cmder"
+            },
+            "args": ["/K", "%CMDER_ROOT%\\vendor\\bin\\vscode_init.cmd"],
+            "icon": "terminal-ubuntu"
+        }
+    },
+    "terminal.integrated.automationProfile.windows": null,
+    "terminal.integrated.enableMultiLinePasteWarning": "never",
+
+    "workbench.activityBar.location": "hidden",
+    "workbench.preferredLightColorTheme": "Atom One Dark",
+    "workbench.preferredDarkColorTheme": "Atom One Dark",
+    "workbench.preferredHighContrastLightColorTheme": "Atom One Dark",
+    "workbench.tree.indent": 12,
+    "workbench.editor.wrapTabs": true,
+    "workbench.layoutControl.enabled": false,
+    "workbench.startupEditor": "none",
+    "workbench.colorTheme": "Atom One Dark",
+    "workbench.colorCustomizations": {
+        "tree.indentGuidesStroke": "#009991",
+        "activityBar.activeBackground": "#424242",
+        "activityBar.background": "#424242",
+        "activityBar.foreground": "#e7e7e7",
+        "activityBar.inactiveForeground": "#e7e7e799",
+        "activityBarBadge.background": "#105a85",
+        "activityBarBadge.foreground": "#15202b",
+        "commandCenter.border": "#e7e7e799",
+        "sash.hoverBorder": "#424242",
+        "statusBar.background": "#105a85",
+        "statusBar.foreground": "#e7e7e7",
+        "statusBarItem.hoverBackground": "#424242",
+        "statusBarItem.remoteBackground": "#105a85",
+        "statusBarItem.remoteForeground": "#e7e7e7",
+        "titleBar.activeBackground": "#105a85",
+        "titleBar.activeForeground": "#e7e7e7",
+        "titleBar.inactiveBackground": "#10435a",
+        "titleBar.inactiveForeground": "#e7e7e799"
+    },
+
+    "editor.inlineSuggest.enabled": true,
+
+    "files.autoSave": "onFocusChange",
+
+    "colorHelper.disableGpu": 1,
+    "diffEditor.maxComputationTime": 0,
+
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
+    "explorer.sortOrder": "type",
+
+    "typescript.preferences.importModuleSpecifier": "relative",
+    "javascript.updateImportsOnFileMove.enabled": "always",
+
+    "window.newWindowDimensions": "inherit",
+    "window.openFoldersInNewWindow": "on",
+
+    "autopep8.args": ["--max-line-length", "220", "--experimental"],
+
+    "[python]": {
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true,
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "ms-python.autopep8"
+    },
+    "[md]": {
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true,
+        "editor.formatOnSave": true
+    },
+    "[dockerfile]": {
+        "editor.defaultFormatter": "ms-python.autopep8"
+    },
+    "[markdown]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": true,
+        "markdown": true,
+        "yaml": true,
+        "py": true
+    },
+
+    "markdownlint.config": {
+        "MD030": false
+    }
 }
