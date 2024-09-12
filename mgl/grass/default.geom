@@ -142,7 +142,7 @@ void main() {
 		createGrass(detail_level);
 	} else if ((detail_level == 2) && ((int(in_pos.x * 5) % 1) == 0 || (int(in_pos.z * 5) % 1) == 0)) {
 		createGrass(detail_level);
-	} else {
+	} else if (detail_level != 1 && detail_level != 2) {
 		createGrass(detail_level);
 	}
 }
@@ -182,10 +182,8 @@ float noise(in vec2 st) {
 	const float d = random(i + vec2(1.0, 1.0));
 	// Smooth Interpolation
 	const vec2 u = smoothstep(0.,1.,f);
-	// Mix 4 coorners percentages
-	return mix(a, b, u.x) +
-	(c - a)* u.y * (1.0 - u.x) +
-	(d - b) * u.x * u.y;
+	// Mix 4 percentages
+	return mix(a, b, u.x) + (c - a)* u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
 }
 
 const vec2 fbm_shift = vec2(100.0);
