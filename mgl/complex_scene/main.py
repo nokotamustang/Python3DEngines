@@ -39,7 +39,8 @@ class GraphicsEngine:
         pygame.mouse.set_visible(False)
         # Detect and use existing OpenGL context
         self.ctx = moderngl.create_context()
-        self.ctx.enable(flags=moderngl.DEPTH_TEST | moderngl.CULL_FACE)
+        self.ctx.enable(flags=moderngl.DEPTH_TEST | moderngl.CULL_FACE | moderngl.BLEND)
+        self.ctx.gc_mode = 'auto'
         # Create an object to help track time
         self.clock = pygame.time.Clock()
         # Set fps max

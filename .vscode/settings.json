@@ -130,6 +130,18 @@
     "[html]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
+    "[glsl]": {
+        "editor.defaultFormatter": "raczzalan.webgl-glsl-editor"
+    },
+    "[frag]": {
+        "editor.defaultFormatter": "raczzalan.webgl-glsl-editor"
+    },
+    "[vert]": {
+        "editor.defaultFormatter": "raczzalan.webgl-glsl-editor"
+    },
+    "[grom]": {
+        "editor.defaultFormatter": "raczzalan.webgl-glsl-editor"
+    },
 
     "github.copilot.enable": {
         "*": true,

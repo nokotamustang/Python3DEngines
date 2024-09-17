@@ -1,6 +1,6 @@
 #version 460 core
 
-layout(location = 0) out vec4 fragColor;
+layout (location = 0) out vec4 fragColor;
 
 in vec2 uv_0;
 in vec3 normal;
@@ -55,7 +55,7 @@ vec3 getLight(vec3 tex_color) {
   vec3 N = normalize(normal);
   // vec3 V = normalize(camPos - fragPos);
   vec3 ambient = vec3(0.03) * material.Ka * material.Kao;
-  
+
   vec3 Lo = vec3(0.0);
   for (int i = 0; i < num_lights; i++) {
     Lo += calculateLight(N, lights[i]);
@@ -63,7 +63,7 @@ vec3 getLight(vec3 tex_color) {
 
   vec3 light_color = mix(ambient, Lo, 0.5);
   light_color = light_color / (light_color + vec3(1.0));
-  
+
   // return tex_color * light_color;
   return mix(tex_color, tex_color * light_color, 0.5);
 }

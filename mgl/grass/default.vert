@@ -1,6 +1,6 @@
 #version 460 core
 
-layout(location = 0) in vec3 in_position;
+layout (location = 0) in vec3 in_position;
 
 // uniform mat4 m_proj;
 // uniform mat4 m_view;
