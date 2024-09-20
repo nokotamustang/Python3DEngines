@@ -19,7 +19,7 @@ To install use `pip install -r requirements.txt` to fetch the following packages
 
 To run the example use `python main.py` from any of the project directories.
 
-The basic example use ModernGL following this tutorial <https://www.youtube.com/watch?app=desktop&v=eJDIsFJN4OQ>. I've expanded on this adding more features, see below for the examples.
+The basic example use ModernGL following this tutorial from 'Coder Space': <https://www.youtube.com/watch?app=desktop&v=eJDIsFJN4OQ>. I've expanded on this adding more features, see below for the examples.
 
 General keys:
 
@@ -39,6 +39,14 @@ We create a 3D cube from vertices, indices, and normals, and apply a simple ligh
 ![Screenshots](./screenshots/mgl_cubes1.PNG)
 
 Adding more cubes to the scene with texture mapping and multiple light sources.
+
+### ./mgl/simple_scene/ - Combining simple features
+
+![Screenshots](./screenshots/mgl_scene.PNG)
+
+Complete example from 'Coder Space' tutorial.
+
+Using textured cubes, shader programs, skybox, lighting and shadows. This is the same as the original example from the tutorial, but refactored and I've added some object culling.
 
 ### ./mgl/pbr/ - Physically based rendering (PBR)
 
@@ -79,12 +87,6 @@ Not ready yet...
 ### ./mgl/physics - Physics and collision detection
 
 Working on this example...
-
-### ./mgl/simple_scene/ - Combining simple features
-
-![Screenshots](./screenshots/mgl_scene.PNG)
-
-Textured cubes, shader programs, skybox, lighting and shadows. This is the same as the original example from the tutorial, but refactored and object culling added.
 
 ### ./mgl/sdf_ray_marching/ - SDF 'ray marching' rendering
 
