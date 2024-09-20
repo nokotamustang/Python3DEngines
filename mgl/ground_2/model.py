@@ -1,6 +1,8 @@
+import math
 import glm
 import moderngl
 import numpy
+import pygame
 
 
 def generate_vertex_data(vertices, indices):
@@ -9,35 +11,40 @@ def generate_vertex_data(vertices, indices):
 
 
 class Terrain:
-    def __init__(self, app, position=(0, 0, 0), width=40, step=1, curve=0.5):
+    def __init__(self, app, position=(0, 0, 0), width=40, step=1, curve=0.5, height_map_path="height_map"):
         self.app = app
         self.ctx = app.ctx
         self.position = glm.mat4(glm.translate(glm.mat4(1), glm.vec3(position)))
-        self.width = width
-        self.step = step
+
+        # Read {app.base_path}/{app.textures_path}/{height_map_path}.png with pygame and numpy
+        height_map, height_map_w, height_map_h = app.texture.get_image_data(f'{app.base_path}/{app.texture_path}/{height_map_path}.png')
+
+        height_map_w = 90
+        height_map_h = 90
+
         half_step = step / 2
-        half_width = width / 2
+        half_width = height_map_w / 2
+        half_height = height_map_h / 2
+
+        # Get value at 0,0 i.e. half_width, half_height; use this to place the terrain under the camera
+        max_height = 100
+        centre_height = height_map[math.floor(half_height)][math.floor(half_width)][0] / 255 * max_height
 
         vertices = []
-        # vertices = [(-1, 0, 1), (1, 0, 1), (1, 0, -1), (-1, 0, -1)]  # Example single quad
-        num_tiles = int(width / step)
-        for z in range(0, num_tiles):
-            for x in range(0, num_tiles):
-                # Determine the vertices of the tile from counter-clockwise so bottom left is 0, bottom right is 1, top right is 2 and top left is 3
-                # Assume x, y is the center of the tile, so use half_step to determine the corners
-                # Also, subtract half_width to center the terrain in the world
-                y1 = 0.5 * numpy.sin(curve * (x-half_step)) + 0.5 * numpy.sin(curve * (z+half_step))
-                y2 = 0.5 * numpy.sin(curve * (x+half_step)) + 0.5 * numpy.sin(curve * (z+half_step))
-                y3 = 0.5 * numpy.sin(curve * (x+half_step)) + 0.5 * numpy.sin(curve * (z-half_step))
-                y4 = 0.5 * numpy.sin(curve * (x-half_step)) + 0.5 * numpy.sin(curve * (z-half_step))
-                vertices.append((x-half_step-half_width, y1, z+half_step-half_width))
-                vertices.append((x+half_step-half_width, y2, z+half_step-half_width))
-                vertices.append((x+half_step-half_width, y3, z-half_step-half_width))
-                vertices.append((x-half_step-half_width, y4, z-half_step-half_width))
+        for z in range(1, height_map_h):
+            for x in range(1, height_map_w):
+                y1 = math.floor(height_map[z][x-step][0] / 255 * max_height - centre_height)
+                y2 = math.floor(height_map[z][x][0] / 255 * max_height - centre_height)
+                y3 = math.floor(height_map[z-step][x][0] / 255 * max_height - centre_height)
+                y4 = math.floor(height_map[z-step][x-step][0] / 255 * max_height - centre_height)
+                vertices.append((x-half_step-half_width, y1, z+half_step-half_height))
+                vertices.append((x+half_step-half_width, y2, z+half_step-half_height))
+                vertices.append((x+half_step-half_width, y3, z-half_step-half_height))
+                vertices.append((x-half_step-half_width, y4, z-half_step-half_height))
         self.vertices = vertices
 
+        # Generate indices
         indices = []
-        # indices = [(0, 2, 3), (0, 1, 2)] # Triangle example for single quad
         for i in range(0, len(vertices) - 1, 4):
             indices.append((i, i + 2, i + 3))
             indices.append((i, i + 1, i + 2))
@@ -49,10 +56,6 @@ class Terrain:
         texture_coords = []
         texture_indices = []
         for i in range(0, len(vertices) - 1, 4):
-            # texture_coords.append((0, 0))
-            # texture_coords.append((1, 0))
-            # texture_coords.append((1, 1))
-            # texture_coords.append((0, 1))
             # Randomize texture coordinates to rotate the texture
             rand_int = numpy.random.randint(4)
             if rand_int == 0:

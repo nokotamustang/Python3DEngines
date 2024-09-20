@@ -42,7 +42,7 @@ float noise(in vec2 st) {
 
 const vec2 fbm_shift = vec2(100.0);
 const mat2 fbm_rot = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.50));
-const int num_octaves = 3;
+const int num_octaves = 4;
 float fbm(in vec2 _st) {
 	// Craete variation with Fractal Brownian Motion, which we use to vary the color of the grass
 	// Returns a value between 0 and 1

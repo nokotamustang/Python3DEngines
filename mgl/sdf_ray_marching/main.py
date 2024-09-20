@@ -1,3 +1,4 @@
+import math
 import moderngl_window
 
 
@@ -30,8 +31,8 @@ class App(moderngl_window.WindowConfig):
         self.program['u_texture7'] = 7
 
     def render(self, time, frame_time):
+        self.update(time)
         self.ctx.clear()
-        self.program['u_time'] = time
         self.texture1.use(location=1)
         self.texture2.use(location=2)
         self.texture3.use(location=3)
@@ -41,12 +42,17 @@ class App(moderngl_window.WindowConfig):
         self.texture7.use(location=7)
         self.quad.render(self.program)
 
-    def mouse_position_event(self, x, y, dx, dy):
-        self.program['u_mouse'] = (x, y)
+    def update(self, time):
+        self.program['u_time'] = time
+        self.program['u_mouse'] = (math.sin(time) * 200, math.sin(time) * 100)
+        self.program['u_scroll'] = math.sin(time) * 0.5 + 3.0
 
-    def mouse_scroll_event(self, x_offset, y_offset):
-        self.u_scroll = max(1.0, self.u_scroll + y_offset)
-        self.program['u_scroll'] = self.u_scroll
+    # def mouse_position_event(self, x, y, dx, dy):
+    #     self.program['u_mouse'] = (x, y)
+
+    # def mouse_scroll_event(self, x_offset, y_offset):
+    #     self.u_scroll = max(1.0, self.u_scroll + y_offset)
+    #     self.program['u_scroll'] = self.u_scroll
 
 
 if __name__ == '__main__':

@@ -14,6 +14,7 @@ class GraphicsEngine:
     target_display = 0
     base_path = '.'
     shader_path = 'shaders'
+    texture_path = 'textures'
     # Variables
     fps = 0
     time = 0
@@ -130,7 +131,7 @@ class GraphicsEngine:
             self.render()
             self.delta_time = self.clock.tick(self.target_fps)
             self.fps = self.clock.get_fps()
-            print(f'delta: {self.delta_time:.2f}, fps: {self.fps:.2f}, time: {self.time:.2f}')
+            # print(f'delta: {self.delta_time:.2f}, fps: {self.fps:.2f}, time: {self.time:.2f}')
 
 
 if __name__ == '__main__':

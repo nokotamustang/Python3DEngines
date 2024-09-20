@@ -13,8 +13,7 @@ class Terrain:
         self.app = app
         self.ctx = app.ctx
         self.position = glm.mat4(glm.translate(glm.mat4(1), glm.vec3(position)))
-        self.width = width
-        self.step = step
+
         half_step = step / 2
         half_width = width / 2
 

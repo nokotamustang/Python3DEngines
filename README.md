@@ -73,7 +73,9 @@ Rendering a simple ground plane with a texture.
 
 ### ./mgl/ground_2/ - Ground rendering with a 'height map'
 
-Not ready yet...
+Rendering a simple ground plane with a texture and a height map.
+
+![Screenshots](./screenshots/mgl_ground2.PNG)
 
 ### ./mgl/water/ - Water rendering
 

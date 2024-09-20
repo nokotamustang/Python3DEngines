@@ -162,3 +162,10 @@ class Texture:
         self.texture_map[path] = self.texture_count
         self.textures.append(texture)
         return self.texture_count
+
+    def get_image_data(self, path):
+        image = pygame.image.load(path)
+        image = pygame.transform.flip(image, flip_x=False, flip_y=True)
+        width, height = image.get_rect().size
+        image = pygame.surfarray.array3d(image)  # Convert image to numpy array
+        return image, width, height
