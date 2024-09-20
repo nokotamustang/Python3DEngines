@@ -3,14 +3,30 @@ import moderngl
 import numpy
 
 
-class Grass:
-    def __init__(self, app, position=(0, 0, 0),
-                 texture: str = 'grass'):
+class Terrain:
+    def __init__(self, app, position=(0, 0, 0), width=40, step=0.1, curve=0.5):
         self.app = app
         self.ctx = app.ctx
         self.position = glm.mat4(glm.translate(glm.mat4(1), glm.vec3(position)))
+        self.width = width
+        self.step = step
+
+        vertices = []
+        for x in numpy.arange(-width, width, step):
+            for z in numpy.arange(-width, width, step):
+                y = 0.5 * numpy.sin(curve * x) + 0.5 * numpy.sin(curve * z)
+                vertices.append((x, y, z))
+        self.vertices_mesh = numpy.array(vertices, dtype='f4')
+
+
+class Grass:
+    def __init__(self, app, position=(0, 0, 0), texture: str = 'grass', terrain: Terrain = None, shader_name='grass'):
+        self.app = app
+        self.ctx = app.ctx
+        self.position = glm.mat4(glm.translate(glm.mat4(1), glm.vec3(position)))
+        self.terrain = terrain
         self.vbo = self.get_vbo()
-        self.shader_program = self.get_shader_program()
+        self.shader_program = self.get_shader_program(shader_name)
         self.vao = self.get_vao()
         self.tex_id = app.texture.get_alpha_texture(path=f'textures/{texture}.png')
         self.tex_id_wind = app.texture.get_basic_texture(path=f'textures/flow_map.png')
@@ -55,33 +71,15 @@ class Grass:
         ])
         return vao
 
-    def get_vertex_data(self, mode=1):
-        vertices = []
-        n_wide = 40
-        step = 0.1
-        curve = 0.5
-        if mode == 0:
-            for x in numpy.arange(-n_wide, n_wide, step):
-                for z in numpy.arange(-n_wide, n_wide, step):
-                    vertices.append((x, 0, z))
-        elif mode == 1:
-            # Add a curve along the y-axis to make a valley like a sine wave
-            for x in numpy.arange(-n_wide, n_wide, step):
-                for z in numpy.arange(-n_wide, n_wide, step):
-                    y = 0.5 * numpy.sin(curve * x) + 0.5 * numpy.sin(curve * z)
-                    vertices.append((x, y, z))
-
-        return numpy.array(vertices, dtype='f4')
-
     def get_vbo(self):
-        return self.ctx.buffer(self.get_vertex_data())
+        return self.ctx.buffer(self.terrain.vertices_mesh)
 
     def get_shader_program(self, shader_name='default'):
-        with open(f'{self.app.base_path}/{shader_name}.vert', 'r') as f:
+        with open(f'{self.app.base_path}/{self.app.shader_path}/{shader_name}.vert', 'r') as f:
             vertex_shader_source = f.read()
-        with open(f'{self.app.base_path}/{shader_name}.frag', 'r') as f:
+        with open(f'{self.app.base_path}/{self.app.shader_path}/{shader_name}.frag', 'r') as f:
             fragment_shader_source = f.read()
-        with open(f'{self.app.base_path}/{shader_name}.geom', 'r') as f:
+        with open(f'{self.app.base_path}/{self.app.shader_path}/{shader_name}.geom', 'r') as f:
             geometry_shader_source = f.read()
         shader_program = self.ctx.program(
             vertex_shader=vertex_shader_source,

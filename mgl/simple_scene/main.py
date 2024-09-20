@@ -18,6 +18,7 @@ class GraphicsEngine:
     delta_time = 0
     # State
     paused = False
+    full_polygon = True
 
     def __init__(self, win_size=(1600, 900)):
         # Initialize pygame modules
@@ -67,6 +68,15 @@ class GraphicsEngine:
                 sys.exit()
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_F1:
                 self.paused = not self.paused
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_F3:
+                self.full_polygon = not self.full_polygon
+                self.toggle_full_polygon()
+
+    def toggle_full_polygon(self):
+        if self.full_polygon:
+            self.ctx.wireframe = False
+        else:
+            self.ctx.wireframe = True
 
     def update(self):
         self.camera.update()

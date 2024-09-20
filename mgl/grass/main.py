@@ -2,7 +2,7 @@ import pygame
 import moderngl
 import sys
 
-from model import Grass
+from model import Terrain, Grass
 from core import Camera, Light, Texture
 
 
@@ -13,12 +13,14 @@ class GraphicsEngine:
     vertical_sync = 0
     target_display = 0
     base_path = '.'
+    shader_path = 'shaders'
     # Variables
     fps = 0
     time = 0
     delta_time = 0
     # State
     paused = False
+    full_polygon = True
 
     def __init__(self, win_size=(1600, 900)):
         # Initialize pygame modules
@@ -52,29 +54,45 @@ class GraphicsEngine:
         self.texture = Texture(self)
         # Camera
         self.camera = Camera(self, position=(0, 1, 5))
-        # Triangle
-        self.scene = Grass(self)
+        # Terrain
+        self.terrain = Terrain(self)
+        # Grass and Ground
+        self.grass = Grass(self, terrain=self.terrain)
+        # Scene
+        self.scene = [self.grass]
         # Font
         self.font = pygame.font.SysFont('arial', 64)
 
     def check_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                self.scene.destroy()
+                for obj in self.scene:
+                    obj.destroy()
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_F1:
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_F1:
                 self.paused = not self.paused
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_F3:
+                self.full_polygon = not self.full_polygon
+                self.toggle_full_polygon()
+
+    def toggle_full_polygon(self):
+        if self.full_polygon:
+            self.ctx.wireframe = False
+        else:
+            self.ctx.wireframe = True
 
     def update(self):
         self.camera.update()
-        self.scene.update()
+        for obj in self.scene:
+            obj.update()
 
     def render(self):
         # Clear frame buffer
         self.ctx.clear(color=(0.08, 0.16, 0.18))
         # Render scene
-        self.scene.render()
+        for obj in self.scene:
+            obj.render()
         # Swap buffers
         pygame.display.flip()
 
@@ -87,7 +105,7 @@ class GraphicsEngine:
             self.render()
             self.delta_time = self.clock.tick(self.target_fps)
             self.fps = self.clock.get_fps()
-            print(f'fps: {self.fps:.2f}, time: {self.time:.2f}')
+            print(f'delta: {self.delta_time:.2f}, fps: {self.fps:.2f}, time: {self.time:.2f}')
 
 
 if __name__ == '__main__':

@@ -4,7 +4,7 @@ An exploration of 3D engines and rendering in Python by `Nokota Mustang`.
 
 All projects are working with Python 3.12.
 
-## ./mgl - ModernGL and Pygame
+## ./mgl - ModernGL and Pygame 3D demonstrations
 
 To install use `pip install -r requirements.txt` to fetch the following packages:
 
@@ -21,19 +21,26 @@ To run the example use `python main.py` from any of the project directories.
 
 The basic example use ModernGL following this tutorial <https://www.youtube.com/watch?app=desktop&v=eJDIsFJN4OQ>. I've expanded on this adding more features, see below for the examples.
 
-### ./mgl/cube/ - Cube with Lambert Diffusion & Blinn-Phong Specular Lighting
+General keys:
+
+-   `ESC` - Exit
+-   `F1` - Pause time / Resume time
+-   `F3` - View wire-frames
+-   `WASD` - [Forward, Left, Backward, Right fly] camera movement
+
+### ./mgl/cube/ - Cube with Lambert Diffusion & Blinn-Phong Specular lighting
 
 ![Screenshots](./screenshots/moderngl_0.PNG)
 
 We create a 3D cube from vertices, indices, and normals, and apply a simple lighting shader to it. We also have a first person camera with movement and controls using `WASD` and mouse for looking around.
 
-### ./mgl/cubes/ - Cubes + Textures
+### ./mgl/cubes/ - Cubes + textures
 
 ![Screenshots](./screenshots/moderngl_3.PNG)
 
 Adding more cubes to the scene with texture mapping and multiple light sources.
 
-### ./mgl/pbr/ - Physically Based Rendering
+### ./mgl/pbr/ - Physically based rendering (PBR)
 
 ![Screenshots](./screenshots/mgl_pbr.PNG)
 
@@ -49,21 +56,37 @@ Starting from the tutorial: <https://vulpinii.github.io/tutorials/grass-modelisa
 
 Flow maps information and tools: <https://github.com/JaccomoLorenz/godot-flow-map-shader>
 
+### ./mgl/ground/ - Ground rendering
+
+Rendering a simple ground plane with a texture.
+
+![Screenshots](./screenshots/mgl_ground1.PNG)
+
 ### ./mgl/water/ - Water rendering
 
 Working on this example...
 
-### ./mgl/physics - Physics and Collision Detection
+![Screenshots](./screenshots/mgl_water1.PNG)
+
+### ./mgl/terrain/ - Complete terrain rendering
+
+Rendering a ground plane from a height map. With terrain flora and water.
+
+![Screenshots](./screenshots/mgl_terrain1.PNG)
+
+Not ready yet...
+
+### ./mgl/physics - Physics and collision detection
 
 Working on this example...
 
-### ./mgl/complex_scene/ - Combining Features
+### ./mgl/simple_scene/ - Combining simple features
 
 ![Screenshots](./screenshots/mgl_scene.PNG)
 
 Textured cubes, shader programs, skybox, lighting and shadows. This is the same as the original example from the tutorial, but refactored and object culling added.
 
-### ./mgl/sdf_ray_marching/ - SDF 'Ray Marching' Rendering
+### ./mgl/sdf_ray_marching/ - SDF 'ray marching' rendering
 
 ![Screenshots](./screenshots/mgl_sdf.PNG)
 
@@ -83,7 +106,7 @@ Wish list includes:
 -   Post Processing
 -   Anti-aliasing
 
-## ./p3d - Panda3D
+## ./p3d - Panda3D demonstrations
 
 My first test in **Panda3D** following the basic tutorial for minecraft style block rendering from <https://www.youtube.com/watch?v=xV3gH1JZew4>.
 
