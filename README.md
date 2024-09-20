@@ -30,19 +30,19 @@ General keys:
 
 ### ./mgl/cube/ - Cube with Lambert Diffusion & Blinn-Phong Specular lighting
 
-![Screenshots](./screenshots/moderngl_0.PNG)
+![Screenshots](./screenshots/mgl_cube1.PNG)
 
 We create a 3D cube from vertices, indices, and normals, and apply a simple lighting shader to it. We also have a first person camera with movement and controls using `WASD` and mouse for looking around.
 
 ### ./mgl/cubes/ - Cubes + textures
 
-![Screenshots](./screenshots/moderngl_3.PNG)
+![Screenshots](./screenshots/mgl_cubes1.PNG)
 
 Adding more cubes to the scene with texture mapping and multiple light sources.
 
 ### ./mgl/pbr/ - Physically based rendering (PBR)
 
-![Screenshots](./screenshots/mgl_pbr.PNG)
+![Screenshots](./screenshots/mgl_pbr1.PNG)
 
 Using a PBR shader to render cubes with different materials and multiple light sources.
 
