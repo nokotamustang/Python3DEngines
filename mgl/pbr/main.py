@@ -35,7 +35,6 @@ class GraphicsEngine:
         # Create OpenGL context for 3D rendering
         self.game_screen = pygame.display.set_mode(self.win_size, flags=pygame.OPENGL | pygame.DOUBLEBUF,
                                                    display=self.target_display, vsync=self.vertical_sync)
-        # pygame.FULLSCREEN
         # Mouse settings
         pygame.event.set_grab(True)
         pygame.mouse.set_visible(False)

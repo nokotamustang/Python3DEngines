@@ -4,7 +4,6 @@ import pygame
 
 
 class Camera:
-
     yaw = -90
     pitch = 0
     fov = 50  # Degrees
@@ -21,7 +20,6 @@ class Camera:
     def __init__(self, app, position=position, yaw=yaw, pitch=pitch,
                  fov=fov, near=near, far=far, sensitivity=sensitivity):
         self.app = app
-        self.aspect_ratio = app.win_size[0] / app.win_size[1]
         self.position = glm.vec3(position)
         self.yaw = yaw
         self.pitch = pitch
@@ -31,8 +29,8 @@ class Camera:
         self.sensitivity = sensitivity
         # View matrix
         self.m_view = self.get_view_matrix()
-        # Projection matrix
-        self.m_proj = self.get_projection_matrix()
+        # Aspect ratio and Projection matrix
+        self.set_aspect_and_projection()
         # Key bindings
         self.key_bindings = {
             "forward": pygame.K_w,
@@ -42,6 +40,10 @@ class Camera:
             "up": pygame.K_SPACE,
             "down": pygame.K_LCTRL,
         }
+
+    def set_aspect_and_projection(self):
+        self.aspect_ratio = self.app.win_size[0] / self.app.win_size[1]
+        self.m_proj = self.get_projection_matrix()
 
     def rotate(self):
         rel_x, rel_y = pygame.mouse.get_rel()

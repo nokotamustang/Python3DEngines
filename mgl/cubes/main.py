@@ -20,13 +20,19 @@ class GraphicsEngine:
     # State
     paused = False
     full_polygon = True
+    full_screen = False
 
-    def __init__(self, win_size=(1600, 900)):
+    def __init__(self, windowed_win_size=(1600, 900), full_screen_win_size=(1920, 1080)):
         # Initialize pygame modules
         pygame.mixer.pre_init(44100, 16, 2, 4096)
         pygame.init()
         # Window size
-        self.win_size = win_size
+        self.full_screen_win_size = full_screen_win_size
+        self.windowed_win_size = windowed_win_size
+        if self.full_screen:
+            self.win_size = self.full_screen_win_size
+        else:
+            self.win_size = self.windowed_win_size
         # set OpenGL attributes
         pygame.display.gl_set_attribute(pygame.GL_CONTEXT_MAJOR_VERSION, 3)
         pygame.display.gl_set_attribute(pygame.GL_CONTEXT_MINOR_VERSION, 3)
@@ -35,7 +41,6 @@ class GraphicsEngine:
         # Create OpenGL context for 3D rendering
         self.game_screen = pygame.display.set_mode(self.win_size, flags=pygame.OPENGL | pygame.DOUBLEBUF,
                                                    display=self.target_display, vsync=self.vertical_sync)
-        # pygame.FULLSCREEN
         # Mouse settings
         pygame.event.set_grab(True)
         pygame.mouse.set_visible(False)
@@ -84,6 +89,23 @@ class GraphicsEngine:
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_F3:
                 self.full_polygon = not self.full_polygon
                 self.toggle_full_polygon()
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_F11:
+                self.full_screen = not self.full_screen
+                self.toggle_full_screen()
+
+    def toggle_full_screen(self):
+        if self.full_screen:
+            self.win_size = self.full_screen_win_size
+            pygame.display.set_mode(self.win_size, flags=pygame.OPENGL | pygame.DOUBLEBUF | pygame.FULLSCREEN,
+                                    display=self.target_display, vsync=self.vertical_sync)
+            self.ctx.viewport = (0, 0, *self.win_size)
+            self.camera.set_aspect_and_projection()
+        else:
+            self.win_size = self.windowed_win_size
+            pygame.display.set_mode(self.win_size, flags=pygame.OPENGL | pygame.DOUBLEBUF,
+                                    display=self.target_display, vsync=self.vertical_sync)
+            self.ctx.viewport = (0, 0, *self.win_size)
+            self.camera.set_aspect_and_projection()
 
     def toggle_full_polygon(self):
         if self.full_polygon:

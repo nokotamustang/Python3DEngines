@@ -21,38 +21,39 @@ To run the example use `python main.py` from any of the project directories.
 
 The basic example use ModernGL following this tutorial from 'Coder Space': <https://www.youtube.com/watch?app=desktop&v=eJDIsFJN4OQ>. I've expanded on this adding more features, see below for the examples.
 
-General keys:
+General keys in the examples:
 
 -   `ESC` - Exit
 -   `F1` - Pause time / Resume time
--   `F3` - View wire-frames
+-   `F3` - Toggle view of wire-frames
+-   `F11` - Toggle full screen
 -   `WASD` - [Forward, Left, Backward, Right fly] camera movement
 
 ### ./mgl/cube/ - Cube with Lambert Diffusion & Blinn-Phong Specular lighting
 
-![Screenshots](./screenshots/mgl_cube1.PNG)
+We create a 3D cube from vertices, indices, and normals, and apply a simple lighting shader to it.
 
-We create a 3D cube from vertices, indices, and normals, and apply a simple lighting shader to it. We also have a first person camera with movement and controls using `WASD` and mouse for looking around.
+![Screenshots](./screenshots/mgl_cube1.PNG)
 
 ### ./mgl/cubes/ - Cubes + textures
 
-![Screenshots](./screenshots/mgl_cubes1.PNG)
-
 Adding more cubes to the scene with texture mapping and multiple light sources.
+
+![Screenshots](./screenshots/mgl_cubes1.PNG)
 
 ### ./mgl/simple_scene/ - Combining simple features
 
-![Screenshots](./screenshots/mgl_scene.PNG)
-
 Complete example from 'Coder Space' tutorial.
+
+![Screenshots](./screenshots/mgl_scene.PNG)
 
 Using textured cubes, shader programs, skybox, lighting and shadows. This is the same as the original example from the tutorial, but refactored and I've added some object culling.
 
 ### ./mgl/pbr/ - Physically based rendering (PBR)
 
-![Screenshots](./screenshots/mgl_pbr1.PNG)
-
 Using a PBR shader to render cubes with different materials and multiple light sources.
+
+![Screenshots](./screenshots/mgl_pbr1.PNG)
 
 ### ./mgl/grass/ - Grass rendering
 
@@ -70,29 +71,29 @@ Rendering a simple ground plane with a texture.
 
 ![Screenshots](./screenshots/mgl_ground1.PNG)
 
+### ./mgl/ground_2/ - Ground rendering with a 'height map'
+
+Rendering a ground plane using a height map image.
+
+![Screenshots](./screenshots/mgl_ground1.PNG)
+
 ### ./mgl/water/ - Water rendering
 
-Working on this example...
-
-![Screenshots](./screenshots/mgl_water1.PNG)
+Not ready yet...
 
 ### ./mgl/terrain/ - Complete terrain rendering
-
-Rendering a ground plane from a height map. With terrain flora and water.
-
-![Screenshots](./screenshots/mgl_terrain1.PNG)
 
 Not ready yet...
 
 ### ./mgl/physics - Physics and collision detection
 
-Working on this example...
+Not ready yet...
 
 ### ./mgl/sdf_ray_marching/ - SDF 'ray marching' rendering
 
-![Screenshots](./screenshots/mgl_sdf.PNG)
-
 Following the tutorials: <https://www.youtube.com/watch?v=hUaYxqkrfjA> and <https://www.youtube.com/watch?v=i12pFwXlOGw>.
+
+![Screenshots](./screenshots/mgl_sdf.PNG)
 
 We build a simple scene using Signed Distance Functions (SDF) to render a sphere and building around it. The example extends to use AA, shadows, reflections, and bump mapping.
 
