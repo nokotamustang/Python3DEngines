@@ -12,22 +12,20 @@ def generate_vertex_data(vertices, indices):
 
 class Terrain:
     def __init__(self, app, position=(0, 0, 0), width=132, height=132, max_height=100,
-                 step=1, curve=0.5, height_map_path="height_map", rounding_factor=5):
+                 height_map_path="height_map", rounding_factor=5):
         self.app = app
         self.ctx = app.ctx
         self.position = glm.mat4(glm.translate(glm.mat4(1), glm.vec3(position)))
 
-        # Read {app.base_path}/{app.textures_path}/{height_map_path}.png with pygame and numpy
+        # Read {app.base_path}/{app.textures_path}/{height_map_path}.png
         height_map, height_map_w, height_map_h = app.texture.get_image_data(f'{app.base_path}/{app.texture_path}/{height_map_path}.png')
 
         if width != height_map_w and width <= height_map_w:
             height_map_w = width
         if height != height_map_h and height <= height_map_h:
             height_map_h = height
-
-        half_step = step / 2
-        half_width = math.floor(height_map_w / 2) + position[0]
-        half_height = math.floor(height_map_h / 2) + position[2]
+        half_width = math.floor(height_map_w / 2)
+        half_height = math.floor(height_map_h / 2)
 
         # Get value at 0,0 i.e. half_width, half_height; use this to place the terrain under the camera
         centre_height = round(height_map[half_height][half_width][0] / 255 * max_height, rounding_factor) + 1
@@ -35,14 +33,14 @@ class Terrain:
         vertices = []
         for z in range(1, height_map_h):
             for x in range(1, height_map_w):
-                y1 = round(height_map[z][x-step][0] / 255 * max_height - centre_height, rounding_factor)
+                y1 = round(height_map[z][x-1][0] / 255 * max_height - centre_height, rounding_factor)
                 y2 = round(height_map[z][x][0] / 255 * max_height - centre_height, rounding_factor)
-                y3 = round(height_map[z-step][x][0] / 255 * max_height - centre_height, rounding_factor)
-                y4 = round(height_map[z-step][x-step][0] / 255 * max_height - centre_height, rounding_factor)
-                vertices.append((x-half_step-half_width, y1, z+half_step-half_height))
-                vertices.append((x+half_step-half_width, y2, z+half_step-half_height))
-                vertices.append((x+half_step-half_width, y3, z-half_step-half_height))
-                vertices.append((x-half_step-half_width, y4, z-half_step-half_height))
+                y3 = round(height_map[z-1][x][0] / 255 * max_height - centre_height, rounding_factor)
+                y4 = round(height_map[z-1][x-1][0] / 255 * max_height - centre_height, rounding_factor)
+                vertices.append((x-0.5-half_width, y1, z+0.5-half_height))
+                vertices.append((x+0.5-half_width, y2, z+0.5-half_height))
+                vertices.append((x+0.5-half_width, y3, z-0.5-half_height))
+                vertices.append((x-0.5-half_width, y4, z-0.5-half_height))
         self.vertices = vertices
 
         # Generate indices
