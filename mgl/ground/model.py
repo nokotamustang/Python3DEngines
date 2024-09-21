@@ -9,7 +9,7 @@ def generate_vertex_data(vertices, indices):
 
 
 class Terrain:
-    def __init__(self, app, position=(0, 0, 0), width=40, step=1, curve=0.5):
+    def __init__(self, app, position=(0, 0, 0), width=132, step=1, curve=0.5):
         self.app = app
         self.ctx = app.ctx
         self.position = glm.mat4(glm.translate(glm.mat4(1), glm.vec3(position)))
