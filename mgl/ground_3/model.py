@@ -313,7 +313,7 @@ class Grass:
 
 
 class SkyBox():
-    def __init__(self, app, tex_id='skybox',
+    def __init__(self, app, texture_cube_name='skybox',
                  pos=(0, 0, 0), rot=(0, 0, 0), scale=(1, 1, 1)):
         self.app = app
         self.ctx = app.ctx
@@ -321,7 +321,7 @@ class SkyBox():
         self.rot = glm.vec3([glm.radians(a) for a in rot])
         self.scale = scale
         self.m_model = self.get_model_matrix()
-        self.tex_id = app.texture.get_texture_cube(path=f'textures/{tex_id}')
+        self.tex_id = app.texture.get_texture_cube(path=f'textures/{texture_cube_name}')
 
         self.vbo = self.get_vbo()
         self.shader_program = self.get_shader_program()

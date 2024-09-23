@@ -59,7 +59,7 @@ class GraphicsEngine:
         # Camera
         self.camera = Camera(self, position=(0, 1, 5))
         # Skybox
-        self.skybox = SkyBox(self)
+        self.skybox = SkyBox(self, texture_cube_name='skybox_2')
         # Terrain
         self.terrain = Terrain(self)
         # Light
@@ -71,8 +71,6 @@ class GraphicsEngine:
         self.ground = Ground(self, terrain=self.terrain)
         self.grass = Grass(self, terrain=self.terrain)
         # Scene
-        # self.scene = [self.grass]
-        # self.scene = [self.ground]
         self.scene = [self.ground, self.grass]
         # Font
         self.font = pygame.font.SysFont('arial', 64)

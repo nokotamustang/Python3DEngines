@@ -64,9 +64,7 @@ class GraphicsEngine:
         self.terrain = Terrain(self)
         # Grass and Ground
         self.ground = Ground(self, terrain=self.terrain)
-        # self.grass = Grass(self, terrain=self.terrain)
         # Scene
-        # self.scene = [self.ground, self.grass]
         self.scene = [self.ground]
         # self.scene = [self.grass]
         # Font
