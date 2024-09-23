@@ -59,7 +59,7 @@ class GraphicsEngine:
         # Camera
         self.camera = Camera(self, position=(0, 1, 5))
         # Skybox
-        self.skybox = SkyBox(self, texture_cube_name='skybox_2')
+        self.skybox = SkyBox(self, texture_cube_name='skybox')
         # Terrain
         self.terrain = Terrain(self)
         # Light
