@@ -77,7 +77,7 @@ Rendering a simple ground plane with a texture and a height map.
 
 ![Screenshots](./screenshots/mgl_ground2.PNG)
 
-### ./mgl/ground_3/ - Ground rendering with a 'height map'
+### ./mgl/ground_3/ - Ground and grass rendering
 
 I've combined several techniques to render the ground plane with a height map, and calculating normals for lighting. The grass is placed on the triangles of the ground plane, and the grass is affected by the height map.
 
