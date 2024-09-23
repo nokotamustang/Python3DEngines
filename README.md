@@ -85,8 +85,6 @@ I've combined several techniques to render the ground plane with a height map, a
 
 I added a global lighting model, and adding our local lights to the scene; and added a skybox.
 
-![Screenshots](./screenshots/mgl_ground3.PNG)
-
 ### ./mgl/water/ - Water rendering
 
 Not ready yet...
