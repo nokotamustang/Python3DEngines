@@ -165,6 +165,7 @@ class Texture:
         return self.texture_count
 
     def get_image_data(self, path):
+        '''Return image data and size for in image file.'''
         image = pygame.image.load(path)
         image = pygame.transform.flip(image, flip_x=False, flip_y=True)
         width, height = image.get_rect().size
@@ -172,6 +173,7 @@ class Texture:
         return image, width, height
 
     def random_quad(self):
+        '''Return random texture coordinates for a quad.'''
         rand_int = numpy.random.randint(4)
         texture_coords = []
         if rand_int == 0:
@@ -195,3 +197,25 @@ class Texture:
             texture_coords.append((1, 0))
             texture_coords.append((1, 1))
         return texture_coords
+
+    def get_texture_cube(self, path, ext='png'):
+        faces = ['right', 'left', 'top', 'bottom'] + ['front', 'back'][::-1]
+        textures = []
+        for face in faces:
+            texture = pygame.image.load(f'{path}/{face}.{ext}').convert()
+            if face in ['right', 'left', 'front', 'back']:
+                texture = pygame.transform.flip(texture, flip_x=True, flip_y=False)
+            else:
+                texture = pygame.transform.flip(texture, flip_x=False, flip_y=True)
+            textures.append(texture)
+        size = textures[0].get_size()
+        texture_cube = self.ctx.texture_cube(size=size, components=3, data=None)
+        for i in range(6):
+            texture_data = pygame.image.tostring(textures[i], 'RGB')
+            texture_cube.write(face=i, data=texture_data)
+        # return texture_cube
+        # Add to list
+        self.texture_count += 1
+        self.texture_map[path] = self.texture_count
+        self.textures.append(texture_cube)
+        return self.texture_count

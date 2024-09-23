@@ -24,7 +24,7 @@ class Cube:
         # Texture
         self.shader_program['u_texture_0'] = self.tex_id
         # n lights
-        self.shader_program['num_lights'].value = 4
+        self.shader_program['num_lights'].value = len(self.app.lights)
         # Send lights into uniform array of Light struct
         for i, light in enumerate(self.app.lights):
             self.shader_program[f'lights[{i}].position'].value = light.position

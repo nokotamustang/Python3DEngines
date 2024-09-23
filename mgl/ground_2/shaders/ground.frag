@@ -26,7 +26,7 @@ void main() {
   vec4 color = texture(u_texture_0, uv_0);
   color.rgb = pow(color.rgb, gamma);
   color.rgb = getLight(color.rgb);
+  color.rgb = mix(color.rgb, 0.5 * color.rgb, colorVariation);
   color.rgb = pow(color.rgb, i_gamma);
-  color.xyz = mix(color.xyz, 0.5 * color.xyz, colorVariation);
   fragColor = vec4(color.rgb, 1.0);
 }

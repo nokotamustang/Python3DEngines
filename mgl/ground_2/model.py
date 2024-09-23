@@ -11,78 +11,65 @@ def generate_vertex_data(vertices, indices):
 
 
 class Terrain:
-    def __init__(self, app, position=(0, 0, 0), width=132, height=132, max_height=100,
+    def __init__(self, app, position=(0, 0, 0), width=128, depth=128, max_height=100,
                  height_map_path="height_map", rounding_factor=5):
         self.app = app
         self.ctx = app.ctx
         self.position = glm.mat4(glm.translate(glm.mat4(1), glm.vec3(position)))
 
-        # Read {app.base_path}/{app.textures_path}/{height_map_path}.png
-        height_map, height_map_w, height_map_h = app.texture.get_image_data(f'{app.base_path}/{app.texture_path}/{height_map_path}.png')
+        height_map, height_map_w, height_map_d = self.load_height_image(height_map_path)
 
+        # Temporary limit for terrain size
         if width != height_map_w and width <= height_map_w:
             height_map_w = width
-        if height != height_map_h and height <= height_map_h:
-            height_map_h = height
+        if depth != height_map_d and depth <= height_map_d:
+            height_map_d = depth
         half_width = math.floor(height_map_w / 2)
-        half_height = math.floor(height_map_h / 2)
+        half_depth = math.floor(height_map_d / 2)
 
-        # Get value at 0,0 i.e. half_width, half_height; use this to place the terrain under the camera
-        centre_height = round(height_map[half_height][half_width][0] / 255 * max_height, rounding_factor) + 1
+        # Get value at 0,0 i.e. half_width, half_depth; use this to place the terrain under the camera
+        centre_height = round(height_map[half_depth][half_width][0] / 255 * max_height, rounding_factor) + 1
 
+        self.vertices = self.get_vertices(height_map_w, height_map_d, max_height, centre_height, height_map, half_width, half_depth, rounding_factor)
+        self.indices = self.get_indices(self.vertices)
+        self.vertex_data = self.generate_vertex_data(self.vertices, self.indices)
+
+    def load_height_image(self, height_map_path):
+        return self.app.texture.get_image_data(f'{self.app.base_path}/{self.app.texture_path}/{height_map_path}.png')
+
+    def get_vertices(self, height_map_w: int, height_map_d: int, max_height: int, centre_height: int,
+                     height_map: list, half_width: int, half_depth: int, rounding_factor=5):
         vertices = []
-        for z in range(1, height_map_h):
+        for z in range(1, height_map_d):
             for x in range(1, height_map_w):
                 y1 = round(height_map[z][x-1][0] / 255 * max_height - centre_height, rounding_factor)
                 y2 = round(height_map[z][x][0] / 255 * max_height - centre_height, rounding_factor)
                 y3 = round(height_map[z-1][x][0] / 255 * max_height - centre_height, rounding_factor)
                 y4 = round(height_map[z-1][x-1][0] / 255 * max_height - centre_height, rounding_factor)
-                vertices.append((x-0.5-half_width, y1, z+0.5-half_height))
-                vertices.append((x+0.5-half_width, y2, z+0.5-half_height))
-                vertices.append((x+0.5-half_width, y3, z-0.5-half_height))
-                vertices.append((x-0.5-half_width, y4, z-0.5-half_height))
-        self.vertices = vertices
+                vertices.append((x-0.5-half_width, y1, z+0.5-half_depth))
+                vertices.append((x+0.5-half_width, y2, z+0.5-half_depth))
+                vertices.append((x+0.5-half_width, y3, z-0.5-half_depth))
+                vertices.append((x-0.5-half_width, y4, z-0.5-half_depth))
+        return vertices
 
-        # Generate indices
+    def get_indices(self, vertices: list):
         indices = []
         for i in range(0, len(vertices) - 1, 4):
             indices.append((i, i + 2, i + 3))
             indices.append((i, i + 1, i + 2))
-        self.indices = indices
+        return indices
 
-        # Generate vertex data
+    def generate_vertex_data(self, vertices, indices):
         vertex_data = generate_vertex_data(vertices, indices)
-        # Texture coordinates and texture indices
         texture_coords = []
         texture_indices = []
-        for i in range(0, len(vertices) - 1, 4):
-            # Randomize texture coordinates to rotate the texture
-            rand_int = numpy.random.randint(4)
-            if rand_int == 0:
-                texture_coords.append((0, 0))
-                texture_coords.append((1, 0))
-                texture_coords.append((1, 1))
-                texture_coords.append((0, 1))
-            elif rand_int == 1:
-                texture_coords.append((1, 0))
-                texture_coords.append((1, 1))
-                texture_coords.append((0, 1))
-                texture_coords.append((0, 0))
-            elif rand_int == 2:
-                texture_coords.append((1, 1))
-                texture_coords.append((0, 1))
-                texture_coords.append((0, 0))
-                texture_coords.append((1, 0))
-            elif rand_int == 3:
-                texture_coords.append((0, 1))
-                texture_coords.append((0, 0))
-                texture_coords.append((1, 0))
-                texture_coords.append((1, 1))
+        for _ in range(0, len(vertices) - 1, 4):
+            texture_coords.extend(self.app.texture.random_quad())
             texture_indices.append((0, 2, 3))
             texture_indices.append((0, 1, 2))
         texture_coord_data = generate_vertex_data(texture_coords, texture_indices)
         vertex_data = numpy.hstack([texture_coord_data, vertex_data])
-        self.vertex_data = numpy.array(vertex_data, dtype='f4')
+        return numpy.array(vertex_data, dtype='f4')
 
 
 class Ground():
@@ -115,7 +102,7 @@ class Ground():
         # self.shader_program['camPos'].write = self.app.camera.position
 
     def render(self):
-        self.app.texture.textures[self.tex_id].use(location=0)
+        self.app.texture.textures[self.tex_id].use(location=self.tex_id)
         self.vao.render()
         # self.vao.render(moderngl.TRIANGLE_STRIP)
 

@@ -23,7 +23,7 @@ class Cube:
         # Texture
         self.shader_program['u_texture_0'] = self.tex_id
         # n lights
-        self.shader_program['num_lights'].value = 4
+        self.shader_program['num_lights'].value = len(self.app.lights)
         # Send lights into uniform array of Light struct
         for i, light in enumerate(self.app.lights):
             self.shader_program[f'lights[{i}].position'].value = light.position
@@ -98,7 +98,7 @@ class Cube:
             (0, 1, 0) * 6,
             (0, -1, 0) * 6,
         ]
-        normals = numpy.array(normals, dtype='f4').reshape(36, 3)
+        normals = numpy.array(normals, dtype='f4').reshape(int(len(normals * 6)), 3)
         vertex_data = numpy.hstack([vertex_data, normals])
 
         return numpy.array(vertex_data, dtype='f4')
