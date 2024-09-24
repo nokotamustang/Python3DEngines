@@ -81,7 +81,7 @@ Expanding on the grass rendering to use a texture atlas for the grass models.
 
 ![Screenshots](./screenshots/mgl_grass2.PNG)
 
-_Just indexing manually right now in the geom shade; so I will add controls to select the grass type or I will extend to paint different grass types on the ground._
+_Just indexing manually right now in the geom shader; so I will add controls to select the grass type or I will extend to paint different grass types on the ground._
 
 ### mgl/ground - Ground rendering
 
