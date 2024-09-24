@@ -47,9 +47,11 @@ Adding more cubes to the scene with texture mapping and multiple light sources.
 
 ### mgl/cubes_2 - Cubes + textures + shadows
 
-Needed to learn shadows, this demonstrates the method from 'Coder Space' but with the cubes scene.
+<!-- Needed to learn shadows, this demonstrates the method from 'Coder Space' but with the cubes scene. -->
 
-![Screenshots](./screenshots/mgl_cubes2.PNG)
+<!-- ![Screenshots](./screenshots/mgl_cubes2.PNG) -->
+
+Not ready yet...
 
 ### mgl/simple_scene - Combining simple features
 
