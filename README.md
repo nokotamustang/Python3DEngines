@@ -75,13 +75,13 @@ Starting from the tutorial: <https://vulpinii.github.io/tutorials/grass-modelisa
 
 Flow maps information and tools: <https://github.com/JaccomoLorenz/godot-flow-map-shader>
 
-### mgl/grass - Grass rendering from a texture atlas
+### mgl/grass_2 - Grass rendering from a texture atlas
+
+Expanding on the grass rendering to use a texture atlas for the grass models.
 
 ![Screenshots](./screenshots/mgl_grass2.PNG)
 
-Just indexing manually right now in teh geom shader, will add controls to select the grass type.
-
-Then I will extend to paint different grass types on the ground.
+_Just indexing manually right now in the geom shade; so I will add controls to select the grass type or I will extend to paint different grass types on the ground._
 
 ### mgl/ground - Ground rendering
 
