@@ -2,7 +2,7 @@ import pygame
 import moderngl
 import sys
 
-from model import Cube
+from model import Cube, Floor
 from core import Camera, Light, Texture
 
 
@@ -55,25 +55,33 @@ class GraphicsEngine:
         # Camera
         self.camera = Camera(self, position=(0, 0, 5))
         # Light
-        self.light = Light(position=(-6, 2, 6), color=(1.0, 0.0, 1.0), strength=1.0)
+        self.light = Light(position=(-5, 2, 5), color=(1.0, 0.0, 0.0), strength=10.0)
         # Light 2
-        self.light2 = Light(position=(6, 2, 6), color=(0.0, 0.0, 1.0), strength=1.0)
+        self.light2 = Light(position=(5, 2, 5), color=(1.0, 1.0, 0.0), strength=10.0)
         # Light 3
-        self.light3 = Light(position=(-6, 2, -6), color=(1.0, 0.0, 0.0), strength=3.0)
+        self.light3 = Light(position=(-5, 2, -5), color=(0.0, 0.0, 1.0), strength=40.0)
         # Light 4
-        self.light4 = Light(position=(6, 2, -6), color=(0.0, 1.0, 0.0), strength=1.0)
+        self.light4 = Light(position=(5, 2, -5), color=(0.0, 1.0, 0.0), strength=20.0)
         # Lights
         self.lights = [self.light, self.light2, self.light3, self.light4]
         # Texture
         self.texture = Texture(self)
         # Scene
+        self.scene = []
+        # Create a nxn grid of Floor
+        tiles = 10
+        base_h = -1
+        size = 1
+        for i in range(-tiles, tiles):
+            for j in range(-tiles, tiles):
+                self.scene.append(Floor(self, position=(i*size*2.0, base_h, j*size*2.0), size=(size, 0.1, size)))
         cube_space = 1.5
         self.cube = Cube(self,  albedo=(1.0, 1.0, 1.0), position=(-cube_space*2, 0, 0), texture="crate_0")
         self.cube2 = Cube(self, albedo=(1.0, 1.0, 1.0), position=(-cube_space, 0, 0), texture="crate_1")
         self.cube3 = Cube(self, albedo=(1.0, 1.0, 1.0), position=(0, 0, 0), texture="crate_2")
         self.cube4 = Cube(self, albedo=(1.0, 1.0, 1.0), position=(cube_space, 0, 0), texture="crate_3")
         self.cube5 = Cube(self, albedo=(1.0, 1.0, 1.0), position=(cube_space*2, 0, 0), texture="crate_4")
-        self.scene = [self.cube, self.cube2, self.cube3, self.cube4, self.cube5]
+        self.scene.extend([self.cube, self.cube2, self.cube3, self.cube4, self.cube5])
         # Font
         self.font = pygame.font.SysFont('arial', 64)
 

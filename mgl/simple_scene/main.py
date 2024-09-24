@@ -2,8 +2,7 @@ import pygame
 import moderngl
 import sys
 
-from core import Mesh, Light, SceneRenderer, Camera
-from scene import Scene
+from core import Mesh, Light, SceneRenderer, Camera, Scene
 
 
 class GraphicsEngine:

@@ -65,7 +65,7 @@ void emitGrassVertex(vec4 in_pos, mat4 modelWind, mat4 modelRandY, mat4 crossmod
 	gs_out.textCoord = textCoords;
 	gs_out.fragPos = vec3(m_model * (in_pos + modelWind * modelRandY * crossmodel * (vertexPosition * grass_size)));
 	gs_out.normal = vec3(m_model * modelWind * modelRandY * crossmodel * vec4(0.0, 1.0, 0.0, 0.0));
-    // gs_out.colorVariation = fbm(in_pos.xz);
+	gs_out.colorVariation = fbm(in_pos.xz);
 	EmitVertex();
 }
 
@@ -73,9 +73,8 @@ void createQuad(vec3 base_position, mat4 crossmodel) {
 	const vec4 in_pos = gl_in[0].gl_Position;
     // Diminish the wind based on LOD levels
 	const float wind_scale = 0.1 + (lod1_dist * 0.5) + (lod2_dist * 0.25) + (lod3_dist * 0.15);
-	// Variation in scale of the grass based on the position
-	const float fbm_scale = fbm(in_pos.xz);
-	crossmodel *= fbm_scale + 0.5;
+	// Variation in scale of the grass based on the position 
+	crossmodel *= fbm(in_pos.xz) + 0.5;
 	// Wind calculation using the flow map texture and time
 	vec2 uv = (base_position.xz * 0.1) + windDirection * windStrength * u_time * wind_scale;
 	uv.x = mod(uv.x, 1.0);
@@ -89,7 +88,6 @@ void createQuad(vec3 base_position, mat4 crossmodel) {
 	emitGrassVertex(in_pos, modelWindApply, modelRandY, crossmodel, v_pos_2, t_coord_2);
 	emitGrassVertex(in_pos, modelWind, modelRandY, crossmodel, v_pos_3, t_coord_3);
 	emitGrassVertex(in_pos, modelWindApply, modelRandY, crossmodel, v_pos_4, t_coord_4);
-	gs_out.colorVariation = fbm_scale;
 	EndPrimitive();
 }
 

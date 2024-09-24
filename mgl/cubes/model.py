@@ -4,10 +4,11 @@ import numpy
 
 class Cube:
     def __init__(self, app, albedo=(0.9, 0.1, 0.1), diffuse=0.8, specular=1.0,
-                 ao: float = 1.0, position=(0, 0, 0),
+                 ao: float = 1.0, position=(0, 0, 0), size=(0.5, 0.5, 0.5),
                  texture: str = 'crate_0'):
         self.app = app
         self.ctx = app.ctx
+        self.size = size
         self.position = glm.mat4(glm.translate(glm.mat4(1), glm.vec3(position)))
         self.albedo = 0.06 * glm.vec3(albedo)  # Ambient (Albedo)
         self.diffuse = diffuse * glm.vec3(albedo)  # Diffuse (Lambert)
@@ -62,11 +63,11 @@ class Cube:
         ])
         return vao
 
-    def get_vertex_data(self, size=0.5):
+    def get_vertex_data(self, size=(0.5, 0.5, 0.5)):
         # Vertices
         vertices = [
-            (-size, -size, size), (size, -size, size), (size, size, size), (-size, size, size),
-            (-size, size, -size), (-size, -size, -size), (size, -size, -size), (size, size, -size)
+            (-size[0], -size[1], size[2]), (size[0], -size[1], size[2]), (size[0], size[1], size[2]), (-size[0], size[1], size[2]),
+            (-size[0], size[1], -size[2]), (-size[0], -size[1], -size[2]), (size[0], -size[1], -size[2]), (size[0], size[1], -size[2])
         ]
         indices = [
             (0, 2, 3), (0, 1, 2),
@@ -103,13 +104,13 @@ class Cube:
 
         return numpy.array(vertex_data, dtype='f4')
 
-    @staticmethod
+    @ staticmethod
     def generate_vertex_data(vertices, indices):
         data = [vertices[ind] for triangle in indices for ind in triangle]
         return numpy.array(data, dtype='f4')
 
     def get_vbo(self):
-        return self.ctx.buffer(self.get_vertex_data())
+        return self.ctx.buffer(self.get_vertex_data(size=self.size))
 
     def get_shader_program(self, shader_name='default'):
         with open(f'{self.app.base_path}/{shader_name}.vert', 'r') as f:
@@ -121,3 +122,15 @@ class Cube:
             fragment_shader=fragment_shader_source,
         )
         return shader_program
+
+
+class Floor(Cube):
+    def __init__(self, app, albedo=(0.9, 0.1, 0.1), diffuse=0.8, specular=1.0,
+                 ao: float = 1.0, position=(0, 0, 0), size=(0.5, 0.5, 0.5),
+                 texture: str = 'ground'):
+        super().__init__(app, albedo, diffuse, specular, ao, position, size, texture)
+
+    def update(self):
+        # m_model = glm.rotate(self.position, self.app.time, glm.vec3(0, 1, 0))
+        self.shader_program['m_view'].write(self.app.camera.m_view)
+        # self.shader_program['m_model'].write(m_model)
