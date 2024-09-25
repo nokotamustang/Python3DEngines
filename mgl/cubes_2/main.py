@@ -2,8 +2,8 @@ import pygame
 import moderngl
 import sys
 
-from model import Terrain, Grass
-from core import Camera, Light, Texture
+from model import Cube, Floor
+from core import Camera, Light, Shadow, Texture, Shader
 
 
 class GraphicsEngine:
@@ -40,8 +40,8 @@ class GraphicsEngine:
         pygame.display.gl_set_attribute(pygame.GL_CONTEXT_PROFILE_MASK, pygame.GL_CONTEXT_PROFILE_CORE)
         pygame.display.gl_set_attribute(pygame.GL_SWAP_CONTROL, self.vertical_sync)
         # Create OpenGL context for 3D rendering
-        pygame.display.set_mode(self.win_size, flags=pygame.OPENGL | pygame.DOUBLEBUF,
-                                display=self.target_display, vsync=self.vertical_sync)
+        self.game_screen = pygame.display.set_mode(self.win_size, flags=pygame.OPENGL | pygame.DOUBLEBUF,
+                                                   display=self.target_display, vsync=self.vertical_sync)
         # Mouse settings
         pygame.event.set_grab(True)
         pygame.mouse.set_visible(False)
@@ -51,20 +51,41 @@ class GraphicsEngine:
         self.ctx.gc_mode = 'auto'
         # Create an object to help track time
         self.clock = pygame.time.Clock()
-        # Set fps target
+        # Set fps max
         pygame.time.set_timer(pygame.USEREVENT, 1000 // self.target_fps)
-        # Light
-        self.light = Light(color=(1.0, 1.0, 1.0))
-        # Texture
-        self.texture = Texture(self)
         # Camera
-        self.camera = Camera(self, position=(0, 1, 5))
-        # Terrain
-        self.terrain = Terrain(self)
-        # Grass and Ground
-        self.grass = Grass(self, terrain=self.terrain)
+        self.camera = Camera(self, position=(0, 0, 5))
+        # Texture and Shader
+        self.texture = Texture(self)
+        self.shader = Shader(self)
+        # Shadow
+        self.shadow = Shadow(self)
+        # Light
+        self.light = Light(position=(-5, 2, 5), color=(1.0, 0.0, 0.0), strength=10.0)
+        # Light 2
+        self.light2 = Light(position=(5, 2, 5), color=(1.0, 1.0, 0.0), strength=10.0)
+        # Light 3
+        self.light3 = Light(position=(-5, 2, -5), color=(0.0, 0.0, 1.0), strength=40.0)
+        # Light 4
+        self.light4 = Light(position=(5, 2, -5), color=(0.0, 1.0, 0.0), strength=20.0)
+        # Lights
+        self.lights = [self.light, self.light2, self.light3, self.light4]
         # Scene
-        self.scene = [self.grass]
+        self.scene = []
+        # Create a nxn grid of Floor with texture "ground"
+        tiles = 10
+        base_h = -1
+        size = 1
+        for i in range(-tiles, tiles):
+            for j in range(-tiles, tiles):
+                self.scene.append(Floor(self, position=(i*size*2.0, base_h, j*size*2.0), size=(size, 0.1, size)))
+        cube_space = 1.5
+        self.cube = Cube(self,  albedo=(1.0, 1.0, 1.0), position=(-cube_space*2, 0, 0), texture="crate_0")
+        self.cube2 = Cube(self, albedo=(1.0, 1.0, 1.0), position=(-cube_space, 0, 0), texture="crate_1")
+        self.cube3 = Cube(self, albedo=(1.0, 1.0, 1.0), position=(0, 0, 0), texture="crate_2")
+        self.cube4 = Cube(self, albedo=(1.0, 1.0, 1.0), position=(cube_space, 0, 0), texture="crate_3")
+        self.cube5 = Cube(self, albedo=(1.0, 1.0, 1.0), position=(cube_space*2, 0, 0), texture="crate_4")
+        self.scene.extend([self.cube, self.cube2, self.cube3, self.cube4, self.cube5])
         # Font
         self.font = pygame.font.SysFont('arial', 64)
 
@@ -73,6 +94,9 @@ class GraphicsEngine:
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 for obj in self.scene:
                     obj.destroy()
+                self.shader.destroy()
+                self.shadow.destroy()
+                self.texture.destroy()
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_F1:
@@ -83,8 +107,6 @@ class GraphicsEngine:
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_F11:
                 self.full_screen = not self.full_screen
                 self.toggle_full_screen()
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_1:
-                self.grass.change_tile()
 
     def toggle_full_screen(self):
         if self.full_screen:
@@ -112,11 +134,21 @@ class GraphicsEngine:
             obj.update()
 
     def render(self):
-        # Clear frame buffer
+        # Clear buffers
+        self.shadow.depth_fbo.clear()
         self.ctx.clear(color=(0.08, 0.16, 0.18))
+
+        # Pass 1 - Render the depth map for the shadows
+        self.shadow.depth_fbo.use()  # Switch to the shadow framebuffer
+        for obj in self.scene:
+            obj.render_shadow()
+
+        # Pass 2 - Render the scene
+        self.ctx.screen.use()  # Switch back to the screen
         # Render scene
         for obj in self.scene:
             obj.render()
+
         # Swap buffers
         pygame.display.flip()
 

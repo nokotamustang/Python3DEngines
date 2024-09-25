@@ -19,8 +19,8 @@ uniform float u_time;
 // 0,0 is the first tile in the atlas and is the bottom left tile
 // 3,0 is the fourth tile in the atlas and it the bottom right tile
 // 3,3 is the last tile in the atlas and it the top right tile
-const float current_tile_x = 0.0;
-const float current_tile_y = 3.0;
+uniform vec2 u_current_tile = vec2(0.0, 0.0);
+
 const float n_tiles = 4.0;
 const float n_tile_shift = 1.0 / n_tiles;
 
@@ -71,9 +71,9 @@ void emitGrassVertex(vec4 in_pos, mat4 modelWind, mat4 modelRandY, mat4 crossmod
 	gl_Position = m_proj * m_view * m_model * (in_pos + modelWind * modelRandY * crossmodel * (vertexPosition * grass_size));
 	// gs_out.textCoord = textCoords;
 
-	// textCoords is given for each vertex from 0,0 to 1,1
+	// The textCoords is given for each vertex from 0,0 to 1,1
 	// but now the texture is an atlas, so we need to offset the texture coordinates
-	gs_out.textCoord = vec2((textCoords.x / n_tiles) + (current_tile_x * n_tile_shift), (textCoords.y / n_tiles) + (current_tile_y * n_tile_shift));
+	gs_out.textCoord = vec2((textCoords.x / n_tiles) + (u_current_tile.x * n_tile_shift), (textCoords.y / n_tiles) + (u_current_tile.y * n_tile_shift));
 
 	gs_out.colorVariation = fbm(in_pos.xz);
 	EmitVertex();

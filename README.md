@@ -47,11 +47,13 @@ Adding more cubes to the scene with texture mapping and multiple light sources.
 
 ### mgl/cubes_2 - Cubes + textures + shadows
 
-<!-- Needed to learn shadows, this demonstrates the method from 'Coder Space' but with the cubes scene. -->
+Added shadows to the cubes demo; this example also re-uses shaders and therefore shader program values are set for each object before rendering.
 
-<!-- ![Screenshots](./screenshots/mgl_cubes2.PNG) -->
+![Screenshots](./screenshots/mgl_cubes2.PNG)
 
-Not ready yet...
+In an ideal situation, we would send all data in matrices to the shader, and then render all objects in one go with minimal value changes to the shader program.
+
+Additionally, this uses a single shadow map for all objects in the scene i.e. only one light direction is modelled. Some changes are needed to support shadows from multiple light sources. If I code that, I will be adding global lighting as well.
 
 ### mgl/simple_scene - Combining simple features
 
@@ -139,7 +141,7 @@ We build a simple scene using Signed Distance Functions (SDF) to render a sphere
 
 ### More Features To Add
 
-Wish list includes:
+Wish list for much later down the road includes the following:
 
 -   Global and local illumination shapes
 -   More model types (blender, gltf, etc)
@@ -147,7 +149,6 @@ Wish list includes:
 -   Draw text to the screen
 -   Reflections and refractions
 -   Post Processing
--   Anti-aliasing
 
 ## p3d - Panda3D demonstrations
 

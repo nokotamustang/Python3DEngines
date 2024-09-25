@@ -33,14 +33,17 @@ class Grass:
 
         # Not ideal format but workable
         self.tex_size = 4096
-        self.tex_tile_size = self.tex_size * 0.25
-        self.tex_tile_size_uv = 1 * 0.25
         self.num_tiles = 4
+        self.tile_uv = self.num_tiles * 0.25
+        self.current_tile = 0
+        self.max_tile = 15
+        self.current_tile_xy = glm.vec2(0, 0)
+
         # Tile indices: count from top left to bottom right, and store the top left corner of each tile
         self.tile_indices = []
         for i in range(self.num_tiles):
             for j in range(self.num_tiles):
-                self.tile_indices.append((i * self.tex_tile_size_uv, j * self.tex_tile_size_uv))
+                self.tile_indices.append(glm.vec2(i * self.tile_uv, j * self.tile_uv))
 
         # Create a random selection of tile_indices (0-15) for each grass vertex
         # self.terrain_types = []
@@ -66,7 +69,7 @@ class Grass:
         self.shader_program['m_model'].write(self.position)
         self.shader_program['camPos'].write = self.app.camera.position
         # tile_indices
-        # self.shader_program['u_tile_indices'].value = self.tile_indices
+        self.shader_program['u_current_tile'].value = self.current_tile_xy
         # Set point size
         self.ctx.point_size = 4
 
@@ -76,6 +79,13 @@ class Grass:
         self.shader_program['m_view'].write(self.app.camera.m_view)
         self.shader_program['u_time'].value = self.app.time
         self.shader_program['camPos'].write = self.app.camera.position
+
+    def change_tile(self):
+        self.current_tile = self.current_tile + 1
+        if self.current_tile >= self.max_tile:
+            self.current_tile = 0
+        self.current_tile_xy = self.tile_indices[self.current_tile]
+        self.shader_program['u_current_tile'].value = self.current_tile_xy
 
     def render(self):
         self.app.texture.textures[self.tex_id_wind].use(location=self.tex_id_wind)
