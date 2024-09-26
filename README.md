@@ -16,6 +16,8 @@ In the case if Disney's Panda3D, it is a game engine that simplifies the process
 
 Therefore to learn how to approach graphics from a first-principles perspective, I will be exploring Python based rendering engines. Why Python? Because it is a high-level language that is easy to learn and use, and it is also a language that I am familiar with and it's one of the most powerful and popular tools out there today. I also have a series that will explore c++ with Vulkan, but that is a different story.
 
+How to use this repository? Each project is a standalone example of a 3D rendering technique or feature. Some projects are combined to create a more complex scene. Each project is a self-contained example that can be run independently.
+
 All projects are working with Python 3.12.
 
 ## mgl - ModernGL and Pygame 3D demonstrations
