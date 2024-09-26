@@ -99,13 +99,15 @@ Rendering a simple ground plane with a texture.
 
 ### mgl/ground_2 - Ground rendering with a 'height map'
 
-Rendering a simple ground plane with a texture and a height map.
+Rendering a simple ground plane with a texture and a height map from an image.
 
 ![Screenshots](./screenshots/mgl_ground2.PNG)
 
 ### mgl/ground_3 - Ground and grass rendering
 
-I've combined several techniques to render the ground plane with a height map, and calculating normals for lighting. The grass is placed on the triangles of the ground plane, and the grass is affected by the height map.
+I've combined several techniques to render the ground plane with a height map, and calculating normals for lighting.
+
+The grass is placed on the triangles of the ground plane, and so the grass moves with the ground heights.
 
 ![Screenshots](./screenshots/mgl_ground3.PNG)
 
@@ -139,9 +141,9 @@ Following the tutorials: <https://www.youtube.com/watch?v=hUaYxqkrfjA> and <http
 
 ![Screenshots](./screenshots/mgl_sdf.PNG)
 
-Build a simple scene using Signed Distance Functions (SDF) to render a sphere and building around it. The example extends to use AA, shadows, reflections, and bump mapping.
+Building a simple scene using Signed Distance Functions (SDF) to render a sphere and building around it. The example extends to use AA, shadows, reflections, and bump mapping. Everything is contained in shader programs!
 
-### More Features To Add
+<!-- ### More Features To Add
 
 Wish list for much later down the road includes the following:
 
@@ -150,7 +152,7 @@ Wish list for much later down the road includes the following:
 -   Skeletal animation
 -   Draw text to the screen
 -   Reflections and refractions
--   Post Processing
+-   Post Processing -->
 
 ## p3d - Panda3D demonstrations
 
