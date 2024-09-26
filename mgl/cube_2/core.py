@@ -1,5 +1,6 @@
-import moderngl
+
 import glm
+import moderngl
 import pygame
 
 
@@ -12,12 +13,12 @@ class Camera:
     sensitivity = 0.1
     speed = 0.005
 
-    position = None
+    position = glm.vec3(0, 0, 4)
     up = glm.vec3(0, 1, 0)
     right = glm.vec3(1, 0, 0)
     forward = glm.vec3(0, 0, -1)
 
-    def __init__(self, app, position=(0, 0, 0), yaw=yaw, pitch=pitch,
+    def __init__(self, app, position=position, yaw=yaw, pitch=pitch,
                  fov=fov, near=near, far=far, sensitivity=sensitivity):
         self.app = app
         self.position = glm.vec3(position)
@@ -90,58 +91,19 @@ class Camera:
 
 
 class Light:
-    def __init__(self, position=(10, 10, -10), color=(1, 1, 1), strength=1.0):
+    def __init__(self, position=(50, 50, -10), color=(1, 1, 1)):
         self.position = glm.vec3(position)
         self.color = glm.vec3(color)
         self.direction = glm.vec3(0, 0, 0)
-        self.strength = strength
+        # Intensities
+        self.Ia = 0.06 * self.color  # Ambient (Albedo)
+        self.Id = 0.8 * self.color  # Diffuse (Lambert)
+        self.Is = 1.0 * self.color  # Specular (Blinn-Phong)
         # View matrix
         self.m_view_light = self.get_view_matrix()
 
     def get_view_matrix(self):
         return glm.lookAt(self.position, self.direction, glm.vec3(0, 1, 0))
-
-
-class Shader():
-    def __init__(self, app):
-        self.app = app
-        self.ctx = app.ctx
-        self.programs = []
-        self.programs_count = -1
-        self.programs_map = {}
-
-    def get_shader(self, shader_name, geometry=False):
-        if shader_name in self.programs_map:
-            # print(f"Reuse shader: {shader_name} at index: {self.programs_map[shader_name]}")
-            return self.programs[self.programs_map[shader_name]]
-
-        with open(f'{self.app.base_path}/{self.app.shader_path}/{shader_name}.vert', 'r') as f:
-            vertex_shader_source = f.read()
-        with open(f'{self.app.base_path}/{self.app.shader_path}/{shader_name}.frag', 'r') as f:
-            fragment_shader_source = f.read()
-
-        if geometry is True:
-            with open(f'{self.app.base_path}/{self.app.shader_path}/{shader_name}.geom', 'r') as f:
-                geometry_shader_source = f.read()
-            shader_program = self.ctx.program(
-                vertex_shader=vertex_shader_source,
-                fragment_shader=fragment_shader_source,
-                geometry_shader=geometry_shader_source,
-            )
-        else:
-            shader_program = self.ctx.program(
-                vertex_shader=vertex_shader_source,
-                fragment_shader=fragment_shader_source,
-            )
-        self.programs_count += 1
-        self.programs_map[shader_name] = self.programs_count
-        self.programs.append(shader_program)
-        print(f"loaded shader: {shader_name} at index: {self.programs_count}")
-        return shader_program
-
-    def destroy(self):
-        for program in self.programs:
-            program.release()
 
 
 class Texture:
@@ -192,7 +154,7 @@ class Texture:
     def get_color_texture(self, size, name='color_texture'):
         if name in self.texture_map:
             return self.texture_map[name]
-        color_texture = self.ctx.texture(size=size, components=4, samples=4)
+        color_texture = self.ctx.texture(size=size, components=4)
         # Remove repetition
         color_texture.repeat_x = False
         color_texture.repeat_y = False
@@ -208,19 +170,34 @@ class Texture:
             texture.release()
 
 
-class Shadow():
+class AA():
     def __init__(self, app):
         self.app = app
         self.ctx = app.ctx
 
-        # Using a texture here not a renderbuffer because we pass it to the shader
-        self.depth_tex_id = self.app.texture.get_depth_texture(self.app.win_size)
-        self.depth_texture = self.app.texture.textures[self.depth_tex_id]
-        # self.depth_buffer = self.ctx.depth_renderbuffer(size=self.app.win_size)
+        # We use a renderbuffer for the depth and color attachments --
+        # From mgl docs:
+        # They are optimized for use as render targets, while Texture objects may not be,
+        # and are the logical choice when you do not need to sample from the produced image.
+        # If you need to resample, use Textures instead.
+        # Renderbuffer objects also natively accommodate multi-sampling.
 
-        self.depth_fbo = self.ctx.framebuffer(depth_attachment=self.depth_texture)
-        # self.depth_fbo = self.ctx.framebuffer(depth_attachment=self.depth_buffer)
+        # self.depth_tex_id = self.app.texture.get_depth_texture(self.app.win_size)
+        # self.depth_texture = self.app.texture.textures[self.depth_tex_id]
+        # self.depth_buffer = self.ctx.depth_renderbuffer(size=self.app.win_size, samples=4)
+
+        # self.color_tex_id = self.app.texture.get_color_texture(self.app.win_size)
+        # self.color_texture = self.app.texture.textures[self.color_tex_id]
+        self.color_buffer = self.ctx.renderbuffer(size=self.app.win_size, samples=4)
+
+        # The depth attachment here for demonstration purposes, it's not used in this example
+        # self.aa_fbo = self.ctx.framebuffer(color_attachments=[self.color_buffer],
+        #                                    depth_attachment=self.depth_buffer)
+
+        # We don't need the depth attachment here
+        self.aa_fbo = self.ctx.framebuffer(color_attachments=[self.color_buffer])
 
     def destroy(self):
-        self.depth_fbo.release()
+        self.aa_fbo.release()
         self.depth_texture.release()
+        self.color_texture.release()

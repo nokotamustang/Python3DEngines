@@ -1,0 +1,5 @@
+you can render to a framebuffer with a samples=4 
+color attachment and depth attachment
+both can be render buffers.
+
+you can then blit this framebuffer to the screen with ctx.copy_framebuffers

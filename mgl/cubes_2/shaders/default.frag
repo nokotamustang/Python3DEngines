@@ -11,7 +11,6 @@ struct Light {
   vec3 position;
   vec3 color;
   float strength;
-  mat4 m_view_light;
 };
 
 struct Material {
@@ -85,8 +84,7 @@ float getSoftShadowX64() {
 }
 
 float getShadow() {
-  // Reutn 0 or 1 depending on the shadow map depth comparison
-  // 1 means the frag is in shadow
+  // Reutn 0 or 1 depending on the shadow map depth comparison, where 1 means the frag is in shadow
   float shadow = textureProj(u_shadow_map, shadow_coord);
   return shadow;
 }

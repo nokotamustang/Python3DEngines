@@ -9,6 +9,5 @@ uniform mat4 m_view_light;
 uniform mat4 m_model;
 
 void main() {
-    mat4 m_view = m_proj * m_view_light * m_model;
-    gl_Position = m_view * vec4(in_position, 1.0);
+    gl_Position = m_proj * m_view_light * m_model * vec4(in_position, 1.0);
 }

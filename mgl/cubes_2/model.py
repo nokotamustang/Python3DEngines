@@ -24,7 +24,7 @@ class Cube:
         self.shader_program = app.shader.get_shader('default')
         self.vao = self.get_vao()
 
-        self.shadow_vbo = self.get_vbo()
+        # self.shadow_vbo = self.get_vbo()
         self.shadow_program = app.shader.get_shader('shadow')
         self.shadow_vao = self.get_shadow_vao()
 
@@ -106,7 +106,7 @@ class Cube:
         self.shader_program.release()
         self.shadow_program.release()
         self.vbo.release()
-        self.shadow_vbo.release()
+        # self.shadow_vbo.release()
 
     def get_vao(self):
         vao = self.ctx.vertex_array(self.shader_program, [
@@ -116,7 +116,7 @@ class Cube:
 
     def get_shadow_vao(self):
         vao = self.ctx.vertex_array(self.shadow_program, [
-            (self.shadow_vbo, '2f 3f 3f', 'in_texcoord_0', 'in_position', 'in_normal'),
+            (self.vbo, '2f 3f 3f', 'in_texcoord_0', 'in_position', 'in_normal'),
         ], skip_errors=True)
         # Temporary fix for the issue with the shadow program because we are not using texture coordinates
         # So we set skip_errors=True to ignore the missing in_texcoord_0 attribute

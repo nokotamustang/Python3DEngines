@@ -39,6 +39,12 @@ We create a 3D cube from vertices, indices, and normals, and apply a simple ligh
 
 ![Screenshots](./screenshots/mgl_cube1.PNG)
 
+### mgl/cube_2 - Anti-aliasing
+
+We add anti-aliasing with a sized up render buffer with 4 samples.
+
+![Screenshots](./screenshots/mgl_cube2.PNG)
+
 ### mgl/cubes - Cubes + textures
 
 Adding more cubes to the scene with texture mapping and multiple light sources.
@@ -123,11 +129,7 @@ Not ready yet...
 
 Not ready yet...
 
-### mgl/aa - Anti-aliasing
-
-Not ready yet...
-
-### mgl/terrain - Complete terrain rendering with editor tools
+### mgl/terrain - Complete terrain rendering
 
 Not ready yet...
 

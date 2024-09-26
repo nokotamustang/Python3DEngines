@@ -20,12 +20,13 @@ const float tiny = 0.05;
 const mat4 m_shadow_bias = mat4(0.5, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.5, 0.5, 0.5, 1.0);
 
 void main() {
+    const vec4 in_position4 = vec4(in_position, 1.0);
+
     uv_0 = in_texcoord_0.xy;
     normal = mat3(transpose(inverse(m_model))) * in_normal;
-    fragPos = vec3(m_model * vec4(in_position, 1.0));
-    gl_Position = m_proj * m_view * m_model * vec4(in_position, 1.0);
+    fragPos = vec3(m_model * in_position4);
+    gl_Position = m_proj * m_view * m_model * in_position4;
 
-    mat4 shadowMVP = m_proj * m_view_light * m_model;
-    shadow_coord = m_shadow_bias * shadowMVP * vec4(in_position, 1.0);
+    shadow_coord = m_shadow_bias * m_proj * m_view_light * m_model * in_position4;
     shadow_coord.z -= tiny;
 }

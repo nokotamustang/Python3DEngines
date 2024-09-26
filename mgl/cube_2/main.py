@@ -2,8 +2,8 @@ import pygame
 import moderngl
 import sys
 
-from model import Cube, Floor
-from core import Camera, Light, Shadow, Texture, Shader
+from model import Cube
+from core import AA, Camera, Light, Texture
 
 
 class GraphicsEngine:
@@ -13,7 +13,6 @@ class GraphicsEngine:
     vertical_sync = 0
     target_display = 0
     base_path = '.'
-    shader_path = 'shaders'
     # Variables
     fps = 0
     time = 0
@@ -51,51 +50,25 @@ class GraphicsEngine:
         self.ctx.gc_mode = 'auto'
         # Create an object to help track time
         self.clock = pygame.time.Clock()
-        # Set fps max
+        # Set fps target
         pygame.time.set_timer(pygame.USEREVENT, 1000 // self.target_fps)
+        # Light
+        self.light = Light()
         # Camera
         self.camera = Camera(self, position=(0, 0, 5))
-        # Texture, Shader, Shadow
+        # Texture
         self.texture = Texture(self)
-        self.shader = Shader(self)
-        self.shadow = Shadow(self)
-        # Light
-        self.light = Light(position=(-5, 2, 5), color=(1.0, 0.0, 0.0), strength=10.0)
-        # Light 2
-        self.light2 = Light(position=(5, 2, 5), color=(1.0, 1.0, 0.0), strength=10.0)
-        # Light 3
-        self.light3 = Light(position=(-5, 2, -5), color=(0.0, 0.0, 1.0), strength=40.0)
-        # Light 4
-        self.light4 = Light(position=(5, 2, -5), color=(0.0, 1.0, 0.0), strength=20.0)
-        # Lights
-        self.lights = [self.light, self.light2, self.light3, self.light4]
+        # AA
+        self.aa = AA(self)
         # Scene
-        self.scene = []
-        # Create a nxn grid of Floor with texture "ground"
-        tiles = 10
-        base_h = -1
-        size = 1
-        for i in range(-tiles, tiles):
-            for j in range(-tiles, tiles):
-                self.scene.append(Floor(self, position=(i*size*2.0, base_h, j*size*2.0), size=(size, 0.1, size)))
-        cube_space = 1.5
-        self.cube = Cube(self,  albedo=(1.0, 1.0, 1.0), position=(-cube_space*2, 0, 0), texture="crate_0")
-        self.cube2 = Cube(self, albedo=(1.0, 1.0, 1.0), position=(-cube_space, 0, 0), texture="crate_1")
-        self.cube3 = Cube(self, albedo=(1.0, 1.0, 1.0), position=(0, 0, 0), texture="crate_2")
-        self.cube4 = Cube(self, albedo=(1.0, 1.0, 1.0), position=(cube_space, 0, 0), texture="crate_3")
-        self.cube5 = Cube(self, albedo=(1.0, 1.0, 1.0), position=(cube_space*2, 0, 0), texture="crate_4")
-        self.scene.extend([self.cube, self.cube2, self.cube3, self.cube4, self.cube5])
+        self.scene = Cube(self, color=(0.1, 0.9, 0.1))
         # Font
         self.font = pygame.font.SysFont('arial', 64)
 
     def check_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                for obj in self.scene:
-                    obj.destroy()
-                self.shader.destroy()
-                self.shadow.destroy()
-                self.texture.destroy()
+                self.scene.destroy()
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_F1:
@@ -129,24 +102,19 @@ class GraphicsEngine:
 
     def update(self):
         self.camera.update()
-        for obj in self.scene:
-            obj.update()
+        self.scene.update()
 
     def render(self):
-        # Clear buffers
-        self.shadow.depth_fbo.clear()
         self.ctx.clear(color=(0.08, 0.16, 0.18))
+        self.aa.aa_fbo.clear()
 
-        # Pass 1 - Render the depth map for the shadows
-        self.shadow.depth_fbo.use()  # Switch to the shadow framebuffer
-        for obj in self.scene:
-            obj.render_shadow()
+        # Render scene to aa framebuffer
+        self.aa.aa_fbo.use()
+        self.scene.render()
 
-        # Pass 2 - Render the scene
-        self.ctx.screen.use()  # Switch back to the screen
-        # Render scene
-        for obj in self.scene:
-            obj.render()
+        # Blit aa framebuffer to screen with ctx.copy_framebuffer
+        self.ctx.screen.use()
+        self.ctx.copy_framebuffer(self.ctx.screen, self.aa.aa_fbo)
 
         # Swap buffers
         pygame.display.flip()
