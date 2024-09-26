@@ -99,6 +99,8 @@ The basic example use ModernGL following this tutorial from 'Coder Space': <http
 
 Using textured cubes, shader programs, skybox, lighting and shadows. This is the same as the original example from the tutorial, but refactored and I've added some object culling.
 
+This project is useful to highlight reuse of assets and resources in ModernGL. So the class structure and caching of resources is important to reduce memory usage and improve rendering performance.
+
 ### mgl/pbr - Physically based rendering (PBR)
 
 Using a PBR shader to render cubes with different materials and multiple light sources.
