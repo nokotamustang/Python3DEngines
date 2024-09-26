@@ -167,6 +167,8 @@ This is a complex example that combines several techniques to render a realistic
 
 The grass is created along each point on the ground plane using a geometry shader and a flow map to simulate wind movement. The grass fills the triangles, for now, but in a more complex scene later on I will create an interactive tool to paint the grass on the ground plane, by selecting the points and texture on the atlas to use.
 
+In the case of large scenes, we need to use a 'chunk' system to load and unload parts of the scene as the camera moves around. This is because loading the entire scene into memory at once would be inefficient and slow. More on this later.
+
 ### mgl/ground_4 - Chunks + dynamic loading
 
 <!-- Obviously the ground_3 demo is slow with a large height map, so I've added a chunk system to load and unload parts of the height map as the camera moves around. -->
