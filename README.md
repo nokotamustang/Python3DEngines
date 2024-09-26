@@ -121,7 +121,13 @@ Grass rendering using Geometry Shaders and bill boarding; and modelling wind mov
 
 Starting from the tutorial: <https://vulpinii.github.io/tutorials/grass-modelisation/en/> and <https://developer.nvidia.com/gpugems/gpugems/part-i-natural-effects/chapter-7-rendering-countless-blades-waving-grass>.
 
-Flow maps information and tools: <https://github.com/JaccomoLorenz/godot-flow-map-shader>
+As we have explored shader programs and how they can be used to render 3D objects, we can use them to render more complex objects such as grass. Grass in complex scenes isn't modelled from a 3D mesh, but rather a series of 2D planes called 'billboards'.
+
+This is a common technique in games to render large amounts of grass efficiently, since we can send a vector of points to what is called a 'geometry shader', and this in turn can create all the billboards around each point, then passed to the fragment shader to render hte grass texture on the billboards.
+
+Part of the amazing quality of parallel processing on the GPU is that we can simulate wind movement on the grass using a 'flow map'. This is a 2D texture that is used to simulate the movement of the grass in the wind. The flow map is used to offset the position of the grass in the geometry shader, and this creates the effect of the grass moving in the wind.
+
+Some more info on flow maps: <https://github.com/JaccomoLorenz/godot-flow-map-shader>
 
 ### mgl/grass_2 - Grass rendering from a texture atlas
 
