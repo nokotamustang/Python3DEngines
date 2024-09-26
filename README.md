@@ -16,11 +16,11 @@ In the case if Disney's Panda3D, it is a game engine that simplifies the process
 
 Therefore to learn how to approach graphics from a first-principles perspective, I will be exploring Python based rendering engines. Why Python? Because it is a high-level language that is easy to learn and use, and it is also a language that I am familiar with and it's one of the most powerful and popular tools out there today. I also have a series that will explore c++ with Vulkan, but that is a different story.
 
-How to use this repository? Each project is a standalone example of a 3D rendering technique or feature. Some projects are combined to create a more complex scene. Each project is a self-contained example that can be run independently.
-
-All projects are working with Python 3.12.
+How to use this repository? Each project is a standalone example of a 3D rendering technique or feature. Some projects are combined to create a more complex scene. Each project is a self-contained example that can be run independently. All projects are working with Python 3.12.
 
 ## mgl - ModernGL and Pygame 3D demonstrations
+
+ModernGL wraps OpenGL in Python and simplifies the process of creating 3D graphics. Pygame is a set of Python modules designed for writing video games. It includes computer graphics and sound libraries designed to be used with the Python programming language. This makes a perfect pair of libraries to create 3D graphics in Python. I will build a series of examples using ModernGL and Pygame to explore 3D rendering techniques, and eventually combine them to create a 3D game engine.
 
 To install use `pip install -r requirements.txt` to fetch the following packages:
 
