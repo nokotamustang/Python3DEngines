@@ -84,6 +84,7 @@ With basic illumination applied in addition to the texture the scene is starting
 A Shadow casting system is added to the cubes demo; this example also re-uses shaders and therefore shader program values are set for each object before rendering.
 
 ![Screenshots](./screenshots/mgl_cubes2.PNG)
+_Note the cubes are floating, not sitting on the ground._
 
 A two pass rendering system is used to create shadows in the scene. The first pass renders the scene from the perspective of the light source to create a shadow map. The second pass renders the scene from the perspective of the camera and uses the shadow map to determine if a pixel is in shadow or not.
 
