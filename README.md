@@ -33,7 +33,7 @@ To install use `pip install -r requirements.txt` to fetch the following packages
 -   opensimplex==0.4.5.1
 -   pywavefront==1.3.3
 
-To run the example use `python main.py` from any of the project directories.
+To run an example use `python main.py` from any of the project sub-directories.
 
 General keys in the examples:
 
