@@ -81,11 +81,13 @@ With basic illumination applied in addition to the texture the scene is starting
 
 ### mgl/cubes_2 - Cubes + textures + shadows
 
-Added shadows to the cubes demo; this example also re-uses shaders and therefore shader program values are set for each object before rendering.
+A Shadow casting system is added to the cubes demo; this example also re-uses shaders and therefore shader program values are set for each object before rendering.
 
 ![Screenshots](./screenshots/mgl_cubes2.PNG)
 
-The shadows are created using a shadow map. A shadow map is a depth buffer that is rendered from the perspective of the light source. The depth buffer is then used to determine if a pixel on the cube is in shadow or not. If the pixel is in shadow, it is darkened; if it is not in shadow, it is illuminated.
+A two pass rendering system is used to create shadows in the scene. The first pass renders the scene from the perspective of the light source to create a shadow map. The second pass renders the scene from the perspective of the camera and uses the shadow map to determine if a pixel is in shadow or not.
+
+A shadow map is a depth buffer that is rendered from the perspective of the light source. The depth buffer is then used to determine if a pixel on the cube is in shadow or not. If the pixel is in shadow, it is darkened; if it is not in shadow, it is illuminated.
 
 OpenGL is efficient and has some tools that compute some of these factors on the GPU, and we can use the shader program to calculate the state of a pixel, whether it is in shadow or not.
 
