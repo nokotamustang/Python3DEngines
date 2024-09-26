@@ -177,6 +177,10 @@ In the case of large scenes, we need to use a 'chunk' system to load and unload 
 
 Not ready yet...
 
+### mgl/parallel - Parallel processing
+
+Not ready yet...
+
 ### mgl/water - Water rendering
 
 Not ready yet...
