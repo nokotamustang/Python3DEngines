@@ -2,11 +2,21 @@
 
 An exploration of 3D engines and rendering in Python by `Nokota Mustang`.
 
+Computer graphics is a vast field, and I am interested in learning more about the rendering process and the mathematics behind it. Having a good grasp of realtime graphics, data structures, and algorithms is essential for game development, simulations, and visualizations. I've completed 2D game projects before, but I want to learn more about 3D graphics and rendering.
+
+There is a lot of crossover to modern App development, and the skills learned here can be applied to AR/VR, simulations, and data visualization.
+
+Opengl is a low-level graphics API that can be used to create 3D graphics, but it is quite complex and requires a lot of boilerplate code to get started. ModernGL is a Python wrapper around OpenGL that simplifies the process of creating 3D graphics.
+
+There are several very large and detail books about graphics rendering, but when it comes to creating real-time graphics with interactive applications, there is a complex balance between performance and quality.
+
+This means there are several ideas and solutions to some of the same problems, but the issue becomes how to combine multiple techniques to create a coherent and efficient system.
+
+In the case if Disney's Panda3D, it is a game engine that simplifies the process of creating 3D games with c++ or Python. However usually when exploring a game engine, the low level rendering process is abstracted away, and an assortment of tools and features are provided, which also sometimes carries code-bloat and performance overhead.
+
+Therefore to learn how to approach graphics from a first-principles perspective, I will be exploring Python based rendering engines. Why Python? Because it is a high-level language that is easy to learn and use, and it is also a language that I am familiar with and it's one of the most powerful and popular tools out there today. I also have a series that will explore c++ with Vulkan, but that is a different story.
+
 All projects are working with Python 3.12.
-
-## ursina - Ursina 3D engine
-
-Will be exploring the Ursina 3D engine soon, nothing here yet...
 
 ## mgl - ModernGL and Pygame 3D demonstrations
 
@@ -36,6 +46,14 @@ General keys in the examples:
 Create a 3D cube from vertices, indices, and normals, and apply a simple lighting shader to it.
 
 ![Screenshots](./screenshots/mgl_cube1.PNG)
+
+This is a basic example creating a 3D mesh from scratch and applying a simple shader program to it. The shader program is a combination of Lambert Diffusion and Blinn-Phong Specular lighting models.
+
+Because we communicate with the GPU using OpenGL under the hood, we need to send data to the GPU in the form of buffers. We create a Vertex Buffer Object (VBO) to store the vertices, and an Element Buffer Object (EBO) to store the indices of the vertices that make up the triangles of the cube.
+
+The shader program is a combination of a vertex shader and a fragment shader. The vertex shader is responsible for transforming the vertices of the cube into screen space, and the fragment shader is responsible for calculating the color of each pixel on the cube. These shaders are written in GLSL (OpenGL Shading Language) and operate in parallel on the GPU via thousands shader cores.
+
+Therefore learning to write code in parallel is essential for creating efficient graphics applications.
 
 ### mgl/cube_2 - Anti-aliasing
 
@@ -173,3 +191,7 @@ To install use `pip install -r requirements.txt` to fetch the following packages
 To run the example use `python main.py` from any of the project directories.
 
 I have halted for now to work on ModernGL instead.
+
+## ursina - Ursina 3D engine
+
+Will be exploring the Ursina 3D engine soon, nothing here yet...
