@@ -25,12 +25,14 @@ ModernGL wraps OpenGL in Python and simplifies the process of creating 3D graphi
 To install use `pip install -r requirements.txt` to fetch the following packages:
 
 -   moderngl==5.11.1
--   moderngl-window==2.4.6
+-   moderngl_window==2.4.6
 -   pygame==2.6.0
+-   pygame_menu==4.4.3
 -   PyGLM==2.7.1
 -   numba==0.60.0
 -   numpy==1.26.3
 -   opensimplex==0.4.5.1
+-   perlin_noise==1.13
 -   pywavefront==1.3.3
 
 To run an example use `python main.py` from any of the project sub-directories.
