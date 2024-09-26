@@ -209,7 +209,7 @@ My first test in **Panda3D** following the basic tutorial for minecraft style bl
 
 ![Screenshots](./screenshots/panda_1.PNG)
 
-Load in textured block meshes from **.glb** model files, create a simple grid, add a skybox, and have simple camera with movement and controls to dig or place blocks with Ray collision detection.
+Here we load in textured block meshes from **.glb** model files, create a simple grid, add a skybox, and have simple camera with movement and controls to dig or place blocks with Ray collision detection.
 
 I added better camera controls and some collision detection for the 'camera' player in my example.
 
@@ -221,8 +221,8 @@ To install use `pip install -r requirements.txt` to fetch the following packages
 
 To run the example use `python main.py` from any of the project directories.
 
-I have halted for now to work on ModernGL instead.
+I have halted for now to work on ModernGL instead because I want to learn more about the 3D rendering process and the mathematics and data structures behind it.
 
-## ursina - Ursina 3D engine
+<!-- ## ursina - Ursina 3D engine
 
-Will be exploring the Ursina 3D engine soon, nothing here yet...
+Will be exploring the Ursina 3D engine soon, nothing here yet... -->
