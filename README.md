@@ -41,7 +41,7 @@ We create a 3D cube from vertices, indices, and normals, and apply a simple ligh
 
 ### mgl/cube_2 - Anti-aliasing
 
-We add anti-aliasing with a sized up render buffer with 4 samples.
+Added anti-aliasing with a sized up render buffer with 4 samples.
 
 ![Screenshots](./screenshots/mgl_cube2.PNG)
 
