@@ -165,7 +165,7 @@ In practice, the height map could be procedurally generated or loaded from an im
 
 I've combined several techniques to render the ground plane with a height map, and calculating normals for lighting. I added a global lighting model, and adding our local lights to the scene; and added a skybox.
 
-![Screenshots](./screenshots/mgl_ground3.PNG)
+![Screenshots](./screenshots/mgl_ground3.gif)
 
 This is a complex example that combines several techniques to render a realistic scene. The ground plane is created from a height map and displaced in the vertex shader. The normals of the ground plane are calculated in the geometry shader and passed to the fragment shader for lighting calculations.
 
