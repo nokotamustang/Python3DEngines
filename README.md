@@ -63,11 +63,19 @@ Added anti-aliasing with a sized up render buffer with 4 samples.
 
 ![Screenshots](./screenshots/mgl_cube2.PNG)
 
+The basic principle of anti-aliasing is to render the scene at a higher resolution and then down-sample it to the screen resolution. This is done by rendering the scene to a render buffer with a higher resolution than the screen, and then down-sampling it to the screen resolution using a shader program.
+
+Without anti-aliasing, the edges of the cube appear jagged because the pixels on the screen are square and the edges of the cube are not aligned with the pixels. Anti-aliasing smooths out the edges of the cube by blending the colors of the pixels along the edges.
+
 ### mgl/cubes - Cubes + textures
 
 Adding more cubes to the scene with texture mapping and multiple light sources.
 
 ![Screenshots](./screenshots/mgl_cubes1.PNG)
+
+This example adds more cubes to the scene and applies a texture to each cube. The texture is a 2D image that is mapped to the surface of the cube using texture coordinates. The texture coordinates are stored in the VBO along with the vertices of the cube.
+
+With basic illumination applied in addition to the texture the scene is starting to look more realistic. The floor is a grid of cubes to illustrate how to create a large scene with many objects. However, this is usually considered inefficient because each cube is a separate draw call to the GPU; whereas for a floor only the top faces of the cubes are visible. More on this later.
 
 ### mgl/cubes_2 - Cubes + textures + shadows
 
@@ -75,9 +83,13 @@ Added shadows to the cubes demo; this example also re-uses shaders and therefore
 
 ![Screenshots](./screenshots/mgl_cubes2.PNG)
 
+The shadows are created using a shadow map. A shadow map is a depth buffer that is rendered from the perspective of the light source. The depth buffer is then used to determine if a pixel on the cube is in shadow or not. If the pixel is in shadow, it is darkened; if it is not in shadow, it is illuminated.
+
+OpenGL is efficient and has some tools that compute some of these factors on the GPU, and we can use the shader program to calculate the state of a pixel, whether it is in shadow or not.
+
 In an ideal situation, we would send all data in matrices to the shader, and then render all objects in one go with minimal value changes to the shader program.
 
-Additionally, this uses a single shadow map for all objects in the scene i.e. only one light direction is modelled. Some changes are needed to support shadows from multiple light sources. If I code that, I will be adding global lighting as well.
+Additionally, this uses a single shadow map for all objects in the scene i.e. only one light direction is modelled. Some changes are needed to support shadows from multiple light sources.
 
 ### mgl/simple_scene - Combining simple features
 
