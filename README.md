@@ -43,7 +43,8 @@ General keys in the examples:
 -   `F1` - Pause time / Resume time
 -   `F3` - Toggle view of wire-frames
 -   `F11` - Toggle full screen
--   `WASD` - [Forward, Left, Backward, Right fly] camera movement
+-   `WASD` - [Forward, Left, Backward, Right] flying camera movement
+-   `Mouse Move` - camera look movement
 
 ### mgl/cube - Cube with Lambert Diffusion & Blinn-Phong Specular lighting
 
