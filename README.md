@@ -137,7 +137,9 @@ Expanding on the grass rendering to use a texture atlas for the grass models.
 
 ![Screenshots](./screenshots/mgl_grass2.PNG)
 
-_Just indexing manually right now in the geom shader; so I will add controls to select the grass type or I will extend to paint different grass types on the ground._
+A texture atlas is a single texture that contains multiple textures. This is useful for rendering multiple objects with different textures in a single draw call. In this example, we use a texture atlas to store multiple grass textures in a 4x4 grid, and then use a shader program to select the correct texture for each grass blade.
+
+In this example, the indexing manual in the geom shader. However in a more complex scene, we would map the texture locations for each grass blade, and then use the texture to select the correct texture in the shader program. More on this later.
 
 ### mgl/ground - Ground rendering
 
@@ -145,21 +147,27 @@ Rendering a simple ground plane with a texture.
 
 ![Screenshots](./screenshots/mgl_ground1.PNG)
 
-### mgl/ground_2 - Ground rendering with a 'height map'
+In this example, we create a ground plane from a grid of vertices and apply a texture to it. The texture is a 2D image that is mapped to the surface of the ground plane using texture coordinates. The texture coordinates are stored in the VBO along with the vertices of the ground plane.
+
+This, mentally, isn't far more complex than the cube example, but we need to understand how to create a large area efficiently and produce the relationship between the vertices and the pairs of triangles forming the ground plane.
+
+### mgl/ground_2 - Ground rendering with a 'height map' image
 
 Rendering a simple ground plane with a texture and a height map from an image.
 
 ![Screenshots](./screenshots/mgl_ground2.PNG)
 
+In practice, the height map could be procedurally generated or loaded from an image file. The height map is used to displace the vertices of the ground plane in the vertex shader, and this creates the effect of a 3D ground plane.
+
 ### mgl/ground_3 - Ground and grass rendering
 
-I've combined several techniques to render the ground plane with a height map, and calculating normals for lighting.
-
-The grass is placed on the triangles of the ground plane, and so the grass moves with the ground heights.
+I've combined several techniques to render the ground plane with a height map, and calculating normals for lighting. I added a global lighting model, and adding our local lights to the scene; and added a skybox.
 
 ![Screenshots](./screenshots/mgl_ground3.PNG)
 
-I added a global lighting model, and adding our local lights to the scene; and added a skybox.
+This is a complex example that combines several techniques to render a realistic scene. The ground plane is created from a height map and displaced in the vertex shader. The normals of the ground plane are calculated in the geometry shader and passed to the fragment shader for lighting calculations.
+
+The grass is created along each point on the ground plane using a geometry shader and a flow map to simulate wind movement. The grass fills the triangles, for now, but in a more complex scene later on I will create an interactive tool to paint the grass on the ground plane, by selecting the points and texture on the atlas to use.
 
 ### mgl/ground_4 - Chunks + dynamic loading
 
@@ -190,17 +198,6 @@ Following the tutorials: <https://www.youtube.com/watch?v=hUaYxqkrfjA> and <http
 ![Screenshots](./screenshots/mgl_sdf.PNG)
 
 Building a simple scene using Signed Distance Functions (SDF) to render a sphere and building around it. The example extends to use AA, shadows, reflections, and bump mapping. Everything is contained in shader programs!
-
-<!-- ### More Features To Add
-
-Wish list for much later down the road includes the following:
-
--   Global and local illumination shapes
--   More model types (blender, gltf, etc)
--   Skeletal animation
--   Draw text to the screen
--   Reflections and refractions
--   Post Processing -->
 
 ## p3d - Panda3D demonstrations
 
