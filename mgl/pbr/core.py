@@ -100,6 +100,48 @@ class Light:
         return glm.lookAt(self.position, self.direction, glm.vec3(0, 1, 0))
 
 
+class Shader():
+    def __init__(self, app):
+        self.app = app
+        self.ctx = app.ctx
+        self.programs = []
+        self.programs_count = -1
+        self.programs_map = {}
+
+    def get_shader(self, shader_name, geometry=False):
+        if shader_name in self.programs_map:
+            # print(f"Reuse shader: {shader_name} at index: {self.programs_map[shader_name]}")
+            return self.programs[self.programs_map[shader_name]]
+
+        with open(f'{self.app.base_path}/{self.app.shader_path}/{shader_name}.vert', 'r') as f:
+            vertex_shader_source = f.read()
+        with open(f'{self.app.base_path}/{self.app.shader_path}/{shader_name}.frag', 'r') as f:
+            fragment_shader_source = f.read()
+
+        if geometry is True:
+            with open(f'{self.app.base_path}/{self.app.shader_path}/{shader_name}.geom', 'r') as f:
+                geometry_shader_source = f.read()
+            shader_program = self.ctx.program(
+                vertex_shader=vertex_shader_source,
+                fragment_shader=fragment_shader_source,
+                geometry_shader=geometry_shader_source,
+            )
+        else:
+            shader_program = self.ctx.program(
+                vertex_shader=vertex_shader_source,
+                fragment_shader=fragment_shader_source,
+            )
+        self.programs_count += 1
+        self.programs_map[shader_name] = self.programs_count
+        self.programs.append(shader_program)
+        print(f"loaded shader: {shader_name} at index: {self.programs_count}")
+        return shader_program
+
+    def destroy(self):
+        for program in self.programs:
+            program.release()
+
+
 class Texture:
     def __init__(self, app):
         self.app = app
@@ -128,3 +170,53 @@ class Texture:
         self.texture_map[path] = self.texture_count
         self.textures.append(texture)
         return self.texture_count
+
+    def get_depth_texture(self, size, name='depth_texture'):
+        if name in self.texture_map:
+            return self.texture_map[name]
+        depth_texture = self.ctx.depth_texture(size=size)
+        # Remove repetition
+        depth_texture.repeat_x = False
+        depth_texture.repeat_y = False
+        # Add to list
+        self.texture_count += 1
+        self.texture_map[name] = self.texture_count
+        self.textures.append(depth_texture)
+        print(f"loaded depth texture: {name} at index: {self.texture_count}")
+        return self.texture_count
+
+    def get_color_texture(self, size, name='color_texture'):
+        if name in self.texture_map:
+            return self.texture_map[name]
+        color_texture = self.ctx.texture(size=size, components=4, samples=4)
+        # Remove repetition
+        color_texture.repeat_x = False
+        color_texture.repeat_y = False
+        # Add to list
+        self.texture_count += 1
+        self.texture_map[name] = self.texture_count
+        self.textures.append(color_texture)
+        print(f"loaded color texture: {name} at index: {self.texture_count}")
+        return self.texture_count
+
+    def destroy(self):
+        for texture in self.textures:
+            texture.release()
+
+
+class Shadow():
+    def __init__(self, app):
+        self.app = app
+        self.ctx = app.ctx
+
+        # Using a texture here not a renderbuffer because we pass it to the shader
+        self.depth_tex_id = self.app.texture.get_depth_texture(self.app.win_size)
+        self.depth_texture = self.app.texture.textures[self.depth_tex_id]
+        # self.depth_buffer = self.ctx.depth_renderbuffer(size=self.app.win_size)
+
+        self.depth_fbo = self.ctx.framebuffer(depth_attachment=self.depth_texture)
+        # self.depth_fbo = self.ctx.framebuffer(depth_attachment=self.depth_buffer)
+
+    def destroy(self):
+        self.depth_fbo.release()
+        self.depth_texture.release()

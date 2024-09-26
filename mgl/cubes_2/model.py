@@ -29,7 +29,7 @@ class Cube:
         self.shadow_vao = self.get_shadow_vao()
 
         self.tex_id = app.texture.get_texture(path=f'textures/{texture}.png')
-        self.depth_tex_id = app.texture.get_texture("depth_texture")
+        self.depth_tex_id = app.shadow.depth_tex_id
         self.m_model = self.position
         self.on_init()
 
@@ -43,6 +43,7 @@ class Cube:
             self.shader_program[f'lights[{i}].position'].value = light.position
             self.shader_program[f'lights[{i}].color'].value = light.color
             self.shader_program[f'lights[{i}].strength'].value = light.strength
+        self.shader_program['m_view_light'].write(self.app.light.m_view_light)
         # Position
         self.shader_program['m_proj'].write(self.app.camera.m_proj)
         self.shader_program['m_view'].write(self.app.camera.m_view)
@@ -54,7 +55,6 @@ class Cube:
         self.shader_program['material.Kao'].value = self.ao
         # Shadow depth map
         self.shader_program['u_shadow_map'] = self.depth_tex_id
-        self.shader_program['m_view_light'].write(self.app.light.m_view_light)
         self.app.texture.textures[self.depth_tex_id].use(location=self.depth_tex_id)
         # Texture
         self.shader_program['u_texture_0'] = self.tex_id

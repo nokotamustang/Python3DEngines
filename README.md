@@ -107,7 +107,7 @@ Using textured cubes, shader programs, skybox, lighting and shadows. This is the
 
 This project is useful to highlight reuse of assets and resources in ModernGL. So the class structure and caching of resources is important to reduce memory usage and improve rendering performance.
 
-### mgl/pbr - Physically based rendering
+### mgl/pbr - Physically based rendering + Shadows
 
 Physically Based Rendering (PBR) is a rendering technique that simulates the way light interacts with materials in the real world. It is based on the physics of light and materials, and it is used to create realistic lighting and shading effects in 3D graphics.
 
@@ -175,9 +175,11 @@ In the case of large scenes, we need to use a 'chunk' system to load and unload 
 
 ### mgl/ground_4 - Chunks + dynamic loading
 
-<!-- Obviously the ground_3 demo is slow with a large height map, so I've added a chunk system to load and unload parts of the height map as the camera moves around. -->
+Obviously the ground_3 demo is slow with a large height map, so I've added a chunk system to load and unload parts of the height map as the camera moves around.
 
 <!-- ![Screenshots](./screenshots/mgl_ground4.PNG) -->
+
+This is an excellent showcase of data-structures and algorithms in action. The chunk system is a way to load and unload parts of the scene as the camera moves around. This is done by dividing the scene into chunks and loading and unloading the chunks as the camera moves around.
 
 Not ready yet...
 

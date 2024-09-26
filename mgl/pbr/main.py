@@ -3,7 +3,7 @@ import moderngl
 import sys
 
 from model import Cube, Floor
-from core import Camera, Light, Texture
+from core import Camera, Light, Shadow, Texture, Shader
 
 
 class GraphicsEngine:
@@ -13,6 +13,7 @@ class GraphicsEngine:
     vertical_sync = 0
     target_display = 0
     base_path = '.'
+    shader_path = 'shaders'
     # Variables
     fps = 0
     time = 0
@@ -48,6 +49,10 @@ class GraphicsEngine:
         pygame.time.set_timer(pygame.USEREVENT, 1000 // self.target_fps)
         # Camera
         self.camera = Camera(self, position=(0, 0, 5))
+        # Texture, Shader, Shadow
+        self.texture = Texture(self)
+        self.shader = Shader(self)
+        self.shadow = Shadow(self)
         # Light
         self.light = Light(position=(-5, 2, 5), color=(1.0, 0.0, 0.0), strength=10.0)
         # Light 2
@@ -58,8 +63,6 @@ class GraphicsEngine:
         self.light4 = Light(position=(5, 2, -5), color=(0.0, 1.0, 0.0), strength=20.0)
         # Lights
         self.lights = [self.light, self.light2, self.light3, self.light4]
-        # Texture
-        self.texture = Texture(self)
         # Scene
         self.scene = []
         # Create a nxn grid of Floor
@@ -104,11 +107,21 @@ class GraphicsEngine:
             obj.update()
 
     def render(self):
-        # Clear frame buffer
+        # Clear buffers
+        self.shadow.depth_fbo.clear()
         self.ctx.clear(color=(0.08, 0.16, 0.18))
+
+        # Pass 1 - Render the depth map for the shadows
+        self.shadow.depth_fbo.use()  # Switch to the shadow framebuffer
+        for obj in self.scene:
+            obj.render_shadow()
+
+        # Pass 2 - Render the scene
+        self.ctx.screen.use()  # Switch back to the screen
         # Render scene
         for obj in self.scene:
             obj.render()
+
         # Swap buffers
         pygame.display.flip()
 

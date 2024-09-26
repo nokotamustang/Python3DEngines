@@ -84,7 +84,7 @@ float getSoftShadowX64() {
 }
 
 float getShadow() {
-  // Reutn 0 or 1 depending on the shadow map depth comparison, where 1 means the frag is in shadow
+  // Return 0 or 1 depending on the shadow map depth comparison, where 1 means the frag is in shadow
   float shadow = textureProj(u_shadow_map, shadow_coord);
   return shadow;
 }
