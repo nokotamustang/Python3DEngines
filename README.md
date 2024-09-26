@@ -105,17 +105,15 @@ Using textured cubes, shader programs, skybox, lighting and shadows. This is the
 
 This project is useful to highlight reuse of assets and resources in ModernGL. So the class structure and caching of resources is important to reduce memory usage and improve rendering performance.
 
-### mgl/pbr - Physically based rendering (PBR)
+### mgl/pbr - Physically based rendering
 
-Using a PBR shader to render cubes with different materials and multiple light sources.
+Physically Based Rendering (PBR) is a rendering technique that simulates the way light interacts with materials in the real world. It is based on the physics of light and materials, and it is used to create realistic lighting and shading effects in 3D graphics.
 
 ![Screenshots](./screenshots/mgl_pbr1.PNG)
 
-PBR is a rendering technique that simulates the way light interacts with materials in the real world. It is based on the physics of light and materials, and it is used to create realistic lighting and shading effects in 3D graphics.
-
 The basic idea behind PBR is to use physically accurate models to simulate the way light interacts with materials. This includes models for diffuse reflection, specular reflection, and transmission. These models are based on the physical properties of materials, such as their reflectance, roughness, and index of refraction.
 
-Therefore each material has a set of properties that describe how it interacts with light. These properties include the albedo, roughness, metallic, and normal map. The albedo is the base color of the material, the roughness is how rough or smooth the material is, the metallic is how metallic or non-metallic the material is, and the normal map is a texture that simulates surface detail.
+Therefore each material has a set of properties that describe how it interacts with light. These properties include the albedo, roughness, and metallic value. The albedo is the base color of the material, the roughness is how rough or smooth the material is, the metallic is how metallic or non-metallic the material is, and the normal map is a texture that simulates surface detail.
 
 We can assign these properties to each cube in the scene, and then use a PBR shader to render the cubes with realistic lighting and shading effects. The PBR shader uses the properties of the material to calculate the color of each pixel on the cube, with the properties of the light sources in the scene and produces a more realistic effect as the light interacts with the material.
 
