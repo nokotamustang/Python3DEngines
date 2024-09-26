@@ -23,8 +23,6 @@ To install use `pip install -r requirements.txt` to fetch the following packages
 
 To run the example use `python main.py` from any of the project directories.
 
-The basic example use ModernGL following this tutorial from 'Coder Space': <https://www.youtube.com/watch?app=desktop&v=eJDIsFJN4OQ>. I've expanded on this adding more features, see below for the examples.
-
 General keys in the examples:
 
 -   `ESC` - Exit
@@ -63,7 +61,7 @@ Additionally, this uses a single shadow map for all objects in the scene i.e. on
 
 ### mgl/simple_scene - Combining simple features
 
-Complete example from 'Coder Space' tutorial.
+The basic example use ModernGL following this tutorial from 'Coder Space': <https://www.youtube.com/watch?app=desktop&v=eJDIsFJN4OQ>. I've expanded on this adding more features, see below for the examples.
 
 ![Screenshots](./screenshots/mgl_scene.PNG)
 
@@ -130,6 +128,8 @@ Not ready yet...
 Not ready yet...
 
 ### mgl/terrain - Complete terrain rendering
+
+<!-- Combining ground, grass, and water rendering to create a complete terrain scene; with shadows, skybox, and illumination. -->
 
 Not ready yet...
 
