@@ -191,15 +191,17 @@ Not ready yet...
 
 Not ready yet...
 
-### mgl/terrain - Complete terrain rendering
+### mgl/terrain - Complete terrain scene
 
-<!-- Combining ground, grass, and water rendering to create a complete terrain scene; with shadows, skybox, and illumination. -->
+This is the final example of the ModernGL series and it will combining ground, grass, and water rendering to create a complete terrain scene; with shadows, skybox, and illumination.
 
-Not ready yet...
+It will feature collision detection and physics for the camera player, and a chunk system to load and unload parts of the scene as the camera moves around.
 
-### mgl/sdf_ray_marching - SDF 'ray marching' rendering
+Of course, this is not ready yet...
 
-Building a simple scene using Signed Distance Functions (SDF) to render a sphere and building around it.
+### mgl/sdf_ray_marching - SDF 'ray marching'
+
+We have explored in depth the classic mesh rendering techniques, but there is another way to render 3D shapes. This is a technique used to render complex 3D shapes using simple mathematical functions.
 
 Following from the tutorials here: <https://www.youtube.com/watch?v=hUaYxqkrfjA> and <https://www.youtube.com/watch?v=i12pFwXlOGw>.
 
