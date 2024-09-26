@@ -35,7 +35,7 @@ General keys in the examples:
 
 ### mgl/cube - Cube with Lambert Diffusion & Blinn-Phong Specular lighting
 
-We create a 3D cube from vertices, indices, and normals, and apply a simple lighting shader to it.
+Create a 3D cube from vertices, indices, and normals, and apply a simple lighting shader to it.
 
 ![Screenshots](./screenshots/mgl_cube1.PNG)
 
@@ -139,7 +139,7 @@ Following the tutorials: <https://www.youtube.com/watch?v=hUaYxqkrfjA> and <http
 
 ![Screenshots](./screenshots/mgl_sdf.PNG)
 
-We build a simple scene using Signed Distance Functions (SDF) to render a sphere and building around it. The example extends to use AA, shadows, reflections, and bump mapping.
+Build a simple scene using Signed Distance Functions (SDF) to render a sphere and building around it. The example extends to use AA, shadows, reflections, and bump mapping.
 
 ### More Features To Add
 
@@ -158,7 +158,7 @@ My first test in **Panda3D** following the basic tutorial for minecraft style bl
 
 ![Screenshots](./screenshots/panda_1.PNG)
 
-We load in textured block meshes from **.glb** model files, create a simple grid, add a skybox, and have simple camera with movement and controls to dig or place blocks with Ray collision detection.
+Load in textured block meshes from **.glb** model files, create a simple grid, add a skybox, and have simple camera with movement and controls to dig or place blocks with Ray collision detection.
 
 I added better camera controls and some collision detection for the 'camera' player in my example.
 
