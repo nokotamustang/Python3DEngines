@@ -35,9 +35,9 @@ class Grass:
         self.tex_size = 4096
         self.num_tiles = 4
         self.tile_uv = self.num_tiles * 0.25
-        self.current_tile = 0
+        self.current_tile = 4
         self.max_tile = 15
-        self.current_tile_xy = glm.vec2(0, 0)
+        self.current_tile_xy = glm.vec2(0, 3)
 
         # Tile indices: count from top left to bottom right, and store the top left corner of each tile
         self.tile_indices = []
@@ -66,7 +66,6 @@ class Grass:
         # Position
         self.shader_program['m_proj'].write(self.app.camera.m_proj)
         self.shader_program['m_view'].write(self.app.camera.m_view)
-        self.shader_program['m_model'].write(self.position)
         self.shader_program['camPos'].write = self.app.camera.position
         # tile_indices
         self.shader_program['u_current_tile'].value = self.current_tile_xy
@@ -74,8 +73,6 @@ class Grass:
         self.ctx.point_size = 4
 
     def update(self):
-        # m_model = glm.rotate(self.get_model_matrix(), self.app.time, glm.vec3(0, 1, 0))
-        # self.shader_program['m_model'].write(m_model)
         self.shader_program['m_view'].write(self.app.camera.m_view)
         self.shader_program['u_time'].value = self.app.time
         self.shader_program['camPos'].write = self.app.camera.position

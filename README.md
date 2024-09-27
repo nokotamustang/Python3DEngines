@@ -129,6 +129,8 @@ Starting from the tutorial: <https://vulpinii.github.io/tutorials/grass-modelisa
 
 This is a common technique in games to render large amounts of grass efficiently, since we can send a vector of points to what is called a 'geometry shader', and this in turn can create all the billboards around each point, then passed to the fragment shader to render hte grass texture on the billboards.
 
+Commonly, billboards are rotated to always face the camera. This is a visually effect trick to make the grass appear 3D, even though it is a 2D plane.
+
 Part of the amazing quality of parallel processing on the GPU is that we can simulate wind movement on the grass using a 'flow map'. This is a 2D texture that is used to simulate the movement of the grass in the wind. The flow map is used to offset the position of the grass in the geometry shader, and this creates the effect of the grass moving in the wind.
 
 Some more info on flow maps: <https://github.com/JaccomoLorenz/godot-flow-map-shader>

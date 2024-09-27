@@ -10,17 +10,18 @@ out GS_OUT {
 
 uniform mat4 m_proj;
 uniform mat4 m_view;
-uniform mat4 m_model;
 uniform vec3 camPos;
 uniform sampler2D u_wind;
 uniform float u_time;
 
 const float c_min_size = 0.4;
-const float LOD1 = 50.0;
-const float LOD2 = 80.0;
-const float LOD3 = 130.0;
-const float LOD4 = 210.0;
+const float LOD1 = 30.0;
+const float LOD2 = 50.0;
+const float LOD3 = 80.0;
+const float LOD4 = 120.0;
 const float PI = 3.141592653589793;
+const float q_PI = PI * 0.25;
+const float qq_PI = PI * 0.5;
 
 const mat4 modelWindApply = mat4(1.0);
 const vec2 windDirection = vec2(1.0, 1.0);
@@ -58,51 +59,61 @@ float random(vec2 st);
 float noise(in vec2 st);
 float fbm(in vec2 _st);
 
-void emitGrassVertex(vec4 in_pos, mat4 modelWind, mat4 modelRandY, mat4 crossmodel, vec4 vertexPosition, vec2 textCoords) {
-	gl_Position = m_proj * m_view * m_model * (in_pos + modelWind * modelRandY * crossmodel * (vertexPosition * grass_size));
+void emitGrassVertex(vec4 in_pos, mat4 wind_mat, mat4 rot_mat, vec4 vertexPosition, vec2 textCoords) {
+	gl_Position = m_proj * m_view * (in_pos + wind_mat * rot_mat * (vertexPosition * grass_size));
 	gs_out.textCoord = textCoords;
 	gs_out.colorVariation = fbm(in_pos.xz);
 	EmitVertex();
 }
 
-void createQuad(vec3 base_position, mat4 crossmodel) {
+void createQuad(vec3 base_position, mat4 y_rot, mat4 cam_rot) {
 	const vec4 in_pos = gl_in[0].gl_Position;
-    // Diminish the wind based on LOD levels
+
+	// Diminish the wind based on LOD levels
 	const float wind_scale = 0.1 + (lod1_dist * 0.5) + (lod2_dist * 0.25) + (lod3_dist * 0.15);
-	// Variation in scale of the grass based on the position
-	crossmodel *= fbm(in_pos.xz) + 0.5;
+
 	// Wind calculation using the flow map texture and time
 	vec2 uv = (base_position.xz * 0.1) + windDirection * windStrength * u_time * wind_scale;
 	uv.x = mod(uv.x, 1.0);
 	uv.y = mod(uv.y, 1.0);
 	const vec4 wind = texture(u_wind, uv);
-	const mat4 modelWind = (rotationX(wind.x * PI * 0.75 - PI * 0.25) * rotationZ(wind.y * PI * 0.75 - PI * 0.25));
-	// Random rotation on Y
-	const mat4 modelRandY = rotationY(random(base_position.zx) * PI);
+	const mat4 wind_mat = (rotationX(wind.x * PI * 0.75 - PI * 0.25) * rotationZ(wind.y * PI * 0.75 - PI * 0.25));
+
+	mat4 rot_mat = cam_rot * y_rot; 
+	// Some additional random rotation on Y
+	rot_mat *= rotationY(random(base_position.zx) * q_PI - qq_PI); 
+
 	// Billboard creation with 4 vertices
-	emitGrassVertex(in_pos, modelWindApply, modelRandY, crossmodel, v_pos_1, t_coord_1);
-	emitGrassVertex(in_pos, modelWindApply, modelRandY, crossmodel, v_pos_2, t_coord_2);
-	emitGrassVertex(in_pos, modelWind, modelRandY, crossmodel, v_pos_3, t_coord_3);
-	emitGrassVertex(in_pos, modelWindApply, modelRandY, crossmodel, v_pos_4, t_coord_4);
-	// gs_out.colorVariation = fbm_scale;
+	// Billboard creation with 4 vertices
+	emitGrassVertex(in_pos, modelWindApply, rot_mat, v_pos_1, t_coord_1);
+	emitGrassVertex(in_pos, modelWindApply, rot_mat, v_pos_2, t_coord_2);
+	emitGrassVertex(in_pos, wind_mat, rot_mat, v_pos_3, t_coord_3);
+	emitGrassVertex(in_pos, modelWindApply, rot_mat, v_pos_4, t_coord_4);
 	EndPrimitive();
 }
 
 void createGrass(int numberQuads) {
+	// Create a rotation matrix to make the billboards face the camPos
+	mat4 cam_rot = mat4(1.0);
+	cam_rot[0][0] = m_view[0][0];
+	cam_rot[0][2] = m_view[2][0];
+	cam_rot[2][0] = m_view[0][2];
+	cam_rot[2][2] = m_view[2][2];
+
 	if (numberQuads == 1) {
-		createQuad(gl_in[0].gl_Position.xyz, model0);
+		createQuad(gl_in[0].gl_Position.xyz, model0, cam_rot);
 	} else if (numberQuads == 2) {
-		createQuad(gl_in[0].gl_Position.xyz, model45);
-		createQuad(gl_in[0].gl_Position.xyz, modelm45);
+		createQuad(gl_in[0].gl_Position.xyz, model45, cam_rot);
+		createQuad(gl_in[0].gl_Position.xyz, modelm45, cam_rot);
 	} else if (numberQuads == 3) {
-		createQuad(gl_in[0].gl_Position.xyz, model0);
-		createQuad(gl_in[0].gl_Position.xyz, model45);
-		createQuad(gl_in[0].gl_Position.xyz, modelm45);
+		createQuad(gl_in[0].gl_Position.xyz, model0, cam_rot);
+		createQuad(gl_in[0].gl_Position.xyz, model45, cam_rot);
+		createQuad(gl_in[0].gl_Position.xyz, modelm45, cam_rot);
 	} else if (numberQuads == 4) {
-		createQuad(gl_in[0].gl_Position.xyz, model0);
-		createQuad(gl_in[0].gl_Position.xyz, model45);
-		createQuad(gl_in[0].gl_Position.xyz, modelm45);
-		createQuad(gl_in[0].gl_Position.xyz, model90);
+		createQuad(gl_in[0].gl_Position.xyz, model0, cam_rot);
+		createQuad(gl_in[0].gl_Position.xyz, model45, cam_rot);
+		createQuad(gl_in[0].gl_Position.xyz, modelm45, cam_rot);
+		createQuad(gl_in[0].gl_Position.xyz, model90, cam_rot);
 	}
 }
 

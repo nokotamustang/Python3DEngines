@@ -43,14 +43,12 @@ class Grass:
         # Position
         self.shader_program['m_proj'].write(self.app.camera.m_proj)
         self.shader_program['m_view'].write(self.app.camera.m_view)
-        self.shader_program['m_model'].write(self.position)
         self.shader_program['camPos'].write = self.app.camera.position
         # Set point size
         self.ctx.point_size = 4
 
     def update(self):
         # m_model = glm.rotate(self.get_model_matrix(), self.app.time, glm.vec3(0, 1, 0))
-        # self.shader_program['m_model'].write(m_model)
         self.shader_program['m_view'].write(self.app.camera.m_view)
         self.shader_program['u_time'].value = self.app.time
         self.shader_program['camPos'].write = self.app.camera.position
