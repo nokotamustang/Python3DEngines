@@ -25,7 +25,7 @@ vec3 getLight(vec3 color) {
 
 void main() {
   vec4 color = texture(u_texture_0, fs_in.textCoord);
-  if (color.a < 0.5)
+  if (color.a < 0.75)
     discard;
   color.rgb = pow(color.rgb, gamma);
   color.rgb = getLight(color.rgb);
