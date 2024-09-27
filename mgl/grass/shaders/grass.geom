@@ -15,10 +15,9 @@ uniform sampler2D u_wind;
 uniform float u_time;
 
 const float c_min_size = 0.4;
-const float LOD1 = 30.0;
-const float LOD2 = 50.0;
-const float LOD3 = 80.0;
-const float LOD4 = 120.0;
+const float LOD1 = 50.0;
+const float LOD2 = 80.0;
+const float LOD3 = 120.0;
 const float PI = 3.141592653589793;
 const float q_PI = PI * 0.25;
 const float qq_PI = PI * 0.5;
@@ -48,8 +47,6 @@ const mat4 model0 = mat4(1.0);
 const float rot_45 = radians(45);
 const mat4 model45 = mat4(cos(rot_45), 0, sin(rot_45), 0, 0, 1.0, 0, 0, -sin(rot_45), 0, cos(rot_45), 0, 0, 0, 0, 1);
 const mat4 modelm45 = mat4(cos(-rot_45), 0, sin(-rot_45), 0, 0, 1.0, 0, 0, -sin(-rot_45), 0, cos(-rot_45), 0, 0, 0, 0, 1);
-const float rot_90 = radians(90);
-const mat4 model90 = mat4(cos(rot_90), 0, sin(rot_90), 0, 0, 1.0, 0, 0, -sin(rot_90), 0, cos(rot_90), 0, 0, 0, 0, 1);
 
 // Functions
 mat4 rotationX(in float angle);
@@ -109,11 +106,6 @@ void createGrass(int numberQuads) {
 		createQuad(gl_in[0].gl_Position.xyz, model0, cam_rot);
 		createQuad(gl_in[0].gl_Position.xyz, model45, cam_rot);
 		createQuad(gl_in[0].gl_Position.xyz, modelm45, cam_rot);
-	} else if (numberQuads == 4) {
-		createQuad(gl_in[0].gl_Position.xyz, model0, cam_rot);
-		createQuad(gl_in[0].gl_Position.xyz, model45, cam_rot);
-		createQuad(gl_in[0].gl_Position.xyz, modelm45, cam_rot);
-		createQuad(gl_in[0].gl_Position.xyz, model90, cam_rot);
 	}
 }
 
@@ -123,23 +115,19 @@ void main() {
 	dist_length = length(in_pos - camPos);
 	grass_size = random(in_pos.xz) * grass_scale * (1.0 - c_min_size) + c_min_size;
 	float t = 6.0;
-	if (dist_length > LOD2) {
+	if (dist_length > LOD1) {
 		t *= 1.5;
 	}
 	dist_length += (random(in_pos.xz) * t - t / 2.0);
-	if (dist_length > LOD4) {
+	if (dist_length > LOD3) {
 		return;
 	}
-	int detail_level = 4;
+	int detail_level = 3;
 	if (dist_length > LOD1) {
-		detail_level = 3;
-		lod1_dist = 0.0;
-	}
-	if (dist_length > LOD2) {
 		detail_level = 2;
 		lod2_dist = 0.0;
 	}
-	if (dist_length > LOD3) {
+	if (dist_length > LOD2) {
 		detail_level = 1;
 		lod3_dist = 0.0;
 	}
