@@ -25,8 +25,8 @@ const float n_tile_shift = 1.0 / n_tiles;
 
 const float c_min_size = 0.4;
 const float LOD1 = 50.0;
-const float LOD2 = 80.0;
-const float LOD3 = 120.0;
+const float LOD2 = 100.0;
+const float LOD3 = 400.0; // Basically, no render at this distance
 const float PI = 3.141592653589793;
 const float q_PI = PI * 0.25;
 const float qq_PI = q_PI * 0.5;
@@ -39,7 +39,6 @@ const float grass_scale = 2.0;
 // Variables set by main in this shader
 float grass_size;
 float dist_length;
-float lod1_dist = 1.0;
 float lod2_dist = 1.0;
 float lod3_dist = 1.0;
 
@@ -80,8 +79,7 @@ void createQuad(vec3 base_position, mat4 y_rot, mat4 cam_rot) {
 	const vec4 in_pos = gl_in[0].gl_Position;
 
 	// Diminish the wind based on LOD levels
-	const float wind_scale = 0.1 + (lod1_dist * 0.5) + (lod2_dist * 0.25) + (lod3_dist * 0.15);
-
+	const float wind_scale = 0.6 + (lod2_dist * 0.25) + (lod3_dist * 0.15);
 	// Wind calculation using the flow map texture and time
 	vec2 uv = (base_position.xz * 0.1) + windDirection * windStrength * u_time * wind_scale;
 	uv.x = mod(uv.x, 1.0);
