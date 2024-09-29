@@ -8,19 +8,17 @@ There is a lot of crossover to modern App development, and the skills learned he
 
 Opengl is a low-level graphics API that can be used to create 3D graphics, but it is quite complex and requires a lot of boilerplate code to get started. ModernGL is a Python wrapper around OpenGL that simplifies the process of creating 3D graphics.
 
-There are several very detailed books about graphics rendering, but when it comes to creating real-time graphics with interactive applications, there is a complex balance between performance and quality.
+There are several very detailed books about graphics rendering, but when it comes to creating real-time graphics with interactive applications, there is a complex balance between performance and quality. This means there are several ideas and solutions to some of the same problems, but the issue becomes how to combine multiple techniques to create a coherent and efficient system.
 
-This means there are several ideas and solutions to some of the same problems, but the issue becomes how to combine multiple techniques to create a coherent and efficient system.
+In the case if Disney's Panda3D, it is a game engine that simplifies the process of creating 3D games with C++ or Python. When exploring a game engine the low level rendering process is abstracted away, and an assortment of tools and features are provided, which also sometimes carries code-bloat and performance overhead. The bigger the engine, the more features and tools are available, but the more complex and harder to learn it becomes; such in the case of Unity or Unreal Engine 4 or 5.
 
-In the case if Disney's Panda3D, it is a game engine that simplifies the process of creating 3D games with c++ or Python. However usually when exploring a game engine, the low level rendering process is abstracted away, and an assortment of tools and features are provided, which also sometimes carries code-bloat and performance overhead. The bigger the engine, the more features and tools are available, but the more complex and harder to learn it becomes; such in the case of Unity or Unreal Engine 4 or 5.
-
-Therefore to learn how to approach graphics from a first-principles perspective, I will be exploring Python based rendering engines. Why Python? Because it is a high-level language that is easy to learn and use, and it is also a language that I am familiar with and it's one of the most powerful and popular tools out there today. I also have a series that will explore c++ with Vulkan, but that is a different story.
+Therefore to learn how to approach graphics from a first-principles perspective, I will be exploring Python based rendering engines. Why Python? Because it is a high-level language that is easy to learn and use, and it is also a language that I am familiar with and it's one of the most powerful and popular tools out there today. I also have a series that will explore C++ and Rust languages with the Vulkan API, see my other repositories.
 
 How to use this repository? Each project is a standalone example of a 3D rendering technique or feature. Some projects are combined to create a more complex scene. Each project is a self-contained example that can be run independently. All projects are working with Python 3.12.
 
 ## mgl - ModernGL and Pygame 3D demonstrations
 
-ModernGL wraps OpenGL in Python and simplifies the process of creating 3D graphics. Pygame is a set of Python modules designed for writing video games. It includes computer graphics and sound libraries designed to be used with the Python programming language. This makes a perfect pair of libraries to create 3D graphics in Python. I will build a series of examples using ModernGL and Pygame to explore 3D rendering techniques, and eventually combine them to create a 3D game engine.
+ModernGL wraps OpenGL in Python and simplifies the process of creating 3D graphics by grouping tedious API calls into simpler logical routines. Pygame is a set of Python modules designed for writing video games. It includes computer graphics and sound libraries designed to be used with the Python programming language. This makes a perfect pair of libraries to create 3D graphics in Python. I will build a series of examples using ModernGL and Pygame to explore 3D rendering techniques, and eventually combine them to create a 3D game engine.
 
 To install use `pip install -r requirements.txt` to fetch the following packages:
 
@@ -48,11 +46,9 @@ General keys in the examples:
 
 ### mgl/cube - Cube with Lambert Diffusion & Blinn-Phong Specular lighting
 
-Create a 3D cube from vertices, indices, and normals, and apply a simple lighting shader to it.
+This is a basic example creating a 3D mesh from scratch and applying a simple shader program to it. The shader program is a combination of Lambert Diffusion and Blinn-Phong Specular lighting models.
 
 ![Screenshots](./screenshots/mgl_cube1.PNG)
-
-This is a basic example creating a 3D mesh from scratch and applying a simple shader program to it. The shader program is a combination of Lambert Diffusion and Blinn-Phong Specular lighting models.
 
 Because we communicate with the GPU using OpenGL under the hood, we need to send data to the GPU in the form of buffers. We create a Vertex Buffer Object (VBO) to store the vertices, and an Element Buffer Object (EBO) to store the indices of the vertices that make up the triangles of the cube.
 
@@ -62,21 +58,29 @@ Therefore learning to write code in parallel is essential for creating efficient
 
 ### mgl/cube_2 - Anti-aliasing
 
-Added anti-aliasing with a sized up render buffer with 4 samples.
-
-![Screenshots](./screenshots/mgl_cube2.PNG)
-
-The basic principle of anti-aliasing is to render the scene at a higher resolution and then down-sample it to the screen resolution. This is done by rendering the scene to a render buffer with a higher resolution than the screen, and then down-sampling it to the screen resolution using a shader program.
+I added anti-aliasing with a sized up render buffer with 4 samples. This is considered to be 'SSAA' or 'Super-Sample Anti-Aliasing', and usually run slower than other methods but produces the best quality.
 
 Without anti-aliasing, the edges of the cube appear jagged because the pixels on the screen are square and the edges of the cube are not aligned with the pixels. Anti-aliasing smooths out the edges of the cube by blending the colors of the pixels along the edges.
 
+![Screenshots](./screenshots/mgl_cube2.PNG)
+
+The basic principle of SSAA is to render the scene at a higher resolution and then down-sample it to the screen resolution. In MGL this is done by rendering the scene to a render buffer with a higher resolution than the screen, and then down-sampling it to the screen resolution using a **blit** from the render buffer to the screen buffer.
+
+Other multiple anti-aliasing techniques exist, and they all have trade-offs between quality and performance. The most common anti-aliasing techniques are MSAA (Multi-Sample Anti-Aliasing), FXAA (Fast Approximate Anti-Aliasing), and TAA (Temporal Anti-Aliasing).
+
+MSAA is a cheaper form of SSAA. Instead of going through the process of sampling every pixel, MSAA only comes into play where aliasing could become an issue such as an edge, which saves a lot of computing resources.
+
+FXAA is a post-processing anti-aliasing technique that is applied to the final image. It is a fast and efficient way to smooth out the edges of the cube, but it can produce artifacts and blur the image.
+
+TAA is a temporal anti-aliasing technique that uses information from previous frames to smooth out the edges by blending pixel information. It is considered to produces average results with a lot of blurring, but computationally cheaper than other methods.
+
+I will be looking to try out these other methods in future examples.
+
 ### mgl/cubes - Cubes + textures
 
-Adding more cubes to the scene with texture mapping and multiple light sources.
+This example adds more cubes to the scene and applies a texture to each cube. The texture is a 2D image that is mapped to the surface of the cube using texture coordinates. The texture coordinates are stored in the VBO along with the vertices of the cube.
 
 ![Screenshots](./screenshots/mgl_cubes1.PNG)
-
-This example adds more cubes to the scene and applies a texture to each cube. The texture is a 2D image that is mapped to the surface of the cube using texture coordinates. The texture coordinates are stored in the VBO along with the vertices of the cube.
 
 With basic illumination applied in addition to the texture the scene is starting to look more realistic. The floor is a grid of cubes to illustrate how to create a large scene with many objects. However, this is usually considered inefficient because each cube is a separate draw call to the GPU; whereas for a floor only the top faces of the cubes are visible. More on this later.
 
@@ -99,13 +103,15 @@ Additionally, this uses a single shadow map for all objects in the scene i.e. on
 
 ### mgl/simple_scene - Combining simple features
 
-The basic example use ModernGL following this tutorial from 'Coder Space': <https://www.youtube.com/watch?app=desktop&v=eJDIsFJN4OQ>. I've expanded on this adding more features, see below for the examples.
+The main objective is to show how to reuse assets and resources in ModernGL. The class structure and caching of resources is important to reduce memory usage and improve rendering performance.
 
 ![Screenshots](./screenshots/mgl_scene.PNG)
 
 Using textured cubes, shader programs, skybox, lighting and shadows. This is the same as the original example from the tutorial, but refactored and I've added some object culling.
 
 This project is useful to highlight reuse of assets and resources in ModernGL. So the class structure and caching of resources is important to reduce memory usage and improve rendering performance.
+
+The basic example use ModernGL following this tutorial from 'Coder Space': <https://www.youtube.com/watch?app=desktop&v=eJDIsFJN4OQ>.
 
 ### mgl/pbr - Physically based rendering + Shadows
 
@@ -137,21 +143,19 @@ Some more info on flow maps: <https://github.com/JaccomoLorenz/godot-flow-map-sh
 
 ### mgl/grass_2 - Grass rendering from a texture atlas
 
-Expanding on the grass rendering to use a texture atlas for the grass models.
+Expanding on the grass rendering to use a texture atlas for the grass rendering. This is a more efficient way to store multiple textures in a single texture.
 
 ![Screenshots](./screenshots/mgl_grass2.PNG)
 
 A texture atlas is a single texture that contains multiple textures. This is useful for rendering multiple objects with different textures in a single draw call. In this example, we use a texture atlas to store multiple grass textures in a 4x4 grid, and then use a shader program to select the correct texture for each grass blade.
 
-In this example, the indexing manual in the geom shader. However in a more complex scene, we would map the texture locations for each grass blade, and then use the texture to select the correct texture in the shader program. More on this later.
+In this example, the indexing is manually stated in the geom shader. However in a more complex scene, we would map the texture locations for each grass blade, and then use the texture to select the correct texture in the shader program. More on this later.
 
 ### mgl/ground - Ground rendering
 
-Rendering a simple ground plane with a texture.
+I create a simple ground plane from a mathematical function, to form a grid of vertices which are divided into quads; and then two triangles per quad for texturing. The texture is a 2D image that is mapped to the surface of the ground plane using texture coordinates. The texture coordinates are stored in the VBO along with the vertices of the ground plane.
 
 ![Screenshots](./screenshots/mgl_ground1.PNG)
-
-In this example, we create a ground plane from a grid of vertices and apply a texture to it. The texture is a 2D image that is mapped to the surface of the ground plane using texture coordinates. The texture coordinates are stored in the VBO along with the vertices of the ground plane.
 
 This, mentally, isn't far more complex than the cube example, but we need to understand how to create a large area efficiently and produce the relationship between the vertices and the pairs of triangles forming the ground plane.
 
@@ -181,7 +185,7 @@ Obviously the ground_3 demo is slow with a large height map, so I've added a chu
 
 <!-- ![Screenshots](./screenshots/mgl_ground4.PNG) -->
 
-This is an excellent showcase of data-structures and algorithms in action. The chunk system is a way to load and unload parts of the scene as the camera moves around. This is done by dividing the scene into chunks and loading and unloading the chunks as the camera moves around.
+This is a showcase of data-structures and algorithms in action. The chunk system is a way to load and unload parts of the scene as the camera moves around. This is done by dividing the scene into chunks and loading and unloading the chunks as the camera moves around.
 
 Not ready yet...
 
