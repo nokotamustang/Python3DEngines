@@ -92,7 +92,6 @@ void createQuad(vec3 base_position, mat4 y_rot, mat4 cam_rot) {
 	rot_mat *= rotationY(random(base_position.zx) * q_PI - qq_PI); 
 
 	// Billboard creation with 4 vertices
-	// Billboard creation with 4 vertices
 	emitGrassVertex(in_pos, modelWindApply, rot_mat, v_pos_1, t_coord_1);
 	emitGrassVertex(in_pos, modelWindApply, rot_mat, v_pos_2, t_coord_2);
 	emitGrassVertex(in_pos, wind_mat, rot_mat, v_pos_3, t_coord_3);

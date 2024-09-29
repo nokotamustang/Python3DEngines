@@ -207,17 +207,15 @@ Of course, this is not ready yet...
 
 ### mgl/sdf_ray_marching - SDF 'ray marching'
 
-We have explored in depth the classic mesh rendering techniques, but there is another way to render 3D shapes. This is a technique used to render complex 3D shapes using simple mathematical functions.
+We have explored in depth the classic mesh rendering techniques, but there is another way to render 3D shapes. SDF is a technique used to render complex 3D shapes using simple mathematical functions. The basic idea is to define a function that returns the distance from a point in 3D space to the surface of the shape. This function is called a Signed Distance Function, and it is used to render the shape by 'marching' along the ray from the camera to the shape.
 
 Following from the tutorials here: <https://www.youtube.com/watch?v=hUaYxqkrfjA> and <https://www.youtube.com/watch?v=i12pFwXlOGw>.
 
 ![Screenshots](./screenshots/mgl_sdf.PNG)
 
-SDF is a technique used to render complex 3D shapes using simple mathematical functions. The basic idea is to define a function that returns the distance from a point in 3D space to the surface of the shape. This function is called a Signed Distance Function, and it is used to render the shape by 'marching' along the ray from the camera to the shape.
+SDF is used to calculate the distance from the camera to the shape, and then the color of the pixel is calculated based on the distance. This creates the effect of a 3D shape without the need for a 3D mesh.
 
-The SDF is used to calculate the distance from the camera to the shape, and then the color of the pixel is calculated based on the distance. This creates the effect of a 3D shape without the need for a 3D mesh.
-
-In this example, we create a sphere using an SDF and render it using ray marching. We also create a building around the sphere using a box SDF and render it using ray marching. We add anti-aliasing, shadows, reflections, and bump mapping to the scene to make it more realistic.
+In this example, we create a sphere using an SDF and render it using ray marching. We also create a building around the sphere using a box SDF and render it using ray marching. We add anti-aliasing, shadows, reflections, and bump mapping to the scene to make it more realistic. All of this is done, amazingly, using a single shader program and a single draw call to the GPU.
 
 ## p3d - Panda3D demonstrations
 
