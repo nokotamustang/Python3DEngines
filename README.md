@@ -8,7 +8,7 @@ There is a lot of crossover to modern App development, and the skills learned he
 
 Opengl is a low-level graphics API that can be used to create 3D graphics, but it is quite complex and requires a lot of boilerplate code to get started. ModernGL is a Python wrapper around OpenGL that simplifies the process of creating 3D graphics.
 
-There are several very large and detail books about graphics rendering, but when it comes to creating real-time graphics with interactive applications, there is a complex balance between performance and quality.
+There are several very detailed books about graphics rendering, but when it comes to creating real-time graphics with interactive applications, there is a complex balance between performance and quality.
 
 This means there are several ideas and solutions to some of the same problems, but the issue becomes how to combine multiple techniques to create a coherent and efficient system.
 
