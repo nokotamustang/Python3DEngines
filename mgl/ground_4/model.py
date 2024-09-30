@@ -2,7 +2,6 @@ import math
 import glm
 import moderngl
 import numpy
-import pygame
 
 
 def generate_vertex_data(vertices, indices):
@@ -37,14 +36,13 @@ def uniform_points_in_3d_triangle(p1, p2, p3, n):
 
 class Terrain:
     def __init__(self, app, position=(0, 0, 0), width=128, depth=128, max_height=100.0,
-                 flora_steepness_degree_max=75,
+                 flora_steepness_degree_max=75, grass_step_size=15,
                  height_map_path="height_map", scale=1.0, rounding_factor=6):
         self.app = app
         self.ctx = app.ctx
         self.position = glm.mat4(glm.translate(glm.mat4(1), glm.vec3(position)))
         self.rounding_factor = rounding_factor
         self.max_height = max_height
-        self.flora_steepness_max = flora_steepness_degree_max
 
         self.scale = scale
         self.half_scale: float = self.scale / 2
@@ -58,12 +56,16 @@ class Terrain:
         self.half_width = math.floor(self.height_map_w / 2 * self.scale)
         self.half_depth = math.floor(self.height_map_d / 2 * self.scale)
 
+        # Flora
+        self.grass_step_size = grass_step_size
+        self.flora_steepness_max = flora_steepness_degree_max
+
         # Get value at 0,0 i.e. half_width, half_depth; use this to place the terrain under the camera
         self.base_height = self.lookup_height(self.half_width, self.half_depth) + 1
         self.vertices = self.get_vertices(self.height_map_w, self.height_map_d, self.max_height,
                                           self.base_height, self.height_map,
                                           self.half_width, self.half_depth, self.rounding_factor)
-        self.vertex_data = self.generate_vertex_data(self.vertices)
+        self.vertex_data = self.generate_vertex_data(self.vertices, self.grass_step_size)
 
     def lookup_height(self, x, z):
         height = round(self.height_map[z][x][0] / 255 * self.max_height, self.rounding_factor)
@@ -91,8 +93,7 @@ class Terrain:
                 vertices.append((x_pos-self.half_scale-offset_w, y4, z_pos-self.half_scale-offset_d))
         return vertices
 
-    def generate_vertex_data(self, vertices):
-        grass_step_size = 12
+    def generate_vertex_data(self, vertices, grass_step_size=12):
         grass_vertices = []
         indices = []
         texture_coords = []
@@ -114,6 +115,7 @@ class Terrain:
             normal_2 = glm.normalize(glm.cross(delta_ab(v1, v2), delta_ab(v1, v3)))
             new_normals.extend([[normal_2] * 3])
             normals.append(new_normals)
+
             # Add grass blade points along each triangle
             # grass_vertices.append(uniform_points_in_3d_triangle(v1, v2, v3, grass_step_size))
             # grass_vertices.append(uniform_points_in_3d_triangle(v1, v3, v4, grass_step_size))
@@ -220,7 +222,7 @@ class Ground():
 
 class Grass:
     def __init__(self, app, position=(0, 0, 0), texture: str = 'grass',
-                 terrain: Terrain = None, shader_name='grass',
+                 terrain: Terrain = None, shader_name='flora',
                  albedo=(1.0, 1.0, 1.0), diffuse=0.3, specular=0.5, ao: float = 1.0):
         self.app = app
         self.ctx = app.ctx
