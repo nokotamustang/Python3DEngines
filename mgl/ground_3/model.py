@@ -63,16 +63,6 @@ class Terrain:
                                           self.half_width, self.half_depth, self.rounding_factor)
         self.vertex_data = self.generate_vertex_data(self.vertices)
 
-        # For grass temporarily use the vertices here
-        # grass_vertices = []
-        # offset_w = self.half_width * self.scale
-        # offset_d = self.half_depth * self.scale
-        # for z in range(1, self.height_map_d):
-        #     for x in range(1, self.height_map_w):
-        #         y = round(self.height_map[z][x-1][0] / 255 * self.max_height - self.base_height, self.rounding_factor)
-        #         grass_vertices.append((x-self.half_scale-offset_w, y, z+self.half_scale-offset_d))
-        # self.vertices_mesh = numpy.array(grass_vertices, dtype='f4')
-
     def lookup_height(self, x, z):
         height = round(self.height_map[z][x][0] / 255 * self.max_height, self.rounding_factor)
         return height

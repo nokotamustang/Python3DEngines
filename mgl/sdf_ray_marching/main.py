@@ -29,10 +29,6 @@ class App(moderngl_window.WindowConfig):
         self.program['u_texture5'] = 5
         self.program['u_texture6'] = 6
         self.program['u_texture7'] = 7
-
-    def render(self, time, frame_time):
-        self.update(time)
-        self.ctx.clear()
         self.texture1.use(location=1)
         self.texture2.use(location=2)
         self.texture3.use(location=3)
@@ -40,6 +36,10 @@ class App(moderngl_window.WindowConfig):
         self.texture5.use(location=5)
         self.texture6.use(location=6)
         self.texture7.use(location=7)
+
+    def render(self, time, frame_time):
+        self.update(time)
+        self.ctx.clear()
         self.quad.render(self.program)
 
     def update(self, time):

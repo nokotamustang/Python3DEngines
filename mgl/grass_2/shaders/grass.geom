@@ -19,7 +19,6 @@ uniform float u_time;
 // 3,0 is the fourth tile in the atlas and it the bottom right tile
 // 3,3 is the last tile in the atlas and it the top right tile
 uniform vec2 u_current_tile = vec2(0.0, 0.0);
-
 const float n_tiles = 4.0;
 const float n_tile_shift = 1.0 / n_tiles;
 

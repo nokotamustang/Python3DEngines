@@ -103,7 +103,7 @@ vec3 getGlobalLight() {
 
 void main() {
   vec4 color = texture(u_texture_0, fs_in.textCoord);
-  if (color.a < 0.5)
+  if (color.a < 0.75)
     discard;
   vec3 local_color = getLight();
   vec3 global_color = getGlobalLight();

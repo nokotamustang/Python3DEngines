@@ -10,7 +10,7 @@ Opengl is a low-level graphics API that can be used to create 3D graphics, but i
 
 There are several very detailed books about graphics rendering, but when it comes to creating real-time graphics with interactive applications, there is a complex balance between performance and quality. This means there are several ideas and solutions to some of the same problems, but the issue becomes how to combine multiple techniques to create a coherent and efficient system.
 
-In the case if Disney's Panda3D, it is a game engine that simplifies the process of creating 3D games with C++ or Python. When exploring a game engine the low level rendering process is abstracted away, and an assortment of tools and features are provided, which also sometimes carries code-bloat and performance overhead. The bigger the engine, the more features and tools are available, but the more complex and harder to learn it becomes; such in the case of Unity or Unreal Engine 4 or 5.
+In the case if Disney's 'Panda3D', it is a game engine that simplifies the process of creating 3D games with C++ or Python. When exploring a game engine the low level rendering process is abstracted away, and an assortment of tools and features are provided, which also sometimes carries code-bloat and performance overhead. The bigger the engine, the more features and tools are available, but the more complex and harder to learn it becomes; such in the case of 'Unity' or 'Unreal Engine'.
 
 Therefore to learn how to approach graphics from a first-principles perspective, I will be exploring Python based rendering engines. Why Python? Because it is a high-level language that is easy to learn and use, and it is also a language that I am familiar with and it's one of the most powerful and popular tools out there today. I also have a series that will explore C++ and Rust languages with the Vulkan API, see my other repositories.
 
@@ -105,13 +105,11 @@ Additionally, this uses a single shadow map for all objects in the scene i.e. on
 
 The main objective is to show how to reuse assets and resources in ModernGL. The class structure and caching of resources is important to reduce memory usage and improve rendering performance.
 
+Using textured cubes, shader programs, skybox, lighting and shadows. This example also makes use of 'PyWavefront' to load in a 3D model of a cat from a `.obj` file.
+
 ![Screenshots](./screenshots/mgl_scene.PNG)
 
-Using textured cubes, shader programs, skybox, lighting and shadows. This is the same as the original example from the tutorial, but refactored and I've added some object culling.
-
-This project is useful to highlight reuse of assets and resources in ModernGL. So the class structure and caching of resources is important to reduce memory usage and improve rendering performance.
-
-The basic example use ModernGL following this tutorial from 'Coder Space': <https://www.youtube.com/watch?app=desktop&v=eJDIsFJN4OQ>.
+The basics are from this 'Coder Space' tutorial: <https://www.youtube.com/watch?app=desktop&v=eJDIsFJN4OQ>.
 
 ### mgl/pbr - Physically based rendering + Shadows
 
@@ -171,7 +169,7 @@ In practice, the height map could be procedurally generated or loaded from an im
 
 I've combined several techniques to render the ground plane with a height map, and calculating normals for lighting. I added a global lighting model, and adding our local lights to the scene; and added a skybox.
 
-![Screenshots](./screenshots/mgl_ground3.gif)
+![Screenshots](./screenshots/mgl_ground3.PNG)
 
 This is a complex example that combines several techniques to render a realistic scene. The ground plane is created from a height map and displaced in the vertex shader. The normals of the ground plane are calculated in the geometry shader and passed to the fragment shader for lighting calculations.
 
@@ -179,13 +177,19 @@ The grass is created along each point on the ground plane using a geometry shade
 
 In the case of large scenes, we need to use a 'chunk' system to load and unload parts of the scene as the camera moves around. This is because loading the entire scene into memory at once would be inefficient and slow. More on this later.
 
-### mgl/ground_4 - Chunks + dynamic loading
+### mgl/ground_4 - Ground plus Chunk dynamic loading and generated flora
 
-Obviously the ground_3 demo is slow with a large height map, so I've added a chunk system to load and unload parts of the height map as the camera moves around.
+Obviously the ground_3 demo is slow when set with a very large terrain mech, so I've added a chunk system to load and unload parts of the height map as the camera moves around.
+
+In this example, the height map is divided into chunks, and only the chunks that are visible to the camera are loaded into memory. This is done by calculating the distance from the camera to each chunk, and then loading and unloading the chunks based on the distance.
+
+I've also integrated the texture atlas for the grass rendering, and added procedural generation of the flora on the ground plane.
+
+-   opensimplex
+-   perlin_noise
+-   pywavefront
 
 <!-- ![Screenshots](./screenshots/mgl_ground4.PNG) -->
-
-This is a showcase of data-structures and algorithms in action. The chunk system is a way to load and unload parts of the scene as the camera moves around. This is done by dividing the scene into chunks and loading and unloading the chunks as the camera moves around.
 
 Not ready yet...
 
